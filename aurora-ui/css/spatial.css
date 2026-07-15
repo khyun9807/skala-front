@@ -1,0 +1,361 @@
+/* =============================================================
+   AURORA UI · spatial.css
+   An additive "immersive space" layer on top of the core library:
+   a living starfield backdrop, a scroll-reactive 3D portal, an
+   ambient orb field, a magnetic dock, a 3D orbit carousel, and a
+   custom cursor. Every effect degrades gracefully — with JS
+   disabled or prefers-reduced-motion set, the page underneath is
+   still the fully usable, static Aurora UI.
+   ============================================================= */
+
+@property --aur-ry {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --field-x: 0;
+  --field-y: 0;
+}
+
+/* ---------- Starfield canvas ---------- */
+.aur-spatial-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* NOTE: .aur-shell deliberately gets NO position/z-index here. The
+   canvas and orb layers are position:fixed with z-index:0 and come
+   first in the DOM, so normal-flow content painted after them already
+   renders on top — no extra stacking rule is needed for that. Giving
+   .aur-shell its own z-index (even a low one) would make it establish
+   a brand new stacking context, which silently traps any descendant
+   with a HIGHER z-index (like the mobile sidebar-drawer, z-index 500)
+   underneath body-level siblings such as .aur-backdrop, regardless of
+   how high that descendant's own z-index is set. That exact mistake
+   is what caused the sidebar-drawer's backdrop to render in front of
+   it after the z-index scale was first reordered — removed here for
+   good, not just patched around. */
+
+/* ---------- Ambient floating orbs ---------- */
+.aur-ambient-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aur-ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  will-change: transform;
+  transform: translate3d(
+    calc(var(--field-x) * var(--orb-parallax, 10) * 1px),
+    calc(var(--field-y) * var(--orb-parallax, 10) * 1px),
+    0
+  );
+}
+
+.aur-ambient-orb--1 {
+  width: 420px; height: 420px;
+  top: -10%; left: -8%;
+  background: radial-gradient(circle, var(--aur-c-primary), transparent 70%);
+  animation: aur-drift-a 26s ease-in-out infinite;
+  --orb-parallax: 18;
+}
+.aur-ambient-orb--2 {
+  width: 360px; height: 360px;
+  top: 40%; right: -10%;
+  background: radial-gradient(circle, var(--aur-c-secondary), transparent 70%);
+  animation: aur-drift-b 32s ease-in-out infinite;
+  --orb-parallax: 12;
+}
+.aur-ambient-orb--3 {
+  width: 300px; height: 300px;
+  bottom: -12%; left: 30%;
+  background: radial-gradient(circle, var(--aur-c-accent), transparent 70%);
+  animation: aur-drift-c 22s ease-in-out infinite;
+  --orb-parallax: 24;
+}
+
+@keyframes aur-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, 40px) scale(1.08); }
+  66% { transform: translate(-30px, 70px) scale(0.95); }
+}
+@keyframes aur-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-70px, -50px) scale(1.12); }
+}
+@keyframes aur-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(40px, -60px) scale(1.05); }
+  70% { transform: translate(-50px, -20px) scale(0.92); }
+}
+
+/* ---------- Custom cursor ---------- */
+.aur-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--aur-z-max);
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.aur-cursor__ring {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  will-change: transform;
+  transition: width var(--aur-duration-fast) var(--aur-ease-standard),
+    height var(--aur-duration-fast) var(--aur-ease-standard),
+    margin var(--aur-duration-fast) var(--aur-ease-standard),
+    opacity var(--aur-duration-fast);
+}
+
+.aur-cursor__dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #fff;
+  will-change: transform;
+}
+
+.aur-cursor.is-hovering .aur-cursor__ring {
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+body.aur-cursor-active,
+body.aur-cursor-active a,
+body.aur-cursor-active button {
+  cursor: none;
+}
+
+@media (pointer: coarse) {
+  .aur-cursor { display: none; }
+}
+
+/* A <dialog> shown via showModal() renders in the browser's top layer,
+   unconditionally above the whole regular document — no z-index on
+   .aur-cursor can win against that. While one is open, hide the fake
+   cursor and bring back the real OS pointer so there's always a
+   visible cursor (see initDialogCursorGuard in components.js). */
+body.aur-native-overlay-open .aur-cursor {
+  opacity: 0;
+}
+
+body.aur-native-overlay-open.aur-cursor-active,
+body.aur-native-overlay-open.aur-cursor-active a,
+body.aur-native-overlay-open.aur-cursor-active button {
+  cursor: auto;
+}
+
+/* ---------- Portal: scroll-reactive 3D depth hero ---------- */
+.aur-portal {
+  --portal-progress: 0;
+  position: relative;
+  min-height: min(780px, 88vh);
+  perspective: 1400px;
+  overflow: clip;
+}
+
+.aur-portal__pane {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(560px, 80%);
+  height: 70%;
+  border-radius: var(--aur-radius-xl);
+  border: 1px solid var(--aur-border-subtle);
+  background: var(--aur-grad-glass);
+  backdrop-filter: blur(6px);
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--depth, 0) * 1px + var(--portal-progress) * var(--speed, 0) * 1px));
+  opacity: calc(0.55 - var(--portal-progress) * 0.5);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.aur-portal__content {
+  position: relative;
+  z-index: 1;
+  transform: translateZ(calc(var(--portal-progress) * -40px));
+  transition: transform 60ms linear;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .aur-portal__pane { background: var(--aur-surface-2); }
+}
+
+/* ---------- Magnetic dock ---------- */
+.aur-dock {
+  position: fixed;
+  left: 50%;
+  bottom: var(--aur-space-5);
+  transform: translateX(-50%);
+  z-index: var(--aur-z-fixed);
+  display: none;
+  align-items: flex-end;
+  gap: var(--aur-space-2);
+  padding: 10px 14px;
+  border-radius: var(--aur-radius-xl);
+  background: var(--aur-grad-glass);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--aur-border-subtle);
+  box-shadow: var(--aur-shadow-xl);
+}
+
+@media (min-width: 768px) {
+  .aur-dock { display: flex; }
+}
+
+.aur-dock__item {
+  --mag: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--aur-radius-md);
+  background: var(--aur-surface-2);
+  transform: scale(var(--mag)) translateY(calc((var(--mag) - 1) * -14px));
+  transform-origin: bottom center;
+  transition: transform 120ms var(--aur-ease-standard), background var(--aur-duration-fast);
+}
+
+.aur-dock__item:hover,
+.aur-dock__item:focus-visible {
+  background: var(--aur-surface-3);
+}
+
+.aur-dock__item::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: var(--aur-radius-xs);
+  background: var(--aur-surface-solid-raised);
+  border: 1px solid var(--aur-border-subtle);
+  font-size: var(--aur-text-xs);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--aur-duration-fast);
+}
+
+.aur-dock__item:hover::after,
+.aur-dock__item:focus-visible::after {
+  opacity: 1;
+}
+
+/* ---------- 3D orbit carousel ---------- */
+.aur-orbit-carousel {
+  --n: 6;
+  --radius: 260px;
+  position: relative;
+  height: 320px;
+  perspective: 1600px;
+  touch-action: pan-y;
+}
+
+.aur-orbit-carousel__stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--radius) * -1)) rotateY(var(--aur-ry));
+  cursor: grab;
+}
+
+.aur-orbit-carousel__stage.is-dragging { cursor: grabbing; }
+
+.aur-orbit-carousel__stage.is-auto-rotating {
+  animation: aur-orbit-spin 24s linear infinite;
+}
+
+@keyframes aur-orbit-spin {
+  from { --aur-ry: 0deg; }
+  to { --aur-ry: 360deg; }
+}
+
+.aur-orbit-carousel__card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 260px;
+  margin: -130px 0 0 -110px;
+  padding: var(--aur-space-5);
+  border-radius: var(--aur-radius-lg);
+  background: var(--aur-surface-solid-raised);
+  border: 1px solid var(--aur-border-subtle);
+  box-shadow: var(--aur-shadow-lg);
+  backface-visibility: hidden;
+  transform: rotateY(calc(360deg / var(--n) * var(--i))) translateZ(var(--radius));
+  display: flex;
+  flex-direction: column;
+  gap: var(--aur-space-2);
+}
+
+.aur-orbit-carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+.aur-orbit-carousel__nav--prev { left: -8px; }
+.aur-orbit-carousel__nav--next { right: -8px; }
+
+/* ---------- Assemble-in scatter ---------- */
+.aur-assemble {
+  opacity: 0;
+  transform:
+    translate3d(var(--sx, 0), var(--sy, 0), 0)
+    rotate(var(--srot, 0deg))
+    scale(0.8);
+  transition: transform 900ms var(--aur-ease-emphasized), opacity 700ms ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.aur-assemble.is-assembled {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+}
+
+/* ---------- Global reactive field: subtle whole-layout parallax ---------- */
+.aur-field-react {
+  transform: translate3d(
+    calc(var(--field-x) * 10px),
+    calc(var(--field-y) * 6px),
+    0
+  );
+  transition: transform 200ms linear;
+}
+
+/* ---------- Reduced motion: freeze every spatial effect ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .aur-ambient-orb { animation: none; }
+  .aur-orbit-carousel__stage.is-auto-rotating { animation: none; }
+  .aur-portal__content { transition: none; }
+  .aur-field-react { transform: none; transition: none; }
+  .aur-cursor { display: none; }
+  body.aur-cursor-active { cursor: auto; }
+}

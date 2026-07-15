@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script>
+/* Anti-FOUC: apply the saved/detected theme before first paint. */
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) {
+      theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {
+    document.documentElement.setAttribute("data-theme", "dark");
+    document.documentElement.setAttribute("data-accent", "violet");
+  }
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora UI — 나만의 CSS 디자인 시스템</title>
+<meta name="description" content="외부 라이브러리 없이 순수 HTML·CSS·Vanilla JS로 만든 미래지향적 SaaS 디자인 시스템 데모">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- ============ Inline SVG icon sprite (hand-authored, no external icon files) ============ -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-menu" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24"><polyline points="5 8 12 15 19 8"/></symbol>
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24"><polyline points="8 5 15 12 8 19"/></symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.2" y2="16.2"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="1.5" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22.5" y2="12"/><line x1="4.5" y1="4.5" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/><line x1="4.5" y1="19.5" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19.5" y2="4.5"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.8 6.8 0 0 0 20 14.5Z"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 24 24"><polyline points="4 12.5 9.5 18 20 6"/></symbol>
+  <symbol id="icon-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25"/><line x1="12" y1="7.5" x2="12" y2="13"/><circle cx="12" cy="16.5" r="0.75" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.25"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.5" r="0.75" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></symbol>
+  <symbol id="icon-send" viewBox="0 0 24 24"><polygon points="3 11 21 3 13 21 11 13 3 11"/></symbol>
+  <symbol id="icon-plus" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></symbol>
+  <symbol id="icon-trash" viewBox="0 0 24 24"><polyline points="4 7 20 7"/><path d="M6 7 7 20h10l1-13"/><line x1="10" y1="11" x2="10" y2="16"/><line x1="14" y1="11" x2="14" y2="16"/><path d="M9 7V4h6v3"/></symbol>
+  <symbol id="icon-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></symbol>
+  <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+  <symbol id="icon-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8"/><line x1="12" y1="1.5" x2="12" y2="4.2"/><line x1="12" y1="19.8" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4.2" y2="12"/><line x1="19.8" y1="12" x2="22.5" y2="12"/></symbol>
+  <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2"/><line x1="3.5" y1="10" x2="20.5" y2="10"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/></symbol>
+  <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 16V5"/><polyline points="7 9.5 12 4.5 17 9.5"/><path d="M4.5 16v3a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="icon-home" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7"/><path d="M6 10v9.5h12V10"/></symbol>
+  <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.2"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.2"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.2"/></symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17.5 9.5 12l3.5 3.5 3-3L21 16"/></symbol>
+  <symbol id="icon-message" viewBox="0 0 24 24"><path d="M4 5.5h16v10.5H9l-4 3.5v-3.5H4Z"/></symbol>
+  <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8.5 7.5v-2a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2"/><line x1="3" y1="12.5" x2="21" y2="12.5"/></symbol>
+  <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v6c0 5 3.2 8 7.5 9 4.3-1 7.5-4 7.5-9V6Z"/></symbol>
+  <symbol id="icon-zap" viewBox="0 0 24 24"><polygon points="13 2 4 14 11 14 10 22 20 9 13 9 13 2"/></symbol>
+  <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></symbol>
+  <symbol id="icon-star" viewBox="0 0 24 24"><polygon points="12 2.5 15 9.2 22.3 9.9 16.8 14.8 18.4 22 12 18.2 5.6 22 7.2 14.8 1.7 9.9 9 9.2"/></symbol>
+  <symbol id="icon-layers" viewBox="0 0 24 24"><polygon points="12 3 21 8 12 13 3 8"/><polyline points="3 13 12 18 21 13"/><polyline points="3 17.5 12 22.5 21 17.5"/></symbol>
+</svg>
+
+<!-- ============ Loading screen ============ -->
+<div class="aur-loading-screen">
+  <div class="aur-loading-screen__orbit">
+    <div class="aur-loading-screen__planet"></div>
+    <div class="aur-loading-screen__moon"></div>
+  </div>
+</div>
+
+<div data-scroll-progress></div>
+
+<!-- ============ Spatial layer: living background + cursor ============ -->
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<div class="aur-shell">
+
+  <!-- ============ Sidebar ============ -->
+  <aside class="aur-shell__sidebar" id="primarySidebar">
+    <div class="aur-flex aur-items-center aur-gap-2 aur-p-4">
+      <span class="aur-navbar__mark"><svg class="aur-icon" style="color:#fff"><use href="#icon-zap"/></svg></span>
+      <strong>Aurora UI</strong>
+    </div>
+    <nav class="aur-sidenav">
+      <span class="aur-sidenav__group-label">둘러보기</span>
+      <a class="aur-sidenav__link is-active" href="#hero" data-nav-link="hero"><svg class="aur-icon"><use href="#icon-home"/></svg> 홈</a>
+      <a class="aur-sidenav__link" href="#dashboard" data-nav-link="dashboard"><svg class="aur-icon"><use href="#icon-grid"/></svg> 대시보드</a>
+      <a class="aur-sidenav__link" href="#spatial" data-nav-link="spatial"><svg class="aur-icon"><use href="#icon-globe"/></svg> Spatial</a>
+      <a class="aur-sidenav__link" href="#cards" data-nav-link="cards"><svg class="aur-icon"><use href="#icon-layers"/></svg> 컴포넌트</a>
+      <a class="aur-sidenav__link" href="#forms" data-nav-link="forms"><svg class="aur-icon"><use href="#icon-check"/></svg> 폼</a>
+      <a class="aur-sidenav__link" href="#pricing" data-nav-link="pricing"><svg class="aur-icon"><use href="#icon-briefcase"/></svg> 가격</a>
+
+      <span class="aur-sidenav__group-label">테마</span>
+      <div class="aur-flex aur-gap-2 aur-px-3">
+        <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">
+          <svg class="aur-icon"><use href="#icon-sun"/></svg> 테마 전환
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ============ Header (doubles as the "navbar" component: dropdown + mega menu live here) ============ -->
+  <header class="aur-shell__header aur-navbar" id="mainHeader">
+    <div class="aur-flex aur-items-center aur-gap-3">
+      <button class="aur-btn aur-btn--icon aur-btn--glass aur-lg-d-none" data-sidebar-toggle type="button" aria-label="사이드바 열기">
+        <svg class="aur-icon"><use href="#icon-menu"/></svg>
+      </button>
+      <nav class="aur-breadcrumb aur-sm-d-none">
+        <a href="#hero">Aurora UI</a><span class="aur-breadcrumb__sep">/</span><span class="aur-breadcrumb__current">Dashboard</span>
+      </nav>
+    </div>
+
+    <div class="aur-navbar__menu aur-sm-d-none">
+      <div class="aur-dropdown">
+        <button class="aur-navbar__link" data-dropdown-trigger type="button">제품 <svg class="aur-icon"><use href="#icon-chevron-down"/></svg></button>
+        <div class="aur-mega">
+          <div class="aur-mega__col">
+            <h4>컴포넌트</h4>
+            <a href="#cards">카드 모음</a>
+            <a href="#forms">폼 컨트롤</a>
+            <a href="#dashboard">차트 &amp; 데이터</a>
+          </div>
+          <div class="aur-mega__col">
+            <h4>레이아웃</h4>
+            <a href="#features">Bento Grid</a>
+            <a href="#gallery">갤러리</a>
+            <a href="#timeline">타임라인</a>
+          </div>
+          <div class="aur-mega__col">
+            <h4>리소스</h4>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">문의하기</a>
+            <a href="#settings">테마 설정</a>
+          </div>
+        </div>
+      </div>
+      <button class="aur-navbar__link" type="button" data-command-hint>커맨드 팔레트 <span class="aur-kbd">⌘K</span></button>
+    </div>
+
+    <div class="aur-navbar__actions">
+      <button class="aur-btn aur-btn--icon aur-btn--glass" data-drawer-target="notifDrawer" type="button" data-tooltip="알림" aria-label="알림 열기">
+        <svg class="aur-icon"><use href="#icon-bell"/></svg>
+      </button>
+      <div class="aur-dropdown">
+        <button class="aur-avatar aur-avatar--sm" data-dropdown-trigger type="button" aria-label="계정 메뉴">KH</button>
+        <div class="aur-dropdown__panel">
+          <button class="aur-dropdown__item" type="button"><svg class="aur-icon"><use href="#icon-user"/></svg> 내 프로필</button>
+          <button class="aur-dropdown__item" type="button"><svg class="aur-icon"><use href="#icon-gear"/></svg> 환경설정</button>
+          <button class="aur-dropdown__item" type="button"><svg class="aur-icon"><use href="#icon-arrow-right"/></svg> 로그아웃</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ Main content ============ -->
+  <main class="aur-shell__main">
+    <div class="aur-container aur-container--fluid aur-py-6">
+
+      <!-- 1. HERO -->
+      <section id="hero" class="aur-hero aur-portal aur-mb-8">
+        <div class="aur-hero__bg" aria-hidden="true"></div>
+        <div class="aur-portal__pane" aria-hidden="true" style="--depth:-560; --speed:-340"></div>
+        <div class="aur-portal__pane" aria-hidden="true" style="--depth:-320; --speed:-190"></div>
+        <div class="aur-portal__pane" aria-hidden="true" style="--depth:-140; --speed:-80"></div>
+        <div class="aur-portal__content">
+          <span class="aur-badge aur-badge--outline aur-hero__eyebrow">✨ 외부 라이브러리 0개 · 순수 HTML/CSS/JS</span>
+          <h1>미래를 디자인하는<br>나만의 UI 시스템</h1>
+          <p>Bootstrap도, Tailwind도 없이 처음부터 만든 Aurora UI. Glassmorphism, Aurora gradient, Bento grid를 한 번에 경험해보세요. 스크롤을 내려서 공간을 통과해보세요.</p>
+          <div class="aur-hero__actions">
+            <button class="aur-btn aur-btn--gradient aur-btn--lg aur-btn--shine aur-btn--magnetic" data-modal-target="demoModal">지금 시작하기</button>
+            <a class="aur-btn aur-btn--outline aur-btn--lg aur-btn--magnetic" href="#dashboard">대시보드 살펴보기 <svg class="aur-icon"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. STATS -->
+      <section id="stats" class="aur-stats aur-mb-8 aur-reveal">
+        <div>
+          <div class="aur-counter" data-target="128">0</div>
+          <p class="aur-text-muted">구현된 컴포넌트</p>
+        </div>
+        <div>
+          <div class="aur-counter" data-target="40" data-suffix="+">0</div>
+          <p class="aur-text-muted">CSS 최신 기술</p>
+        </div>
+        <div>
+          <div class="aur-counter" data-target="5">0</div>
+          <p class="aur-text-muted">테마 프리셋</p>
+        </div>
+        <div>
+          <div class="aur-counter" data-target="0" data-suffix="KB CDN">0</div>
+          <p class="aur-text-muted">외부 의존성</p>
+        </div>
+      </section>
+
+      <!-- 3. BENTO FEATURE GRID -->
+      <section id="features" class="aur-mb-8">
+        <h2 class="aur-mb-5 aur-reveal">한 화면에 담은 미래지향 디자인</h2>
+        <div class="aur-bento">
+          <div class="aur-card aur-card--spotlight aur-bento-span-2 aur-bento-row-2 aur-reveal aur-stagger" style="--i:0">
+            <div class="aur-feature-card">
+              <span class="aur-feature-card__icon"><svg class="aur-icon" style="color:#fff"><use href="#icon-globe"/></svg></span>
+              <h3>Aurora Mesh 배경</h3>
+              <p class="aur-text-muted">radial-gradient 레이어를 겹쳐 만든 오로라 메시 배경이 테마마다 색을 바꿔가며 은은하게 흐릅니다.</p>
+            </div>
+          </div>
+          <div class="aur-card aur-card--tilt aur-reveal aur-stagger" style="--i:1">
+            <div class="aur-feature-card">
+              <span class="aur-feature-card__icon"><svg class="aur-icon" style="color:#fff"><use href="#icon-shield"/></svg></span>
+              <h3>접근성 우선</h3>
+              <p class="aur-text-muted">focus-visible, prefers-reduced-motion, 키보드 내비게이션까지 기본 지원.</p>
+            </div>
+          </div>
+          <div class="aur-card aur-card--ring aur-reveal aur-stagger" style="--i:2">
+            <div class="aur-feature-card">
+              <span class="aur-feature-card__icon"><svg class="aur-icon" style="color:#fff"><use href="#icon-zap"/></svg></span>
+              <h3>회전하는 그라디언트 테두리</h3>
+              <p class="aur-text-muted"><code>@property --aur-angle</code>로 각도를 부드럽게 애니메이션.</p>
+            </div>
+          </div>
+          <div class="aur-card aur-card--gradient aur-bento-span-2 aur-reveal aur-stagger" style="--i:3">
+            <div class="aur-feature-card">
+              <span class="aur-feature-card__icon"><svg class="aur-icon" style="color:#fff"><use href="#icon-grid"/></svg></span>
+              <h3>Bento Grid 레이아웃</h3>
+              <p>이 섹션 자체가 Bento grid 컴포넌트로 만들어졌습니다 — span 유틸리티만으로 자유롭게 배치.</p>
+            </div>
+          </div>
+          <div class="aur-card aur-card--holo aur-reveal aur-stagger" style="--i:4">
+            <div class="aur-feature-card">
+              <h3>Holographic 카드</h3>
+              <p>움직이는 무지개 그라디언트 + 대각선 텍스처.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPATIAL ZONE: 3D orbit carousel + assemble-in scatter -->
+      <section id="spatial" class="aur-mb-8">
+        <h2 class="aur-mb-2 aur-reveal">🌌 Spatial Zone</h2>
+        <p class="aur-text-muted aur-mb-5 aur-reveal">웹페이지가 아니라 공간에 들어와 있는 느낌을 주는 요소들. 카드를 직접 드래그해서 돌려보세요.</p>
+
+        <div class="aur-orbit-carousel aur-mb-6">
+          <button class="aur-btn aur-btn--icon aur-btn--glass aur-orbit-carousel__nav aur-orbit-carousel__nav--prev" data-orbit-prev type="button" aria-label="이전 카드">‹</button>
+          <div class="aur-orbit-carousel__stage">
+            <div class="aur-orbit-carousel__card" style="--i:0"><h4>🪐 진짜 3D 깊이</h4><p class="aur-text-muted">translateZ로 원통형 배치.</p></div>
+            <div class="aur-orbit-carousel__card" style="--i:1"><h4>🌠 드래그 회전</h4><p class="aur-text-muted">포인터로 직접 돌려보세요.</p></div>
+            <div class="aur-orbit-carousel__card" style="--i:2"><h4>🛰️ 자동 공전</h4><p class="aur-text-muted">가만히 두면 천천히 돕니다.</p></div>
+            <div class="aur-orbit-carousel__card" style="--i:3"><h4>✨ @property 각도</h4><p class="aur-text-muted">각도값을 부드럽게 보간.</p></div>
+            <div class="aur-orbit-carousel__card" style="--i:4"><h4>🔭 perspective</h4><p class="aur-text-muted">1600px 원근감으로 입체감.</p></div>
+            <div class="aur-orbit-carousel__card" style="--i:5"><h4>🪄 순수 CSS 3D</h4><p class="aur-text-muted">JS는 드래그 입력만 처리.</p></div>
+          </div>
+          <button class="aur-btn aur-btn--icon aur-btn--glass aur-orbit-carousel__nav aur-orbit-carousel__nav--next" data-orbit-next type="button" aria-label="다음 카드">›</button>
+        </div>
+
+        <div class="aur-auto-grid">
+          <div class="aur-card aur-assemble" style="--i:0; --sx:-160px; --sy:-70px; --srot:-14deg">
+            <h4>🌊 살아있는 배경</h4>
+            <p class="aur-text-muted">깊이를 가진 별 파티클이 커서를 따라 시차 이동합니다.</p>
+          </div>
+          <div class="aur-card aur-assemble" style="--i:1; --sx:170px; --sy:-40px; --srot:10deg">
+            <h4>🪞 포탈 히어로</h4>
+            <p class="aur-text-muted">스크롤하면 유리판 사이를 통과하는 듯한 깊이 시차.</p>
+          </div>
+          <div class="aur-card aur-assemble" style="--i:2; --sx:-120px; --sy:90px; --srot:9deg">
+            <h4>🧲 매그네틱 독</h4>
+            <p class="aur-text-muted">화면 하단 독에 커서를 가까이 대보세요 (데스크톱).</p>
+          </div>
+          <div class="aur-card aur-assemble" style="--i:3; --sx:150px; --sy:80px; --srot:-8deg">
+            <h4>🖱️ 커스텀 커서</h4>
+            <p class="aur-text-muted">링이 살짝 지연되며 커서를 따라오고, 링크 위에서 커집니다.</p>
+          </div>
+          <div class="aur-card aur-assemble" style="--i:4; --sx:-90px; --sy:-110px; --srot:6deg">
+            <h4>🧩 구조 조립</h4>
+            <p class="aur-text-muted">이 카드들도 흩어진 상태로 시작해서 스크롤로 조립됐어요.</p>
+          </div>
+          <div class="aur-card aur-assemble" style="--i:5; --sx:110px; --sy:-90px; --srot:-6deg">
+            <h4>🌐 전역 포인터 필드</h4>
+            <p class="aur-text-muted">마우스 위치를 CSS 변수로 공유해 레이아웃이 함께 반응합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. INTERACTIVE CARD COLLECTION -->
+      <section id="cards" class="aur-mb-8">
+        <h2 class="aur-mb-2 aur-reveal">인터랙티브 카드 모음</h2>
+        <p class="aur-text-muted aur-mb-5 aur-reveal">아래 카드는 각각 다른 인터랙션 기법을 하나씩 보여줍니다. 실제로 마우스를 올려보세요.</p>
+        <div class="aur-card-grid aur-auto-grid">
+          <div class="aur-card aur-card--glass">
+            <span class="aur-badge aur-badge--info aur-mb-3">glass</span>
+            <h3 class="aur-card__title">Glass Card</h3>
+            <p class="aur-text-muted">backdrop-filter + 반투명 레이어.</p>
+          </div>
+
+          <div class="aur-card aur-card--profile">
+            <div class="aur-avatar aur-avatar--lg">KH</div>
+            <h3 class="aur-card__title">강병호</h3>
+            <p class="aur-text-muted">Frontend Engineer</p>
+            <div class="aur-flex aur-justify-center aur-gap-2 aur-mt-3">
+              <span class="aur-status aur-status--online"><span class="aur-status__dot"></span> 온라인</span>
+            </div>
+          </div>
+
+          <div class="aur-card aur-card--product">
+            <div class="aur-card__media"></div>
+            <span class="aur-badge aur-badge--success">NEW</span>
+            <h3 class="aur-card__title">Orbit 무선 이어폰</h3>
+            <p class="aur-text-muted">₩189,000</p>
+          </div>
+
+          <div class="aur-card aur-card--notification">
+            <span class="aur-card__icon"><svg class="aur-icon"><use href="#icon-bell"/></svg></span>
+            <div>
+              <h3 class="aur-card__title">배포 완료</h3>
+              <p class="aur-text-muted">프로덕션 배포가 정상적으로 완료되었습니다.</p>
+              <span class="aur-badge aur-badge--outline aur-mt-2">2분 전</span>
+            </div>
+          </div>
+
+          <article class="aur-card aur-card--overlay">
+            <div class="aur-card__bg" style="--gph: linear-gradient(135deg,#6c5ce7,#00d9c0)"></div>
+            <div class="aur-card__scrim"></div>
+            <div class="aur-card__overlay-content">
+              <h3>이미지 오버레이 카드</h3>
+              <p style="opacity:.8">호버 시 배경이 확대됩니다</p>
+            </div>
+          </article>
+
+          <div class="aur-card aur-card--expandable">
+            <h3 class="aur-card__title">확장형 카드</h3>
+            <p class="aur-text-muted">버튼을 눌러 상세 내용을 펼쳐보세요.</p>
+            <div class="aur-card__more"><div>
+              <p class="aur-mt-2">grid-template-rows를 0fr → 1fr로 트랜지션하는 순수 CSS 기법이라 height:auto도 부드럽게 애니메이션됩니다.</p>
+            </div></div>
+            <button class="aur-btn aur-btn--outline aur-btn--sm aur-mt-3" data-card-expand type="button">자세히 보기</button>
+          </div>
+
+          <div class="aur-card aur-card--tilt">
+            <span class="aur-badge aur-badge--warning aur-mb-3">tilt</span>
+            <h3 class="aur-card__title">3D Tilt 카드</h3>
+            <p class="aur-text-muted">perspective + rotateX/Y가 커서를 따라갑니다.</p>
+          </div>
+
+          <div class="aur-card aur-card--spotlight">
+            <span class="aur-badge aur-badge--info aur-mb-3">spotlight</span>
+            <h3 class="aur-card__title">Spotlight 카드</h3>
+            <p class="aur-text-muted">커서 위치에 조명이 따라다닙니다.</p>
+          </div>
+
+          <div class="aur-card aur-card--holo">
+            <h3 class="aur-card__title">Holographic 카드</h3>
+            <p>보는 각도에 따라 색이 바뀌는 듯한 느낌.</p>
+          </div>
+
+          <button class="aur-flip aur-card" data-card-flip type="button" style="min-height:220px">
+            <div class="aur-flip__inner">
+              <div class="aur-flip__front"><h3 class="aur-card__title">클릭해서 뒤집기</h3><p class="aur-text-muted">Flip 카드 앞면</p></div>
+              <div class="aur-flip__back"><h3>뒷면입니다 🎉</h3><p>perspective + backface-visibility 조합.</p></div>
+            </div>
+          </button>
+
+          <div class="aur-card aur-card--ring">
+            <h3 class="aur-card__title">Gradient Ring</h3>
+            <p class="aur-text-muted">회전하는 그라디언트 테두리.</p>
+          </div>
+
+          <div class="aur-card aur-card--stat">
+            <span class="aur-metric__label">이번 달 매출</span>
+            <div class="aur-stat-value">₩42.8M</div>
+            <span class="aur-stat-trend is-up">▲ 12.4%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. DASHBOARD PREVIEW -->
+      <section id="dashboard" class="aur-mb-8 aur-defer-offscreen--tall">
+        <h2 class="aur-mb-5 aur-reveal">대시보드 미리보기</h2>
+
+        <div class="aur-bento aur-mb-6">
+          <div class="aur-card aur-card--stat aur-reveal">
+            <span class="aur-metric__label">신규 사용자</span>
+            <div class="aur-stat-value"><span class="aur-counter" data-target="3240">0</span></div>
+            <span class="aur-stat-trend is-up">▲ 8.1%</span>
+          </div>
+          <div class="aur-card aur-card--stat aur-reveal">
+            <span class="aur-metric__label">이탈률</span>
+            <div class="aur-stat-value"><span class="aur-counter" data-target="18" data-suffix="%">0</span></div>
+            <span class="aur-stat-trend is-down">▼ 2.3%</span>
+          </div>
+          <div class="aur-card aur-card--stat aur-reveal">
+            <span class="aur-metric__label">응답 시간</span>
+            <div class="aur-stat-value"><span class="aur-counter" data-target="128" data-suffix="ms">0</span></div>
+            <svg class="aur-sparkline" viewBox="0 0 100 32"><path d="M0 24 15 20 30 26 45 12 60 18 75 6 100 10"/></svg>
+          </div>
+          <div class="aur-card aur-card--stat aur-reveal">
+            <span class="aur-metric__label">가동률</span>
+            <div class="aur-progress-circle" style="--pct:99"><span>99%</span></div>
+          </div>
+        </div>
+
+        <div class="aur-bento aur-mb-6">
+          <div class="aur-card aur-bento-span-2">
+            <div class="aur-card__header"><h3 class="aur-card__title">주간 트래픽</h3><span class="aur-badge aur-badge--success">실시간</span></div>
+            <div class="aur-chart-bar">
+              <div class="aur-chart-bar__col" style="--v:55"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">월</span></div>
+              <div class="aur-chart-bar__col" style="--v:72"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">화</span></div>
+              <div class="aur-chart-bar__col" style="--v:48"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">수</span></div>
+              <div class="aur-chart-bar__col" style="--v:90"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">목</span></div>
+              <div class="aur-chart-bar__col" style="--v:65"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">금</span></div>
+              <div class="aur-chart-bar__col" style="--v:30"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">토</span></div>
+              <div class="aur-chart-bar__col" style="--v:22"><div class="aur-chart-bar__fill"></div><span class="aur-chart-bar__label">일</span></div>
+            </div>
+          </div>
+
+          <div class="aur-card">
+            <h3 class="aur-card__title aur-mb-3">채널 구성</h3>
+            <div class="aur-flex aur-items-center aur-gap-4">
+              <div class="aur-donut" style="--p1:45;--p2:30;--p3:25"><span>100%</span></div>
+              <ul class="aur-flex aur-flex-col aur-gap-2" style="list-style:none">
+                <li class="aur-flex aur-items-center aur-gap-2"><span style="width:10px;height:10px;border-radius:50%;background:var(--aur-c-primary);display:inline-block"></span> 검색 45%</li>
+                <li class="aur-flex aur-items-center aur-gap-2"><span style="width:10px;height:10px;border-radius:50%;background:var(--aur-c-secondary);display:inline-block"></span> SNS 30%</li>
+                <li class="aur-flex aur-items-center aur-gap-2"><span style="width:10px;height:10px;border-radius:50%;background:var(--aur-c-accent);display:inline-block"></span> 직접유입 25%</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="aur-card">
+            <h3 class="aur-card__title aur-mb-3">서버 부하</h3>
+            <div class="aur-flex aur-flex-col aur-items-center aur-gap-2">
+              <div class="aur-gauge" style="--pct:62"><div class="aur-gauge__needle"></div></div>
+              <strong>62%</strong>
+              <p class="aur-text-muted" style="font-size:var(--aur-text-xs)">평균 부하</p>
+            </div>
+          </div>
+
+          <div class="aur-card aur-bento-span-2">
+            <h3 class="aur-card__title aur-mb-3">방문 히트맵 (최근 12주 × 7일)</h3>
+            <div class="aur-heatmap" id="heatmapGrid"></div>
+          </div>
+        </div>
+
+        <div class="aur-grid aur-mb-6">
+          <div class="aur-col-8">
+            <div class="aur-card">
+              <div class="aur-card__header">
+                <h3 class="aur-card__title">최근 주문</h3>
+                <input class="aur-input" style="max-width:200px" type="search" placeholder="검색..." data-table-filter="ordersTable">
+              </div>
+              <div class="aur-table-responsive">
+                <table class="aur-table aur-table--striped aur-table--hover aur-table--sortable aur-table--card" id="ordersTable">
+                  <thead>
+                    <tr>
+                      <th data-sort-key>주문번호 <svg class="aur-icon"><use href="#icon-chevron-down"/></svg></th>
+                      <th data-sort-key>고객 <svg class="aur-icon"><use href="#icon-chevron-down"/></svg></th>
+                      <th data-sort-key>금액 <svg class="aur-icon"><use href="#icon-chevron-down"/></svg></th>
+                      <th data-sort-key>상태 <svg class="aur-icon"><use href="#icon-chevron-down"/></svg></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td data-label="주문번호">#1042</td><td data-label="고객">김소연</td><td data-label="금액">₩128,000</td><td data-label="상태"><span class="aur-badge aur-badge--success">완료</span></td></tr>
+                    <tr><td data-label="주문번호">#1041</td><td data-label="고객">박지훈</td><td data-label="금액">₩64,500</td><td data-label="상태"><span class="aur-badge aur-badge--warning">배송중</span></td></tr>
+                    <tr><td data-label="주문번호">#1040</td><td data-label="고객">이도현</td><td data-label="금액">₩212,000</td><td data-label="상태"><span class="aur-badge aur-badge--success">완료</span></td></tr>
+                    <tr><td data-label="주문번호">#1039</td><td data-label="고객">최유리</td><td data-label="금액">₩38,000</td><td data-label="상태"><span class="aur-badge aur-badge--danger">취소</span></td></tr>
+                    <tr><td data-label="주문번호">#1038</td><td data-label="고객">정하늘</td><td data-label="금액">₩95,200</td><td data-label="상태"><span class="aur-badge aur-badge--warning">배송중</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="aur-col-4">
+            <div class="aur-card" style="height:100%">
+              <h3 class="aur-card__title aur-mb-3">활동 피드</h3>
+              <div class="aur-timeline">
+                <div class="aur-timeline__item"><span class="aur-timeline__time">방금 전</span><p>새 주문 #1042가 접수되었습니다.</p></div>
+                <div class="aur-timeline__item"><span class="aur-timeline__time">32분 전</span><p>서버 배포가 완료되었습니다.</p></div>
+                <div class="aur-timeline__item"><span class="aur-timeline__time">1시간 전</span><p>박지훈 님이 가입했습니다.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="aur-grid aur-mb-6">
+          <div class="aur-col-7">
+            <div class="aur-card">
+              <h3 class="aur-card__title aur-mb-3">작업 보드 (Kanban)</h3>
+              <div class="aur-kanban">
+                <div class="aur-kanban__col">
+                  <div class="aur-flex aur-justify-between"><strong>할 일</strong><span class="aur-badge" data-kanban-count>0</span></div>
+                  <div class="aur-kanban__card">디자인 시스템 문서화</div>
+                  <div class="aur-kanban__card">다크모드 QA</div>
+                </div>
+                <div class="aur-kanban__col">
+                  <div class="aur-flex aur-justify-between"><strong>진행중</strong><span class="aur-badge" data-kanban-count>0</span></div>
+                  <div class="aur-kanban__card">커맨드 팔레트 구현</div>
+                </div>
+                <div class="aur-kanban__col">
+                  <div class="aur-flex aur-justify-between"><strong>완료</strong><span class="aur-badge" data-kanban-count>0</span></div>
+                  <div class="aur-kanban__card">테마 시스템 구축</div>
+                  <div class="aur-kanban__card">Bento grid 레이아웃</div>
+                </div>
+              </div>
+              <p class="aur-text-muted aur-mt-3" style="font-size:var(--aur-text-xs)">카드를 드래그해서 다른 컬럼으로 옮겨보세요.</p>
+            </div>
+          </div>
+          <div class="aur-col-5">
+            <div class="aur-card" data-calendar>
+              <div class="aur-flex aur-justify-between aur-items-center aur-mb-3">
+                <button class="aur-btn aur-btn--icon aur-btn--sm aur-btn--outline" data-calendar-prev type="button" aria-label="이전 달">‹</button>
+                <strong data-calendar-label></strong>
+                <button class="aur-btn aur-btn--icon aur-btn--sm aur-btn--outline" data-calendar-next type="button" aria-label="다음 달">›</button>
+              </div>
+              <div class="aur-calendar__grid" data-calendar-grid></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="aur-card">
+          <h3 class="aur-card__title aur-mb-3">💬 실시간 채팅 지원</h3>
+          <div class="aur-chat" data-chat>
+            <div class="aur-chat__messages">
+              <div class="aur-chat__bubble aur-chat__bubble--them">안녕하세요! 무엇을 도와드릴까요?</div>
+            </div>
+            <div class="aur-chat__input-bar">
+              <input class="aur-input" type="text" placeholder="메시지를 입력하세요..." data-chat-input>
+              <button class="aur-btn aur-btn--primary aur-btn--icon" data-chat-send type="button" aria-label="전송"><svg class="aur-icon"><use href="#icon-send"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. FORMS -->
+      <section id="forms" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-reveal">폼 컴포넌트</h2>
+        <div class="aur-card">
+          <div class="aur-tabs">
+            <div class="aur-tabs__list" role="tablist">
+              <button class="aur-tabs__tab is-active" data-tab="basic" type="button">기본 입력</button>
+              <button class="aur-tabs__tab" data-tab="choice" type="button">선택 &amp; 토글</button>
+              <button class="aur-tabs__tab" data-tab="special" type="button">특수 입력</button>
+              <span class="aur-tabs__indicator"></span>
+            </div>
+
+            <div class="aur-tabs__panel is-active" data-tab-panel="basic">
+              <form data-validate novalidate class="aur-grid">
+                <div class="aur-col-6 aur-field aur-field--floating">
+                  <input class="aur-input" id="ffName" placeholder=" " required>
+                  <label class="aur-label" for="ffName">이름</label>
+                </div>
+                <div class="aur-col-6 aur-field aur-field--floating">
+                  <input class="aur-input" id="ffEmail" type="email" placeholder=" " required>
+                  <label class="aur-label" for="ffEmail">이메일</label>
+                  <span class="aur-field__hint">유효한 이메일 주소를 입력하세요.</span>
+                </div>
+                <div class="aur-col-12 aur-field">
+                  <label class="aur-label">검색</label>
+                  <div class="aur-input--search-wrap">
+                    <svg class="aur-icon"><use href="#icon-search"/></svg>
+                    <input class="aur-input" type="text" placeholder="컴포넌트 검색...">
+                  </div>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">비밀번호</label>
+                  <div class="aur-input--password-wrap">
+                    <input class="aur-input" type="password" placeholder="8자 이상">
+                    <button class="aur-toggle-visibility" type="button" aria-label="비밀번호 표시">👁</button>
+                  </div>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label" for="ffMsg">메시지</label>
+                  <textarea class="aur-textarea" id="ffMsg" placeholder="내용을 입력하세요"></textarea>
+                </div>
+                <div class="aur-col-12">
+                  <button class="aur-btn aur-btn--primary" type="submit">제출하기</button>
+                  <button class="aur-btn aur-btn--outline" type="reset">초기화</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="aur-tabs__panel" data-tab-panel="choice">
+              <div class="aur-grid">
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label" for="ffSelect">가입 경로</label>
+                  <select class="aur-select" id="ffSelect">
+                    <option>검색 엔진</option><option>SNS</option><option>지인 추천</option>
+                  </select>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">관심 분야</label>
+                  <label class="aur-checkbox"><input type="checkbox" checked> 프론트엔드</label>
+                  <label class="aur-checkbox"><input type="checkbox"> 백엔드</label>
+                  <label class="aur-checkbox"><input type="checkbox"> 디자인</label>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">성별</label>
+                  <label class="aur-radio"><input type="radio" name="gender" checked> 남성</label>
+                  <label class="aur-radio"><input type="radio" name="gender"> 여성</label>
+                  <label class="aur-radio"><input type="radio" name="gender"> 선택안함</label>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">알림 받기</label>
+                  <label class="aur-switch">
+                    <input type="checkbox" checked>
+                    <span class="aur-switch__track"><span class="aur-switch__thumb"></span></span>
+                    이메일 알림
+                  </label>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label" for="ffRange">볼륨: <output data-range-output="ffRange">50</output>%</label>
+                  <input class="aur-range" id="ffRange" type="range" min="0" max="100" value="50">
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">이 라이브러리 만족도</label>
+                  <div class="aur-rating">
+                    <input type="radio" name="rating" id="r5" value="5"><label for="r5">★</label>
+                    <input type="radio" name="rating" id="r4" value="4"><label for="r4">★</label>
+                    <input type="radio" name="rating" id="r3" value="3" checked><label for="r3">★</label>
+                    <input type="radio" name="rating" id="r2" value="2"><label for="r2">★</label>
+                    <input type="radio" name="rating" id="r1" value="1"><label for="r1">★</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="aur-tabs__panel" data-tab-panel="special">
+              <div class="aur-grid">
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">인증 코드 (OTP)</label>
+                  <div class="aur-otp">
+                    <input class="aur-input aur-otp__box" maxlength="1" inputmode="numeric">
+                    <input class="aur-input aur-otp__box" maxlength="1" inputmode="numeric">
+                    <input class="aur-input aur-otp__box" maxlength="1" inputmode="numeric">
+                    <input class="aur-input aur-otp__box" maxlength="1" inputmode="numeric">
+                  </div>
+                </div>
+                <div class="aur-col-6 aur-field">
+                  <label class="aur-label">태그 입력 (Enter로 추가)</label>
+                  <div class="aur-tag-input">
+                    <span class="aur-chip"><span>vue.js</span><button type="button" class="aur-chip__remove">✕</button></span>
+                    <span class="aur-chip"><span>css</span><button type="button" class="aur-chip__remove">✕</button></span>
+                    <input type="text" placeholder="태그 입력 후 Enter">
+                  </div>
+                </div>
+                <div class="aur-col-12 aur-field">
+                  <label class="aur-label">파일 업로드</label>
+                  <div class="aur-dropzone">
+                    <svg class="aur-icon" style="width:28px;height:28px"><use href="#icon-upload"/></svg>
+                    <span data-dropzone-label>파일을 드래그하거나 클릭해서 업로드하세요</span>
+                    <input type="file" hidden>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. PRICING -->
+      <section id="pricing" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-text-center aur-reveal">요금제</h2>
+        <div class="aur-auto-grid">
+          <div class="aur-card aur-card--pricing">
+            <h3>Starter</h3>
+            <div class="aur-card__price">₩0 <small>/ 월</small></div>
+            <ul>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> 컴포넌트 12종</li>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> 라이트 테마</li>
+            </ul>
+            <button class="aur-btn aur-btn--outline">무료로 시작</button>
+          </div>
+          <div class="aur-card aur-card--pricing is-featured">
+            <span class="aur-badge aur-badge--danger">인기</span>
+            <h3>Pro</h3>
+            <div class="aur-card__price">₩19,000 <small>/ 월</small></div>
+            <ul>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> 전체 컴포넌트 128종</li>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> 5가지 테마 + 4가지 accent</li>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> 우선 지원</li>
+            </ul>
+            <button class="aur-btn aur-btn--gradient">Pro 시작하기</button>
+          </div>
+          <div class="aur-card aur-card--pricing">
+            <h3>Enterprise</h3>
+            <div class="aur-card__price">문의 <small>맞춤 견적</small></div>
+            <ul>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> 전담 매니저</li>
+              <li><svg class="aur-icon" style="color:var(--aur-c-success)"><use href="#icon-check"/></svg> SLA 보장</li>
+            </ul>
+            <button class="aur-btn aur-btn--outline">문의하기</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. TIMELINE + STEPPER -->
+      <section id="timeline" class="aur-grid aur-mb-8 aur-defer-offscreen">
+        <div class="aur-col-6">
+          <h2 class="aur-mb-4 aur-reveal">타임라인</h2>
+          <div class="aur-card">
+            <div class="aur-timeline">
+              <div class="aur-timeline__item"><span class="aur-timeline__time">2024</span><h4>프로젝트 시작</h4><p class="aur-text-muted">디자인 토큰 설계</p></div>
+              <div class="aur-timeline__item"><span class="aur-timeline__time">2025</span><h4>컴포넌트 128종 완성</h4><p class="aur-text-muted">전체 시스템 구축</p></div>
+              <div class="aur-timeline__item"><span class="aur-timeline__time">2026</span><h4>테마 5종 출시</h4><p class="aur-text-muted">Aurora / Cyber / Mono 추가</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="aur-col-6">
+          <h2 class="aur-mb-4 aur-reveal">주문 처리 단계</h2>
+          <div class="aur-card">
+            <div class="aur-stepper">
+              <div class="aur-stepper__step is-complete"><span class="aur-stepper__circle"><svg class="aur-icon"><use href="#icon-check"/></svg></span></div>
+              <div class="aur-stepper__step is-complete"><span class="aur-stepper__circle"><svg class="aur-icon"><use href="#icon-check"/></svg></span></div>
+              <div class="aur-stepper__step is-active"><span class="aur-stepper__circle">3</span></div>
+              <div class="aur-stepper__step"><span class="aur-stepper__circle">4</span></div>
+            </div>
+            <div class="aur-flex aur-justify-between aur-mt-3" style="font-size:var(--aur-text-xs)">
+              <span>주문접수</span><span>결제완료</span><span>배송중</span><span>완료</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. TESTIMONIAL -->
+      <section id="testimonial" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-text-center aur-reveal">사용자 후기</h2>
+        <div class="aur-testimonial-track">
+          <div class="aur-card">
+            <p class="aur-quote">이렇게 화려한데 외부 라이브러리가 하나도 없다니 믿기지 않아요.</p>
+            <div class="aur-flex aur-items-center aur-gap-2 aur-mt-4"><span class="aur-avatar aur-avatar--sm">JS</span><div><strong>정수민</strong><div class="aur-text-muted" style="font-size:var(--aur-text-xs)">Product Designer</div></div></div>
+          </div>
+          <div class="aur-card">
+            <p class="aur-quote">다크모드 전환이 이렇게 부드러운 라이브러리는 처음이에요.</p>
+            <div class="aur-flex aur-items-center aur-gap-2 aur-mt-4"><span class="aur-avatar aur-avatar--sm">PJ</span><div><strong>박지훈</strong><div class="aur-text-muted" style="font-size:var(--aur-text-xs)">Frontend Dev</div></div></div>
+          </div>
+          <div class="aur-card">
+            <p class="aur-quote">Bento grid랑 홀로그래픽 카드가 제일 마음에 들어요.</p>
+            <div class="aur-flex aur-items-center aur-gap-2 aur-mt-4"><span class="aur-avatar aur-avatar--sm">LH</span><div><strong>이하늘</strong><div class="aur-text-muted" style="font-size:var(--aur-text-xs)">UX Researcher</div></div></div>
+          </div>
+          <div class="aur-card">
+            <p class="aur-quote">커맨드 팔레트(⌘K)까지 순수 JS로 만든 게 인상적입니다.</p>
+            <div class="aur-flex aur-items-center aur-gap-2 aur-mt-4"><span class="aur-avatar aur-avatar--sm">CY</span><div><strong>최유리</strong><div class="aur-text-muted" style="font-size:var(--aur-text-xs)">Backend Dev</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. FAQ -->
+      <section id="faq" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-text-center aur-reveal">자주 묻는 질문</h2>
+        <div class="aur-card" data-accordion-group>
+          <div class="aur-accordion__item is-open">
+            <button class="aur-accordion__trigger" type="button">외부 CSS 프레임워크를 정말 하나도 안 썼나요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">네. Bootstrap, Tailwind 등 어떤 라이브러리도 사용하지 않고 reset부터 컴포넌트까지 전부 직접 작성했습니다.</div></div>
+          </div>
+          <div class="aur-accordion__item">
+            <button class="aur-accordion__trigger" type="button">다크모드는 어떻게 저장되나요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">localStorage에 저장되며, 처음 방문 시에는 운영체제 테마를 자동으로 감지합니다.</div></div>
+          </div>
+          <div class="aur-accordion__item">
+            <button class="aur-accordion__trigger" type="button">모션에 민감한 사용자는 어떻게 하나요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">prefers-reduced-motion을 감지해 모든 애니메이션 지속시간을 자동으로 최소화합니다.</div></div>
+          </div>
+          <div class="aur-accordion__item">
+            <button class="aur-accordion__trigger" type="button">차트도 라이브러리 없이 만든 건가요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">막대 차트는 CSS, 선 차트는 inline SVG path, 도넛/게이지는 conic-gradient로 직접 구현했습니다.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. GALLERY -->
+      <section id="gallery" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-reveal">갤러리</h2>
+        <div class="aur-masonry">
+          <div class="aur-gallery__item" style="--gph: linear-gradient(160deg,#6c5ce7,#00d9c0); height:220px"><span class="aur-gallery__caption">Aurora Nights</span></div>
+          <div class="aur-gallery__item" style="--gph: linear-gradient(160deg,#ff3ea5,#6c5ce7); height:300px"><span class="aur-gallery__caption">Holo Dreams</span></div>
+          <div class="aur-gallery__item" style="--gph: linear-gradient(160deg,#00d9c0,#3ea6ff); height:180px"><span class="aur-gallery__caption">Deep Field</span></div>
+          <div class="aur-gallery__item" style="--gph: linear-gradient(160deg,#ffb020,#ff3ea5); height:260px"><span class="aur-gallery__caption">Bento Sunrise</span></div>
+          <div class="aur-gallery__item" style="--gph: linear-gradient(160deg,#3ea6ff,#6c5ce7); height:200px"><span class="aur-gallery__caption">Glass Peaks</span></div>
+          <div class="aur-gallery__item" style="--gph: linear-gradient(160deg,#00d9c0,#ffb020); height:240px"><span class="aur-gallery__caption">Portfolio · UI Kit</span></div>
+        </div>
+      </section>
+
+      <!-- 12. OVERLAY DEMOS -->
+      <section id="overlays" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-reveal">오버레이 시연</h2>
+        <div class="aur-flex aur-flex-wrap aur-gap-3 aur-mb-5">
+          <button class="aur-btn aur-btn--primary" data-modal-target="demoModal">Modal 열기</button>
+          <button class="aur-btn aur-btn--outline" data-modal-target="confirmModal">확인 Modal</button>
+          <button class="aur-btn aur-btn--outline" data-modal-target="imageModal">이미지 Modal</button>
+          <button class="aur-btn aur-btn--glass" data-drawer-target="settingsDrawer">Drawer 열기</button>
+          <button class="aur-btn aur-btn--glass" data-demo-toast="success">Toast (success)</button>
+          <button class="aur-btn aur-btn--glass" data-demo-toast="warning">Toast (warning)</button>
+          <button class="aur-btn aur-btn--glass" data-demo-toast="danger">Toast (danger)</button>
+          <button class="aur-btn aur-btn--outline" data-demo-loading>로딩 버튼 <span></span></button>
+        </div>
+        <div class="aur-card" data-context-zone data-tooltip="우클릭 해보세요">
+          <p class="aur-text-muted">이 카드 위에서 마우스 오른쪽 버튼을 클릭하면 커스텀 컨텍스트 메뉴가 뜹니다. 왼쪽 사이드바 하단의 버튼이나 헤더에서 <span class="aur-kbd">⌘</span>+<span class="aur-kbd">K</span> 를 눌러 커맨드 팔레트도 열어보세요.</p>
+        </div>
+
+        <div class="aur-mt-6">
+          <h3 class="aur-mb-3">진행률 데모</h3>
+          <div class="aur-flex aur-items-center aur-gap-4 aur-flex-wrap">
+            <div style="flex:1;min-width:200px">
+              <div class="aur-progress aur-progress--striped"><div class="aur-progress__fill" data-demo-progress style="--val:40%"></div></div>
+              <span data-demo-progress-label>40%</span>
+            </div>
+            <div class="aur-progress-circle" data-demo-progress-circle style="--pct:65"><span>65%</span></div>
+            <button class="aur-btn aur-btn--sm aur-btn--outline" data-progress-step="10">+10%</button>
+            <button class="aur-btn aur-btn--sm aur-btn--outline" data-progress-step="-10">-10%</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 & 14. NEWSLETTER + CONTACT -->
+      <div class="aur-grid aur-mb-8">
+        <section id="newsletter" class="aur-col-6">
+          <div class="aur-card aur-card--gradient">
+            <h3>뉴스레터 구독</h3>
+            <p class="aur-mb-4">새로운 컴포넌트 소식을 가장 먼저 받아보세요.</p>
+            <form class="aur-flex aur-gap-2">
+              <input class="aur-input" type="email" placeholder="you@example.com" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff">
+              <button class="aur-btn" style="background:#fff;color:var(--aur-c-primary-strong)" type="submit">구독</button>
+            </form>
+          </div>
+        </section>
+        <section id="contact" class="aur-col-6">
+          <div class="aur-card">
+            <h3 class="aur-mb-3">문의하기</h3>
+            <form class="aur-flex aur-flex-col aur-gap-3">
+              <input class="aur-input" placeholder="이름">
+              <input class="aur-input" type="email" placeholder="이메일">
+              <textarea class="aur-textarea" placeholder="문의 내용"></textarea>
+              <button class="aur-btn aur-btn--primary" type="submit">보내기</button>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <!-- 15. SETTINGS PANEL (theme + accent) -->
+      <section id="settings" class="aur-mb-8 aur-defer-offscreen">
+        <h2 class="aur-mb-5 aur-reveal">테마 &amp; Accent 설정</h2>
+        <div class="aur-card">
+          <div class="aur-settings-row">
+            <div>
+              <strong>테마</strong>
+              <p class="aur-text-muted" style="font-size:var(--aur-text-xs)">현재: <span data-current-theme-label>dark</span></p>
+            </div>
+            <div class="aur-flex aur-gap-2 aur-flex-wrap">
+              <button class="aur-btn aur-btn--sm aur-btn--outline" data-theme-option="light" type="button">Light</button>
+              <button class="aur-btn aur-btn--sm aur-btn--outline" data-theme-option="dark" type="button">Dark</button>
+              <button class="aur-btn aur-btn--sm aur-btn--outline" data-theme-option="aurora" type="button">Aurora</button>
+              <button class="aur-btn aur-btn--sm aur-btn--outline" data-theme-option="mono" type="button">Mono</button>
+              <button class="aur-btn aur-btn--sm aur-btn--outline" data-theme-option="cyber" type="button">Cyber</button>
+            </div>
+          </div>
+          <div class="aur-settings-row">
+            <strong>Accent 색상</strong>
+            <div class="aur-flex aur-gap-3">
+              <button class="aur-swatch" data-accent-option="violet" style="background:#6c5ce7" type="button" aria-label="violet"></button>
+              <button class="aur-swatch" data-accent-option="teal" style="background:#00d9c0" type="button" aria-label="teal"></button>
+              <button class="aur-swatch" data-accent-option="rose" style="background:#ff3ea5" type="button" aria-label="rose"></button>
+              <button class="aur-swatch" data-accent-option="amber" style="background:#ffb020" type="button" aria-label="amber"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA banner -->
+      <section class="aur-cta aur-mb-8">
+        <div>
+          <h2 style="color:#fff">지금 바로 Aurora UI를 사용해보세요</h2>
+          <p style="opacity:.85">이 페이지 전체가 하나의 살아있는 사용 예시입니다.</p>
+        </div>
+        <button class="aur-btn" style="background:#fff;color:var(--aur-c-primary-strong)" data-modal-target="demoModal">시작하기</button>
+      </section>
+
+      <!-- 16. FOOTER -->
+      <footer class="aur-footer" id="footer">
+        <div class="aur-footer__grid">
+          <div class="aur-footer__col">
+            <div class="aur-navbar__logo aur-mb-3"><span class="aur-navbar__mark"><svg class="aur-icon" style="color:#fff"><use href="#icon-zap"/></svg></span> Aurora UI</div>
+            <p class="aur-text-muted">외부 라이브러리 없이 만든 나만의 CSS 디자인 시스템.</p>
+          </div>
+          <div class="aur-footer__col"><h5>제품</h5><a href="#cards">컴포넌트</a><a href="#dashboard">대시보드</a><a href="#pricing">가격</a></div>
+          <div class="aur-footer__col"><h5>리소스</h5><a href="#faq">FAQ</a><a href="#gallery">갤러리</a><a href="#forms">폼</a></div>
+          <div class="aur-footer__col"><h5>회사</h5><a href="#contact">문의</a><a href="#settings">테마</a></div>
+        </div>
+        <div class="aur-footer__bottom">
+          <span>© 2026 Aurora UI. All rights reserved.</span>
+          <div class="aur-flex aur-gap-2">
+            <button class="aur-btn aur-btn--icon aur-btn--sm aur-btn--glass" aria-label="globe"><svg class="aur-icon"><use href="#icon-globe"/></svg></button>
+            <button class="aur-btn aur-btn--icon aur-btn--sm aur-btn--glass" aria-label="message"><svg class="aur-icon"><use href="#icon-message"/></svg></button>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ Backdrops ============ -->
+<div class="aur-backdrop" data-backdrop="sidebar"></div>
+<div class="aur-backdrop" data-backdrop="drawer"></div>
+
+<!-- Lives at body level (not inside a content section) so its fixed
+     positioning is always relative to the viewport, regardless of any
+     ancestor's containment (e.g. content-visibility on a section). -->
+<div class="aur-context-menu" data-context-menu>
+  <button class="aur-context-menu__item" type="button"><svg class="aur-icon"><use href="#icon-check"/></svg> 복사</button>
+  <button class="aur-context-menu__item" type="button"><svg class="aur-icon"><use href="#icon-plus"/></svg> 즐겨찾기 추가</button>
+  <button class="aur-context-menu__item" type="button"><svg class="aur-icon"><use href="#icon-trash"/></svg> 삭제</button>
+</div>
+
+<!-- ============ Drawers ============ -->
+<aside class="aur-drawer" id="notifDrawer">
+  <div class="aur-flex aur-justify-between aur-items-center">
+    <h3>알림 센터</h3>
+    <button class="aur-btn aur-btn--icon aur-btn--sm" data-drawer-close aria-label="닫기"><svg class="aur-icon"><use href="#icon-close"/></svg></button>
+  </div>
+  <div class="aur-card--notification aur-flex" style="border:none;padding:0">
+    <span class="aur-card__icon"><svg class="aur-icon"><use href="#icon-check"/></svg></span>
+    <div><strong>배포 성공</strong><p class="aur-text-muted" style="font-size:var(--aur-text-xs)">방금 전</p></div>
+  </div>
+  <div class="aur-card--notification aur-flex" style="border:none;padding:0">
+    <span class="aur-card__icon"><svg class="aur-icon"><use href="#icon-bell"/></svg></span>
+    <div><strong>신규 댓글 3개</strong><p class="aur-text-muted" style="font-size:var(--aur-text-xs)">10분 전</p></div>
+  </div>
+  <div class="aur-card--notification aur-flex" style="border:none;padding:0">
+    <span class="aur-card__icon"><svg class="aur-icon"><use href="#icon-alert"/></svg></span>
+    <div><strong>결제 실패</strong><p class="aur-text-muted" style="font-size:var(--aur-text-xs)">1시간 전</p></div>
+  </div>
+</aside>
+
+<aside class="aur-drawer aur-drawer--left" id="settingsDrawer">
+  <div class="aur-flex aur-justify-between aur-items-center">
+    <h3>빠른 설정</h3>
+    <button class="aur-btn aur-btn--icon aur-btn--sm" data-drawer-close aria-label="닫기"><svg class="aur-icon"><use href="#icon-close"/></svg></button>
+  </div>
+  <label class="aur-switch"><input type="checkbox" checked><span class="aur-switch__track"><span class="aur-switch__thumb"></span></span> 알림 사운드</label>
+  <label class="aur-switch"><input type="checkbox"><span class="aur-switch__track"><span class="aur-switch__thumb"></span></span> 자동 새로고침</label>
+  <a class="aur-btn aur-btn--outline" href="#settings" data-drawer-close>테마 설정으로 이동</a>
+</aside>
+
+<!-- ============ Modals ============ -->
+<dialog class="aur-modal" id="demoModal">
+  <div class="aur-modal__header"><h3>Aurora UI 시작하기</h3><button class="aur-btn aur-btn--icon aur-btn--sm" data-modal-close aria-label="닫기"><svg class="aur-icon"><use href="#icon-close"/></svg></button></div>
+  <p class="aur-text-muted">main.css 하나만 링크하면 모든 컴포넌트를 바로 사용할 수 있습니다.</p>
+  <div class="aur-modal__actions">
+    <button class="aur-btn aur-btn--outline" data-modal-close>닫기</button>
+    <button class="aur-btn aur-btn--primary" data-modal-close>확인</button>
+  </div>
+</dialog>
+
+<dialog class="aur-modal" id="confirmModal">
+  <div class="aur-modal__header"><h3>⚠️ 정말 삭제할까요?</h3></div>
+  <p class="aur-text-muted">이 작업은 되돌릴 수 없습니다.</p>
+  <div class="aur-modal__actions">
+    <button class="aur-btn aur-btn--outline" data-modal-close>취소</button>
+    <button class="aur-btn" style="background:var(--aur-c-danger);color:#fff" data-modal-close>삭제</button>
+  </div>
+</dialog>
+
+<dialog class="aur-modal aur-modal--image" id="imageModal">
+  <div style="background:linear-gradient(135deg,#6c5ce7,#00d9c0);border-radius:var(--aur-radius-md);height:360px;display:flex;align-items:center;justify-content:center;color:#fff">이미지 자리 (로컬 이미지로 교체 가능)</div>
+  <div class="aur-modal__actions"><button class="aur-btn aur-btn--outline" data-modal-close>닫기</button></div>
+</dialog>
+
+<dialog class="aur-command" id="commandPalette">
+  <input class="aur-command__input" type="text" placeholder="명령을 입력하세요... (예: 대시보드, 테마, 가격)">
+  <div class="aur-command__list">
+    <button class="aur-command__item is-selected" type="button"><svg class="aur-icon"><use href="#icon-grid"/></svg> 대시보드로 이동</button>
+    <button class="aur-command__item" type="button"><svg class="aur-icon"><use href="#icon-sun"/></svg> 테마 변경</button>
+    <button class="aur-command__item" type="button"><svg class="aur-icon"><use href="#icon-briefcase"/></svg> 가격 페이지</button>
+    <button class="aur-command__item" type="button"><svg class="aur-icon"><use href="#icon-message"/></svg> 문의하기</button>
+  </div>
+</dialog>
+
+<!-- ============ FAB ============ -->
+<button class="aur-btn aur-btn--fab" id="fabTop" aria-label="맨 위로" data-tooltip="맨 위로">
+  <svg class="aur-icon" style="color:#fff"><use href="#icon-arrow-right" style="transform:rotate(-90deg)"/></svg>
+</button>
+
+<!-- ============ Bottom mobile nav ============ -->
+<nav class="aur-bottomnav">
+  <a class="aur-bottomnav__item is-active" href="#hero"><svg class="aur-icon"><use href="#icon-home"/></svg>홈</a>
+  <a class="aur-bottomnav__item" href="#dashboard"><svg class="aur-icon"><use href="#icon-grid"/></svg>대시보드</a>
+  <a class="aur-bottomnav__item" href="#forms"><svg class="aur-icon"><use href="#icon-check"/></svg>폼</a>
+  <a class="aur-bottomnav__item" href="#settings"><svg class="aur-icon"><use href="#icon-gear"/></svg>설정</a>
+</nav>
+
+<!-- ============ Magnetic dock (desktop quick-jump) ============ -->
+<nav class="aur-dock" aria-label="빠른 이동 독">
+  <a class="aur-dock__item" href="#hero" data-label="홈"><svg class="aur-icon"><use href="#icon-home"/></svg></a>
+  <a class="aur-dock__item" href="#spatial" data-label="Spatial"><svg class="aur-icon"><use href="#icon-globe"/></svg></a>
+  <a class="aur-dock__item" href="#dashboard" data-label="대시보드"><svg class="aur-icon"><use href="#icon-grid"/></svg></a>
+  <a class="aur-dock__item" href="#forms" data-label="폼"><svg class="aur-icon"><use href="#icon-check"/></svg></a>
+  <a class="aur-dock__item" href="#pricing" data-label="가격"><svg class="aur-icon"><use href="#icon-briefcase"/></svg></a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마 전환"><svg class="aur-icon"><use href="#icon-sun"/></svg></button>
+</nav>
+
+<script src="js/theme.js" defer></script>
+<script src="js/interactions.js" defer></script>
+<script src="js/components.js" defer></script>
+<script src="js/spatial.js" defer></script>
+<script>
+  /* Heatmap + command palette trigger + FAB — tiny page-only bits
+     that don't belong in the reusable engine files. */
+  document.addEventListener("DOMContentLoaded", function () {
+    var heatmap = document.getElementById("heatmapGrid");
+    if (heatmap) {
+      for (var i = 0; i < 84; i++) {
+        var cell = document.createElement("div");
+        cell.className = "aur-heatmap__cell";
+        cell.style.setProperty("--level", String(Math.floor(Math.random() * 6)));
+        heatmap.appendChild(cell);
+      }
+    }
+
+    document.querySelectorAll("[data-command-hint]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.getElementById("commandPalette").showModal();
+      });
+    });
+
+    var fab = document.getElementById("fabTop");
+    if (fab) {
+      fab.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  });
+</script>
+<script src="js/main.js" defer></script>
+</body>
+</html>

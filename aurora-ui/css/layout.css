@@ -1,0 +1,188 @@
+/* =============================================================
+   AURORA UI · layout.css
+   Structural layout systems: container, 12-col grid, auto-fit
+   grid, bento grid, CSS-columns masonry, app shell (sidebar +
+   main + mobile drawer), and sticky patterns.
+
+   Breakpoints (repeated as literals because media queries can't
+   read custom properties — documented as tokens too):
+     mobile-lg  480px   tablet 768px   laptop 1024px
+     desktop   1280px   wide  1536px
+   ============================================================= */
+
+/* ---------- Container ---------- */
+.aur-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--aur-space-5);
+  max-width: var(--aur-container-2xl);
+}
+
+.aur-container--sm { max-width: var(--aur-container-sm); }
+.aur-container--md { max-width: var(--aur-container-md); }
+.aur-container--lg { max-width: var(--aur-container-lg); }
+.aur-container--xl { max-width: var(--aur-container-xl); }
+.aur-container--fluid { max-width: none; }
+
+/* ---------- 12-column grid system ---------- */
+.aur-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--aur-space-5);
+}
+
+.aur-grid--tight { gap: var(--aur-space-3); }
+.aur-grid--loose { gap: var(--aur-space-7); }
+
+.aur-col-1  { grid-column: span 1; }
+.aur-col-2  { grid-column: span 2; }
+.aur-col-3  { grid-column: span 3; }
+.aur-col-4  { grid-column: span 4; }
+.aur-col-5  { grid-column: span 5; }
+.aur-col-6  { grid-column: span 6; }
+.aur-col-7  { grid-column: span 7; }
+.aur-col-8  { grid-column: span 8; }
+.aur-col-9  { grid-column: span 9; }
+.aur-col-10 { grid-column: span 10; }
+.aur-col-11 { grid-column: span 11; }
+.aur-col-12 { grid-column: span 12; }
+.aur-col-auto { grid-column: auto; }
+
+/* ---------- Auto-fit / auto-fill responsive grid ---------- */
+.aur-auto-grid {
+  display: grid;
+  gap: var(--aur-space-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+.aur-auto-grid--sm {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+}
+
+.aur-auto-grid--lg {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+/* ---------- Bento grid ---------- */
+.aur-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(140px, auto);
+  gap: var(--aur-space-5);
+}
+
+.aur-bento-span-2  { grid-column: span 2; }
+.aur-bento-span-3  { grid-column: span 3; }
+.aur-bento-span-4  { grid-column: span 4; }
+.aur-bento-row-2   { grid-row: span 2; }
+.aur-bento-row-3   { grid-row: span 3; }
+
+/* ---------- Masonry-like layout (CSS columns technique) ---------- */
+.aur-masonry {
+  column-count: 3;
+  column-gap: var(--aur-space-5);
+}
+
+.aur-masonry > * {
+  break-inside: avoid;
+  margin-bottom: var(--aur-space-5);
+}
+
+/* ---------- App shell: sidebar + header + main ---------- */
+.aur-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 272px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
+}
+
+.aur-shell__sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: var(--aur-z-fixed);
+  transition: transform var(--aur-duration-base) var(--aur-ease-standard);
+}
+
+.aur-shell__header { grid-area: header; }
+.aur-shell__main   { grid-area: main; min-width: 0; }
+
+/* ---------- Sticky utilities ---------- */
+.aur-sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: var(--aur-z-sticky);
+}
+
+.aur-sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--aur-z-sticky);
+}
+
+/* ---------- Responsive behavior ---------- */
+@media (max-width: 1023px) {
+  .aur-shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main";
+  }
+
+  /* Sidebar becomes an off-canvas drawer below laptop width */
+  .aur-shell__sidebar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 272px;
+    transform: translateX(-100%);
+    box-shadow: var(--aur-shadow-xl);
+  }
+
+  .aur-shell__sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .aur-bento { grid-template-columns: repeat(2, 1fr); }
+  .aur-bento-span-3, .aur-bento-span-4 { grid-column: span 2; }
+  .aur-masonry { column-count: 2; }
+}
+
+@media (max-width: 767px) {
+  .aur-container { padding-inline: var(--aur-space-4); }
+  .aur-bento { grid-template-columns: 1fr; }
+  .aur-bento-span-2, .aur-bento-span-3, .aur-bento-span-4 { grid-column: span 1; }
+  .aur-masonry { column-count: 1; }
+
+  .aur-col-md-12 { grid-column: span 12; }
+}
+
+@media (max-width: 479px) {
+  .aur-grid { gap: var(--aur-space-4); }
+}
+
+/* Drawer backdrop shared by sidebar-drawer / offcanvas / modal-style overlays */
+.aur-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 15, 0.55);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--aur-duration-base) var(--aur-ease-standard);
+  z-index: var(--aur-z-overlay);
+}
+
+.aur-backdrop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 1024px) {
+  .aur-shell__sidebar ~ .aur-backdrop { display: none; }
+}
