@@ -1,0 +1,8 @@
+# OS
+.DS_Store
+
+# Claude Code
+.claude/
+
+# Internal docs / assignment reference material (not for remote)
+docs/
