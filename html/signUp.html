@@ -5,55 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 - signUp</title>
 </head>
-<body>
-    <header>
-        <h1>👤 회원가입</h1>
-        <p>SKALA-FRONT 회원가입을 환영합니다.</p>
-    </header>
+<body bgcolor="#f7f5ff" text="#222222">
+
+    <center>
+        <h1><font size="6" color="#5b3fae">👤 회원가입</font></h1>
+    </center>
+    <p align="center">SKALA-FRONT 회원가입을 환영합니다.</p>
+    <marquee behavior="alternate" scrollamount="4" bgcolor="#ece4ff">✨ 지금 가입하면 학습 자료 전체 무료 열람! ✨</marquee>
 
     <main>
         <form action="signUpResult.html" method="get">
             <fieldset>
-                <legend>계정 정보</legend>
+                <legend><font color="#5b3fae"><strong>계정 정보</strong></font>
+                    <button type="button" popovertarget="terms" popovertargetaction="toggle">📄 약관 보기</button>
+                </legend>
 
-                <p>
-                    <label for="userId">아이디:</label>
-                    <input type="text" id="userId" name="userId" placeholder="4~15자 영문/숫자" minlength="4" maxlength="15" required>
-                    (필수)
-                </p>
+                <div popover id="terms">
+                    <h3>📄 회원가입 약관 (요약)</h3>
+                    <p>1. 입력하신 정보는 학습 서비스 제공 목적으로만 사용됩니다.<br>
+                    2. 비밀번호는 안전하게 암호화되어 저장됩니다.<br>
+                    3. 언제든지 마이페이지에서 정보를 수정하거나 탈퇴할 수 있습니다.</p>
+                </div>
 
-                <p>
-                    <label for="userPw">비밀번호:</label>
-                    <input type="password" id="userPw" name="userPw" placeholder="8자 이상 입력" minlength="8" required>
-                    (필수)
-                </p>
-
-                <p>
-                    <label for="userEmail">이메일:</label>
-                    <input type="text" id="userEmail" name="userEmailId" placeholder="example" required>
-                    @
-                    <input type="text" id="emailDomainInput" name="emailDomainInput" list="emailDomainList" placeholder="직접 입력 또는 목록에서 선택">
-                    <datalist id="emailDomainList">
-                        <option value="naver.com">
-                        <option value="gmail.com">
-                        <option value="daum.net">
-                        <option value="kakao.com">
-                    </datalist>
-                </p>
+                <table cellpadding="6" cellspacing="0" border="0">
+                    <tr>
+                        <td align="right"><label for="userId">아이디:</label></td>
+                        <td><input type="text" id="userId" name="userId" placeholder="4~15자 영문/숫자" minlength="4" maxlength="15" size="25" required></td>
+                        <td><small>(필수)</small></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userPw">비밀번호:</label></td>
+                        <td><input type="password" id="userPw" name="userPw" placeholder="8자 이상 입력" minlength="8" size="25" required></td>
+                        <td><small>(필수) 강도: <meter min="0" max="10" value="7">7/10</meter></small></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userEmail">이메일:</label></td>
+                        <td>
+                            <input type="text" id="userEmail" name="userEmailId" placeholder="example" size="14" required>
+                            @
+                            <input type="text" id="emailDomainInput" name="emailDomainInput" list="emailDomainList" placeholder="직접 입력 또는 목록에서 선택" size="20">
+                            <datalist id="emailDomainList">
+                                <option value="naver.com">
+                                <option value="gmail.com">
+                                <option value="daum.net">
+                                <option value="kakao.com">
+                            </datalist>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
             </fieldset>
 
             <fieldset>
-                <legend>개인 프로필 정보</legend>
+                <legend><font color="#5b3fae"><strong>개인 프로필 정보</strong></font></legend>
 
-                <p>
-                    <label for="userName">이름:</label>
-                    <input type="text" id="userName" name="userName">
-                </p>
-
-                <p>
-                    <label for="birthDate">생년월일:</label>
-                    <input type="date" id="birthDate" name="birthDate">
-                </p>
+                <table cellpadding="6" cellspacing="0" border="0">
+                    <tr>
+                        <td align="right"><label for="userName">이름:</label></td>
+                        <td><input type="text" id="userName" name="userName" size="25"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="birthDate">생년월일:</label></td>
+                        <td><input type="date" id="birthDate" name="birthDate"></td>
+                    </tr>
+                </table>
 
                 <fieldset>
                     <legend>성별</legend>
@@ -87,15 +102,16 @@
             </fieldset>
 
             <fieldset>
-                <legend>자기소개</legend>
+                <legend><font color="#5b3fae"><strong>자기소개</strong></font></legend>
                 <p>나를 표현하는 한 줄 소개 또는 가입 인사:</p>
                 <textarea name="introduce" rows="4" cols="50" maxlength="200" placeholder="여기에 내용을 입력하세요 (최대 200자)"></textarea>
             </fieldset>
 
-            <p>
-                <button type="submit">동의하고 회원가입</button>
-                <button type="reset">다시 작성</button>
+            <p align="center">
+                <button type="submit">✅ 동의하고 회원가입</button>
+                <button type="reset">↺ 다시 작성</button>
             </p>
+            <p align="center"><small>입력을 마쳤다면 <kbd>Tab</kbd> 키로 다음 항목, <kbd>Enter</kbd> 키로 제출할 수 있어요.</small></p>
         </form>
     </main>
 

@@ -5,69 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome SKALA</title>
 </head>
-<body>
-    <header>
-        <h1>나의 SKALA 유니버스 🚀</h1>
-        <p>저의 프로필, 학습 내용, 여행 기록을 모아둔 개인 <abbr title="Hub Page">Hub</abbr> 페이지입니다.</p>
-        <nav>
-            <h2>바로가기 메뉴</h2>
-            <ul>
-                <li><a href="myProfile.html">소개 (Profile)</a></li>
-                <li><a href="myClass.html">수업 시간표 (Class)</a></li>
-                <li><a href="myTrip.html">여행 앨범 (Album)</a></li>
-                <li><a href="signUp.html">회원가입 (Sign Up)</a></li>
-            </ul>
-        </nav>
-    </header>
+<body bgcolor="#eaf2fb" text="#222222" link="#3a6fd8" vlink="#7a4fd8">
 
-    <hr>
+    <dialog open>
+        <p><strong>👋 환영합니다!</strong><br>나의 SKALA 유니버스에 처음 오셨군요. 아래 메뉴에서 원하는 페이지로 이동해보세요.</p>
+        <form method="dialog">
+            <button>확인했어요</button>
+        </form>
+    </dialog>
 
-    <main>
-        <section id="news">
-            <h2>📌 오늘의 주요 소식</h2>
-            <article>
-                <h3>회원가입 페이지 오픈</h3>
-                <p><mark>SKALA-FRONT 회원가입</mark> 페이지가 새로 열렸습니다. 지금 바로 가입하고 다양한 소식을 받아보세요.</p>
-                <p>작성일: <time datetime="2026-07-15">2026년 7월 15일</time></p>
-            </article>
+    <center>
+        <h1><font size="6" color="#2b3a67">🚀 나의 SKALA 유니버스</font></h1>
+    </center>
+    <p align="center"><font color="#555555">저의 프로필, 학습 내용, 여행 기록을 모아둔 개인 <abbr title="Hub Page">Hub</abbr> 페이지입니다.</font></p>
 
-            <details>
-                <summary>더 많은 소식 보기</summary>
-                <p>여행 앨범 페이지에 새로운 사진과 영상이 추가되었습니다. 아래 <a href="myTrip.html">여행 앨범</a> 링크에서 확인해보세요.</p>
-            </details>
-        </section>
+    <marquee behavior="scroll" scrollamount="5" bgcolor="#fff4cc">📢 NEW! 회원가입 이벤트 진행중 · 여행 앨범에 새 사진 추가 · 오늘도 화이팅!🎉</marquee>
 
-        <section id="best-cut">
-            <h2>🏔️ 이달의 베스트 컷</h2>
-            <figure>
-                <img src="../media/lijiang.svg" alt="중국 리장 호도협의 웅장한 협곡 모습" width="400" height="260">
-                <figcaption>중국 리장 호도협의 웅장한 협곡 모습 (2025년 촬영)</figcaption>
-            </figure>
-        </section>
+    <nav>
+        <table width="100%" cellpadding="10" cellspacing="0" border="0">
+            <tr bgcolor="#2b3a67">
+                <td align="center"><a href="myProfile.html"><font color="#ffffff">소개 (Profile)</font></a></td>
+                <td align="center"><a href="myClass.html"><font color="#ffffff">수업 시간표 (Class)</font></a></td>
+                <td align="center"><a href="myTrip.html"><font color="#ffffff">여행 앨범 (Album)</font></a></td>
+                <td align="center"><a href="signUp.html"><font color="#ffffff">회원가입 (Sign Up)</font></a></td>
+                <td align="center"><button popovertarget="quick-menu" popovertargetaction="toggle">☰ 더보기</button></td>
+            </tr>
+        </table>
+    </nav>
 
-        <blockquote cite="https://www.skala.ai">
-            <p>배움은 멈추지 않는 여행이다.</p>
-        </blockquote>
-    </main>
+    <div popover id="quick-menu">
+        <h3>⚡ 빠른 메뉴</h3>
+        <ul>
+            <li><a href="#news">📌 오늘의 주요 소식으로 이동</a></li>
+            <li><a href="#best-cut">🏔️ 이달의 베스트 컷으로 이동</a></li>
+            <li><a href="#realtime-info">🌤️ 실시간 정보로 이동</a></li>
+        </ul>
+    </div>
 
-    <aside>
-        <section id="realtime-info">
-            <h2>🌤️ 실시간 정보</h2>
-            <address>현재 위치: 광주광역시 광산구</address>
-            <p>추천 학습 사이트: <a href="https://www.w3schools.com" target="_blank" rel="noopener">W3Schools 온라인 명세서</a></p>
-        </section>
+    <hr color="#2b3a67" size="4" width="100%">
 
-        <section id="progress">
-            <h2>이번 달 학습 진행률</h2>
-            <p>HTML 과제 진행률: <progress value="70" max="100">70%</progress> 70%</p>
-        </section>
-    </aside>
+    <table width="100%" cellpadding="15" cellspacing="10" border="0">
+        <tr valign="top">
+            <td width="65%" bgcolor="#ffffff">
+                <main>
+                    <section id="news">
+                        <h2>📌 오늘의 주요 소식</h2>
 
-    <hr>
+                        <details name="notice" open>
+                            <summary>회원가입 페이지 오픈</summary>
+                            <p><mark>SKALA-FRONT 회원가입</mark> 페이지가 새로 열렸습니다. 지금 바로 가입하고 다양한 소식을 받아보세요.</p>
+                            <p>작성일: <time datetime="2026-07-15">2026년 7월 15일</time></p>
+                        </details>
+
+                        <details name="notice">
+                            <summary>여행 앨범 업데이트</summary>
+                            <p>여행 앨범 페이지에 새로운 사진과 영상이 추가되었습니다. 아래 <a href="myTrip.html">여행 앨범</a> 링크에서 확인해보세요.</p>
+                        </details>
+
+                        <details name="notice">
+                            <summary>강의 시간표 개편 안내</summary>
+                            <p>이번 주부터 <a href="myClass.html">강의 시간표</a>가 새롭게 개편되었습니다.</p>
+                        </details>
+                    </section>
+
+                    <section id="best-cut">
+                        <h2>🏔️ 이달의 베스트 컷</h2>
+                        <figure>
+                            <img src="../media/lijiang.svg" alt="중국 리장 호도협의 웅장한 협곡 모습" width="400" height="260" usemap="#tripmap" border="0">
+                            <map name="tripmap">
+                                <area shape="rect" coords="0,0,400,260" href="myTrip.html" alt="여행 앨범 더보기">
+                            </map>
+                            <figcaption>중국 리장 호도협의 웅장한 협곡 모습 (2025년 촬영) &mdash; <small>클릭하면 여행 앨범으로 이동</small></figcaption>
+                        </figure>
+                    </section>
+
+                    <blockquote cite="https://www.skala.ai">
+                        <p>배움은 멈추지 않는 여행이다.</p>
+                    </blockquote>
+                </main>
+            </td>
+
+            <td width="35%" bgcolor="#eef7f0">
+                <aside>
+                    <section id="realtime-info">
+                        <h2>🌤️ 실시간 정보</h2>
+                        <address>현재 위치: 광주광역시<wbr>광산구</address>
+                        <p>추천 학습 사이트: <a href="https://www.w3schools.com" target="_blank" rel="noopener">W3Schools 온라인 명세서</a></p>
+                    </section>
+
+                    <section id="progress">
+                        <h2>이번 달 학습 진행률</h2>
+                        <p>HTML 과제 진행률:<br><progress value="70" max="100">70%</progress> 70%</p>
+                        <p>전체 만족도:<br><meter value="9" min="0" max="10" low="3" high="7" optimum="10">9/10</meter> 9/10</p>
+                    </section>
+                </aside>
+            </td>
+        </tr>
+    </table>
+
+    <hr color="#2b3a67" size="2" width="100%">
 
     <footer>
-        <p>이메일 문의: <a href="mailto:medit74@sk.com">medit74@sk.com</a></p>
-        <p><small>&copy; 2026 SKALA-FRONT. 모든 페이지는 웹 표준 시맨틱 태그로 작성되었습니다.</small></p>
+        <p align="center">이메일 문의: <a href="mailto:medit74@sk.com">medit74@sk.com</a></p>
+        <p align="center"><small>&copy; 2026 SKALA-FRONT. 모든 페이지는 웹 표준 시맨틱 태그로 작성되었습니다.</small></p>
     </footer>
+
 </body>
 </html>

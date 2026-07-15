@@ -5,45 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>나의 여행지 - myTrip</title>
 </head>
-<body>
-    <header>
-        <h1>🌍 나의 여행 앨범 🎵</h1>
-        <p>제가 다녀온 여행지의 사진과 영상, 그리고 여행 중 즐겨 듣던 배경음악을 모아봤습니다.</p>
+<body bgcolor="#f0f7ff" text="#222222">
+
+    <center>
+        <h1><font size="6" color="#1f6fb2">🌍 나의 여행 앨범 🎵</font></h1>
+    </center>
+    <p align="center">제가 다녀온 여행지의 사진과 영상, 그리고 여행 중 즐겨 듣던 배경음악을 모아봤습니다.</p>
+    <p align="center">
         <audio controls>
             <source src="../media/bgm.wav" type="audio/wav">
             브라우저가 audio 태그를 지원하지 않습니다.
         </audio>
-    </header>
+    </p>
 
     <main>
         <section id="album">
-            <h2>여행 사진</h2>
+            <h2 align="center">여행 사진 <small>(사진에 마우스를 올려 클릭해보세요)</small></h2>
 
-            <figure>
-                <img src="../media/lijiang.svg" alt="중국 리장 호도협 협곡" width="400" height="260">
-                <figcaption>리장 호도협 <time datetime="2025">(2025년)</time></figcaption>
-            </figure>
-
-            <figure>
-                <img src="../media/cebu.svg" alt="필리핀 세부 야경" width="400" height="260">
-                <figcaption>세부 탑스뷰 <time datetime="2024">(2024년)</time></figcaption>
-            </figure>
-
-            <figure>
-                <img src="../media/hokkaido.svg" alt="일본 홋카이도 다이세츠산" width="400" height="260">
-                <figcaption>홋카이도 다이세츠산 <time datetime="2025">(2025년)</time></figcaption>
-            </figure>
+            <table width="100%" cellpadding="10" cellspacing="10" border="0">
+                <tr valign="top" align="center">
+                    <td width="33%" bgcolor="#ffffff">
+                        <figure>
+                            <picture>
+                                <source media="(min-width: 1px)" srcset="../media/lijiang.svg">
+                                <img src="../media/lijiang.svg" alt="중국 리장 호도협 협곡" width="100%" usemap="#lijiangMap" border="0">
+                            </picture>
+                            <map name="lijiangMap">
+                                <area shape="rect" coords="0,0,400,260" href="index.html" alt="메인 허브로 이동">
+                            </map>
+                            <figcaption>리장 호도협 <time datetime="2025">(2025년)</time></figcaption>
+                        </figure>
+                        <details name="album">
+                            <summary>여행 후기 자세히 보기</summary>
+                            <p>깎아지른 협곡 사이로 흐르는 강물 소리가 아직도 귀에 생생합니다.</p>
+                        </details>
+                    </td>
+                    <td width="33%" bgcolor="#ffffff">
+                        <figure>
+                            <img src="../media/cebu.svg" alt="필리핀 세부 야경" width="100%" border="0">
+                            <figcaption>세부 탑스뷰 <time datetime="2024">(2024년)</time></figcaption>
+                        </figure>
+                        <details name="album">
+                            <summary>여행 후기 자세히 보기</summary>
+                            <p>야자수 사이로 보이는 도시의 야경이 정말 반짝였습니다.</p>
+                        </details>
+                    </td>
+                    <td width="33%" bgcolor="#ffffff">
+                        <figure>
+                            <img src="../media/hokkaido.svg" alt="일본 홋카이도 다이세츠산" width="100%" border="0">
+                            <figcaption>홋카이도 다이세츠산 <time datetime="2025">(2025년)</time></figcaption>
+                        </figure>
+                        <details name="album">
+                            <summary>여행 후기 자세히 보기</summary>
+                            <p>새하얀 설산의 풍경은 <cite>사진보다 실제가 훨씬 아름다웠습니다</cite>.</p>
+                        </details>
+                    </td>
+                </tr>
+            </table>
         </section>
 
+        <hr color="#1f6fb2" size="2" width="100%">
+
         <section id="vlog">
-            <h2>📹 나의 여행 브이로그</h2>
-            <figure>
-                <video controls width="400" height="260" poster="../media/lijiang.svg">
-                    <source src="../media/vlog.mp4" type="video/mp4">
-                    브라우저가 video 태그를 지원하지 않습니다.
-                </video>
-                <figcaption>리장의 아름다운 음악 🎶 <small>(직접 촬영한 영상으로 교체 예정)</small></figcaption>
-            </figure>
+            <h2 align="center">📹 나의 여행 브이로그</h2>
+            <p align="center">
+                <button popovertarget="vlog-info" popovertargetaction="toggle">ℹ️ 영상 설명 보기</button>
+            </p>
+            <div popover id="vlog-info">
+                <h3>📹 영상 설명</h3>
+                <p>리장 여행 중 우연히 마주친 거리 공연 브이로그입니다. 촬영: 2025년 7월</p>
+            </div>
+            <center>
+                <figure>
+                    <video controls width="400" height="260" poster="../media/lijiang.svg">
+                        <source src="../media/vlog.mp4" type="video/mp4">
+                        브라우저가 video 태그를 지원하지 않습니다.
+                    </video>
+                    <figcaption>리장의 아름다운 음악 🎶 <small>(직접 촬영한 영상으로 교체 예정)</small></figcaption>
+                </figure>
+            </center>
         </section>
     </main>
 

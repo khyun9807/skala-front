@@ -5,79 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>나의 강의 시간표 - myClass</title>
 </head>
-<body>
-    <header>
-        <h1>🗓️ 나의 강의 시간표</h1>
-        <p>월요일부터 금요일까지의 주간 수업 일정입니다. 2시간 이상 이어지는 수업과 점심시간은 셀을 합쳐서 표시했습니다.</p>
-    </header>
+<body bgcolor="#f5f9ff" text="#222222">
+
+    <center>
+        <h1><font size="6" color="#2b3a67">🗓️ 나의 강의 시간표</font></h1>
+    </center>
+    <p align="center">월요일부터 금요일까지의 주간 수업 일정입니다. 2시간 이상 이어지는 수업과 점심시간은 셀을 합쳐서 표시했습니다.</p>
+    <p align="center"><button popovertarget="legend" popovertargetaction="toggle">🎨 색상 범례 보기</button></p>
+    <div popover id="legend">
+        <h3>🎨 과목 분류 색상 범례</h3>
+        <ul>
+            <li bgcolor="#dbe9fb">🔵 웹/프론트엔드 계열</li>
+            <li bgcolor="#dff5df">🟢 데이터/AI 계열</li>
+            <li bgcolor="#ece0fb">🟣 인프라/보안 계열</li>
+            <li bgcolor="#fff6d5">🟡 특강/자기계발</li>
+            <li bgcolor="#ffe0b3">🟠 점심시간</li>
+        </ul>
+    </div>
 
     <main>
-        <table border="1">
-            <caption>SKALA 부트캠프 주간 시간표</caption>
+        <table border="1" cellpadding="8" cellspacing="0" width="100%">
+            <caption><strong>SKALA 부트캠프 주간 시간표</strong></caption>
+            <colgroup>
+                <col width="12%">
+                <col span="5">
+            </colgroup>
             <thead>
-                <tr>
-                    <th scope="col">시간</th>
-                    <th scope="col">월요일</th>
-                    <th scope="col">화요일</th>
-                    <th scope="col">수요일</th>
-                    <th scope="col">목요일</th>
-                    <th scope="col">금요일</th>
+                <tr bgcolor="#2b3a67">
+                    <th scope="col"><font color="#ffffff">시간</font></th>
+                    <th scope="col"><font color="#ffffff">월요일</font></th>
+                    <th scope="col"><font color="#ffffff">화요일</font></th>
+                    <th scope="col"><font color="#ffffff">수요일</font></th>
+                    <th scope="col"><font color="#ffffff">목요일</font></th>
+                    <th scope="col"><font color="#ffffff">금요일</font></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th scope="row">09:00 - 10:00</th>
-                    <td rowspan="3">Vue.js<br>웹 프레임워크 💻</td>
-                    <td rowspan="2">네트워크 보안 기초 🔒</td>
-                    <td rowspan="3">웹 시스템 설계 및 분석 📐</td>
-                    <td>IT 트렌드 특강 💡</td>
-                    <td rowspan="2">자바스크립트 심화 실습 🧩</td>
+                    <td rowspan="3" bgcolor="#dbe9fb"><abbr title="사용자 인터페이스를 만드는 자바스크립트 프레임워크">Vue.js</abbr><br>웹 프레임워크 💻</td>
+                    <td rowspan="2" bgcolor="#ece0fb">네트워크 보안 기초 🔒</td>
+                    <td rowspan="3" bgcolor="#dbe9fb">웹 시스템 설계 및 분석 📐</td>
+                    <td bgcolor="#fff6d5">IT 트렌드 특강 💡</td>
+                    <td rowspan="2" bgcolor="#dbe9fb">자바스크립트 심화 실습 🧩</td>
                 </tr>
                 <tr>
                     <th scope="row">10:00 - 11:00</th>
-                    <td rowspan="2">데이터베이스 SQL 실습 🗄️</td>
+                    <td rowspan="2" bgcolor="#dff5df">데이터베이스 <abbr title="Structured Query Language">SQL</abbr> 실습 🗄️</td>
                 </tr>
                 <tr>
                     <th scope="row">11:00 - 12:00</th>
-                    <td>알고리즘 문제풀이 🧠</td>
-                    <td>알고리즘 문제풀이 🧠</td>
+                    <td bgcolor="#dff5df">알고리즘 문제풀이 🧠</td>
+                    <td bgcolor="#dff5df">알고리즘 문제풀이 🧠</td>
                 </tr>
                 <tr>
                     <th scope="row">12:00 - 13:00</th>
-                    <td colspan="5">🍚 점심 시간 🍚</td>
+                    <td colspan="5" align="center" bgcolor="#ffe0b3">🍚 점심 시간 🍚</td>
                 </tr>
                 <tr>
                     <th scope="row">13:00 - 14:00</th>
-                    <td rowspan="3">UI/UX 디자인 표준 🎨</td>
-                    <td>리눅스 시스템 관리 🐧</td>
-                    <td rowspan="4">자료구조 📊</td>
-                    <td rowspan="4">개인 프로젝트 🚀</td>
-                    <td rowspan="2">개인 프로젝트 🚀</td>
+                    <td rowspan="3" bgcolor="#dbe9fb">UI/UX 디자인 표준 🎨</td>
+                    <td bgcolor="#ece0fb">리눅스 시스템 관리 🐧</td>
+                    <td rowspan="4" bgcolor="#dff5df">자료구조 📊</td>
+                    <td rowspan="4" bgcolor="#fff6d5">개인 프로젝트 🚀</td>
+                    <td rowspan="2" bgcolor="#fff6d5">개인 프로젝트 🚀</td>
                 </tr>
                 <tr>
                     <th scope="row">14:00 - 15:00</th>
-                    <td rowspan="2">인공지능 머신러닝 기초 🤖</td>
+                    <td rowspan="2" bgcolor="#dff5df">인공지능 머신러닝 기초 🤖</td>
                 </tr>
                 <tr>
                     <th scope="row">15:00 - 16:00</th>
-                    <td rowspan="2">오픈소스 소프트웨어 🔓</td>
+                    <td rowspan="2" bgcolor="#ece0fb">오픈소스 소프트웨어 🔓</td>
                 </tr>
                 <tr>
                     <th scope="row">16:00 - 17:00</th>
-                    <td>Git &amp; GitHub 버전 관리 🐙</td>
-                    <td>빅데이터 분석 실무 📈</td>
+                    <td bgcolor="#ece0fb">Git &amp; GitHub 버전 관리 🐙</td>
+                    <td bgcolor="#dff5df">빅데이터 분석 실무 📈</td>
                 </tr>
                 <tr>
                     <th scope="row">17:00 - 18:00</th>
-                    <td>취업·창업 특강 💼</td>
-                    <td>주간 회고 📝</td>
-                    <td>오픈소스 소프트웨어 🔓</td>
-                    <td>주간 회고 📝</td>
-                    <td>주간 회고 📝</td>
+                    <td bgcolor="#fff6d5">취업·창업 특강 💼</td>
+                    <td bgcolor="#fff6d5">주간 회고 📝</td>
+                    <td bgcolor="#ece0fb">오픈소스 소프트웨어 🔓</td>
+                    <td bgcolor="#fff6d5">주간 회고 📝</td>
+                    <td bgcolor="#fff6d5">주간 회고 📝</td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr bgcolor="#2b3a67">
+                    <td colspan="6" align="center"><font color="#ffffff">주간 총 수업 시간: 40시간 (점심시간 제외)</font></td>
+                </tr>
+            </tfoot>
         </table>
     </main>
+
+    <p><dfn>비고</dfn>: 색상은 과목 계열을 구분하기 위한 것이며, 자세한 내용은 상단의 색상 범례 버튼을 참고하세요.</p>
 
     <p><a href="index.html">&larr; 메인으로 돌아가기</a></p>
 </body>

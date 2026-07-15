@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입결과 - signUpResult</title>
 </head>
-<body>
-    <header>
-        <h1>🎉 회원가입을 진심으로 축하합니다!</h1>
-        <p>SKALA-FRONT 회원이 되신 것을 환영합니다.</p>
-    </header>
+<body bgcolor="#fff4f0" text="#222222">
 
-    <hr>
+    <dialog open>
+        <p align="center"><font size="5">🎉</font><br><strong>회원가입이 정상적으로 처리되었습니다!</strong></p>
+        <form method="dialog">
+            <p align="center"><button>확인</button></p>
+        </form>
+    </dialog>
+
+    <center>
+        <h1><font size="6" color="#d1495b">🎉 회원가입을 진심으로 축하합니다!</font></h1>
+    </center>
+    <marquee behavior="scroll" direction="right" scrollamount="6" bgcolor="#ffe3da">🎊 축하합니다 🎊 SKALA-FRONT 회원이 되신 것을 환영합니다 🎊</marquee>
+
+    <hr color="#d1495b" size="3" width="100%">
 
     <main>
         <section id="notice">
@@ -24,25 +32,30 @@
         </section>
 
         <blockquote>
-            <p>가입을 환영하는 마음을 담아, 앞으로 함께할 학습 여정을 응원합니다.</p>
+            <p>가입을 <mark>환영</mark>하는 마음을 담아, 앞으로 함께할 학습 여정을 응원합니다.</p>
         </blockquote>
 
         <section id="go">
             <h2>이동하기</h2>
             <p>아래 링크를 클릭하면 이전에 작성한 다른 페이지로 이동할 수 있습니다.</p>
-            <ul>
-                <li>👤 <a href="myProfile.html">나의 프로필 보기</a></li>
-                <li>🗓️ <a href="myClass.html">나의 수업 시간표 보기</a></li>
-                <li>🌍 <a href="myTrip.html">나의 여행 앨범 보기</a></li>
-                <li>🏠 <a href="index.html">메인 허브로 돌아가기</a></li>
-            </ul>
+
+            <table cellpadding="12" cellspacing="10" border="0">
+                <tr align="center">
+                    <td bgcolor="#ffe3da"><a href="myProfile.html">👤<br>나의 프로필 보기</a></td>
+                    <td bgcolor="#fff0da"><a href="myClass.html">🗓️<br>나의 수업 시간표 보기</a></td>
+                </tr>
+                <tr align="center">
+                    <td bgcolor="#e3f3ff"><a href="myTrip.html">🌍<br>나의 여행 앨범 보기</a></td>
+                    <td bgcolor="#e9ffe3"><a href="index.html">🏠<br>메인 허브로 돌아가기</a></td>
+                </tr>
+            </table>
         </section>
     </main>
 
-    <hr>
+    <hr color="#d1495b" size="1" width="100%">
 
     <footer>
-        <p><small>가입일: <time datetime="2026-07-15">2026년 7월 15일</time></small></p>
+        <p align="center"><small>가입일: <time datetime="2026-07-15">2026년 7월 15일</time></small></p>
     </footer>
 </body>
 </html>
