@@ -1,0 +1,157 @@
+/* =============================================================
+   AURORA UI · tokens.css
+   Design tokens: the single source of truth for every color,
+   gradient, shadow, spacing, type, radius, motion and z-index
+   value used across the library. Components never hard-code
+   raw values — they reference these custom properties so that
+   themes.css can re-skin the whole system by swapping tokens.
+   ============================================================= */
+
+:root {
+  /* ---------- Brand colors ---------- */
+  --aur-c-primary-h: 255;                 /* violet */
+  --aur-c-primary: #6c5ce7;
+  --aur-c-primary-strong: #5a47d6;
+  --aur-c-primary-soft: #a29bfe;
+  --aur-c-secondary: #00d9c0;              /* teal */
+  --aur-c-secondary-strong: #00b8a3;
+
+  /* Accent is the "personality" color — swappable via [data-accent] */
+  --aur-c-accent: #ff3ea5;
+  --aur-c-accent-strong: #e01e88;
+  --aur-c-accent-soft: #ffb3da;
+
+  /* ---------- Semantic colors ---------- */
+  --aur-c-success: #2ecc71;
+  --aur-c-success-soft: #1e8449;
+  --aur-c-warning: #ffb020;
+  --aur-c-warning-soft: #b8790a;
+  --aur-c-danger: #ff4d6d;
+  --aur-c-danger-soft: #c9184a;
+  --aur-c-info: #3ea6ff;
+  --aur-c-info-soft: #1f6fb2;
+
+  /* ---------- Base surfaces (dark theme is the default canvas) ---------- */
+  --aur-bg-0: #0b0d17;      /* deepest background */
+  --aur-bg-1: #12152325;
+  --aur-surface-0: #ffffff;
+  --aur-surface-1: rgba(255, 255, 255, 0.06);
+  --aur-surface-2: rgba(255, 255, 255, 0.09);
+  --aur-surface-3: rgba(255, 255, 255, 0.14);
+  --aur-surface-solid: #161a2c;
+  --aur-surface-solid-raised: #1c2138;
+
+  --aur-text-0: #f5f6ff;
+  --aur-text-1: #c7cbe8;
+  --aur-text-muted: #8b90b3;
+  --aur-text-inverse: #0b0d17;
+
+  --aur-border-subtle: rgba(255, 255, 255, 0.10);
+  --aur-border-strong: rgba(255, 255, 255, 0.22);
+
+  /* ---------- Gradients ---------- */
+  --aur-grad-primary: linear-gradient(135deg, var(--aur-c-primary), var(--aur-c-accent));
+  --aur-grad-aurora: linear-gradient(120deg, #6c5ce7 0%, #00d9c0 35%, #ff3ea5 70%, #6c5ce7 100%);
+  --aur-grad-holo: linear-gradient(115deg, #ff3ea5 0%, #6c5ce7 25%, #3ea6ff 50%, #00d9c0 75%, #ff3ea5 100%);
+  --aur-grad-mesh:
+    radial-gradient(at 15% 20%, rgba(108, 92, 231, 0.55) 0px, transparent 50%),
+    radial-gradient(at 85% 15%, rgba(0, 217, 192, 0.40) 0px, transparent 50%),
+    radial-gradient(at 75% 85%, rgba(255, 62, 165, 0.35) 0px, transparent 50%),
+    radial-gradient(at 20% 80%, rgba(62, 166, 255, 0.30) 0px, transparent 50%);
+  --aur-grad-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02));
+
+  /* ---------- Shadows (elevation scale) ---------- */
+  --aur-shadow-sm: 0 1px 2px rgba(3, 5, 15, 0.35);
+  --aur-shadow-md: 0 6px 16px rgba(3, 5, 15, 0.35);
+  --aur-shadow-lg: 0 16px 40px rgba(3, 5, 15, 0.45);
+  --aur-shadow-xl: 0 28px 70px rgba(3, 5, 15, 0.55);
+  --aur-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  --aur-shadow-glow: 0 0 0 1px rgba(108, 92, 231, 0.4), 0 0 24px rgba(108, 92, 231, 0.55);
+  --aur-shadow-glow-accent: 0 0 0 1px rgba(255, 62, 165, 0.4), 0 0 24px rgba(255, 62, 165, 0.55);
+
+  /* ---------- Spacing scale (fluid: min, preferred(vw), max via clamp) ---------- */
+  --aur-space-0: 0;
+  --aur-space-1: 0.25rem;
+  --aur-space-2: 0.5rem;
+  --aur-space-3: 0.75rem;
+  --aur-space-4: 1rem;
+  --aur-space-5: 1.5rem;
+  --aur-space-6: 2rem;
+  --aur-space-7: 2.5rem;
+  --aur-space-8: 3rem;
+  --aur-space-10: 4rem;
+  --aur-space-12: 6rem;
+  --aur-space-fluid-sm: clamp(1rem, 1rem + 1vw, 2rem);
+  --aur-space-fluid-md: clamp(2rem, 2rem + 2vw, 4rem);
+  --aur-space-fluid-lg: clamp(3rem, 3rem + 4vw, 7rem);
+
+  /* ---------- Type scale (fluid via clamp) ---------- */
+  --aur-font-body: "Segoe UI", -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
+  --aur-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --aur-text-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --aur-text-sm: clamp(0.82rem, 0.8rem + 0.15vw, 0.9rem);
+  --aur-text-base: clamp(0.95rem, 0.92rem + 0.2vw, 1.05rem);
+  --aur-text-md: clamp(1.1rem, 1.05rem + 0.3vw, 1.25rem);
+  --aur-text-lg: clamp(1.35rem, 1.2rem + 0.6vw, 1.65rem);
+  --aur-text-xl: clamp(1.7rem, 1.4rem + 1.2vw, 2.25rem);
+  --aur-text-2xl: clamp(2.1rem, 1.7rem + 2vw, 3.1rem);
+  --aur-text-3xl: clamp(2.6rem, 2rem + 3vw, 4.2rem);
+  --aur-text-4xl: clamp(3.2rem, 2.2rem + 4.5vw, 5.6rem);
+  --aur-leading-tight: 1.15;
+  --aur-leading-base: 1.55;
+  --aur-tracking-tight: -0.02em;
+  --aur-tracking-wide: 0.08em;
+
+  /* ---------- Radius scale ---------- */
+  --aur-radius-xs: 6px;
+  --aur-radius-sm: 10px;
+  --aur-radius-md: 16px;
+  --aur-radius-lg: 24px;
+  --aur-radius-xl: 32px;
+  --aur-radius-full: 999px;
+
+  /* ---------- Motion ---------- */
+  --aur-duration-fast: 150ms;
+  --aur-duration-base: 280ms;
+  --aur-duration-slow: 520ms;
+  --aur-duration-xslow: 900ms;
+  --aur-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --aur-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --aur-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---------- Z-index scale ----------
+     --aur-z-overlay (the dimming backdrop) sits BELOW --aur-z-fixed
+     and --aur-z-drawer on purpose: a backdrop's whole job is to dim
+     everything behind the sidebar-drawer/drawer it belongs to, so it
+     must never out-rank the thing it's backdropping. */
+  --aur-z-base: 0;
+  --aur-z-dropdown: 300;
+  --aur-z-sticky: 400;
+  --aur-z-overlay: 450;
+  --aur-z-fixed: 500;
+  --aur-z-drawer: 600;
+  --aur-z-modal: 800;
+  --aur-z-popover: 900;
+  --aur-z-toast: 950;
+  --aur-z-tooltip: 980;
+  --aur-z-max: 9999;
+
+  /* ---------- Container widths ----------
+     (breakpoint px values are documented here for reference and for
+     JS matchMedia() use — CSS media queries cannot read var(), so the
+     same numbers are repeated literally inside @media rules.) */
+  --aur-container-sm: 540px;
+  --aur-container-md: 720px;
+  --aur-container-lg: 960px;
+  --aur-container-xl: 1180px;
+  --aur-container-2xl: 1400px;
+
+  --aur-bp-mobile: 0px;
+  --aur-bp-mobile-lg: 480px;
+  --aur-bp-tablet: 768px;
+  --aur-bp-laptop: 1024px;
+  --aur-bp-desktop: 1280px;
+  --aur-bp-wide: 1536px;
+
+  color-scheme: dark;
+}

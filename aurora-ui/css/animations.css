@@ -1,0 +1,201 @@
+/* =============================================================
+   AURORA UI · animations.css
+   Every @keyframes definition in the library, plus the utility
+   classes that apply them. Stagger is achieved with a per-element
+   `--i` custom property (set inline by JS or a template) consumed
+   via calc() — no per-index class needed.
+   ============================================================= */
+
+@keyframes aur-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes aur-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes aur-fade-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes aur-slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes aur-slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes aur-scale-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Deliberately a separate keyframe (not just aur-scale-in in reverse) —
+   toggling a class that only flips animation-direction on an already
+   -finished animation of the same name is not guaranteed to replay in
+   every engine, which would silently break the JS close-animation hook. */
+@keyframes aur-scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.85); }
+}
+
+@keyframes aur-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes aur-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.08); }
+}
+
+@keyframes aur-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.55); }
+  100% { box-shadow: 0 0 0 14px rgba(108, 92, 231, 0); }
+}
+
+@keyframes aur-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px currentColor); }
+  50% { filter: drop-shadow(0 0 14px currentColor); }
+}
+
+@keyframes aur-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes aur-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes aur-rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes aur-rotate-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes aur-blob {
+  0%, 100% { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
+  33% { border-radius: 62% 38% 45% 55% / 35% 62% 38% 65%; }
+  66% { border-radius: 35% 65% 58% 42% / 62% 40% 60% 38%; }
+}
+
+@keyframes aur-typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes aur-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes aur-ripple {
+  from { transform: scale(0); opacity: 0.45; }
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+@keyframes aur-skeleton-wave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes aur-progress-fill {
+  from { width: 0%; }
+}
+
+@keyframes aur-path-draw {
+  from { stroke-dashoffset: var(--aur-path-length, 300); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes aur-orbit {
+  from { transform: rotate(0deg) translateX(var(--aur-orbit-radius, 60px)) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(var(--aur-orbit-radius, 60px)) rotate(-360deg); }
+}
+
+@keyframes aur-particle-float {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translate3d(var(--aur-drift-x, 20px), -140px, 0); opacity: 0; }
+}
+
+@keyframes aur-spin-fade {
+  from { opacity: 0; transform: scale(0.8) rotate(-8deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes aur-loading-bar {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  50.1% { transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+@keyframes aur-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- Utility classes ---------- */
+.aur-anim-fade-in { animation: aur-fade-in var(--aur-duration-slow) var(--aur-ease-standard) both; }
+.aur-anim-fade-up { animation: aur-fade-up var(--aur-duration-slow) var(--aur-ease-emphasized) both; }
+.aur-anim-fade-down { animation: aur-fade-down var(--aur-duration-slow) var(--aur-ease-emphasized) both; }
+.aur-anim-slide-left { animation: aur-slide-in-left var(--aur-duration-slow) var(--aur-ease-emphasized) both; }
+.aur-anim-slide-right { animation: aur-slide-in-right var(--aur-duration-slow) var(--aur-ease-emphasized) both; }
+.aur-anim-scale-in { animation: aur-scale-in var(--aur-duration-base) var(--aur-ease-bounce) both; }
+.aur-anim-float { animation: aur-float 5s var(--aur-ease-standard) infinite; }
+.aur-anim-pulse { animation: aur-pulse 2.4s var(--aur-ease-standard) infinite; }
+.aur-anim-spin { animation: aur-rotate 1s linear infinite; }
+.aur-anim-spin-slow { animation: aur-rotate 8s linear infinite; }
+
+/* Stagger: elements set style="--i:0" / "--i:1" ... */
+.aur-stagger {
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Scroll-reveal hook: hidden until interactions.js adds .is-in-view */
+.aur-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--aur-duration-slow) var(--aur-ease-emphasized),
+    transform var(--aur-duration-slow) var(--aur-ease-emphasized);
+}
+
+.aur-reveal.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =============================================================
+   Reduced motion: the single broad override the whole library
+   defers to. `!important` here is the one deliberate, documented
+   exception to the "avoid !important" rule in section 11 — it
+   must win over every component-level animation unconditionally.
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .aur-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

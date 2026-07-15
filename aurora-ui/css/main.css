@@ -1,0 +1,54 @@
+/* =============================================================
+   AURORA UI · main.css
+   The single stylesheet consumers should <link>. It declares the
+   cascade-layer order up front (so layer precedence is explicit
+   and independent of import order), then imports every module
+   into its named layer.
+
+   Anything written directly in this file, below the imports,
+   is intentionally OUTSIDE any layer — per the CSS cascade-layers
+   spec, unlayered rules always beat layered ones. That makes this
+   the correct, honest place for page-level glue and one-off
+   overrides in a consuming project, without ever needing !important.
+   ============================================================= */
+
+@layer aur-reset, aur-tokens, aur-themes, aur-layout, aur-utilities, aur-components, aur-animations, aur-spatial;
+
+@import url("reset.css") layer(aur-reset);
+@import url("tokens.css") layer(aur-tokens);
+@import url("themes.css") layer(aur-themes);
+@import url("layout.css") layer(aur-layout);
+@import url("utilities.css") layer(aur-utilities);
+@import url("components.css") layer(aur-components);
+@import url("animations.css") layer(aur-animations);
+@import url("spatial.css") layer(aur-spatial);
+
+/* ---------- Container queries ----------
+   Registered here (unlayered) so they always take effect
+   regardless of how consuming pages order their own overrides. */
+.aur-card-grid {
+  container-type: inline-size;
+  container-name: aur-card-grid;
+}
+
+@container aur-card-grid (max-width: 480px) {
+  .aur-card-grid .aur-card { padding: var(--aur-space-4); }
+}
+
+/* ---------- Print styles ---------- */
+@media print {
+  .aur-navbar, .aur-bottomnav, .aur-btn--fab, .aur-toast-region,
+  .aur-drawer, .aur-modal, .aur-command-palette-trigger {
+    display: none !important;
+  }
+  body { background: #fff; color: #000; }
+}
+
+/* ---------- Progressive-enhancement guard ----------
+   Browsers without backdrop-filter still get a fully opaque,
+   readable surface instead of a see-through one. */
+@supports not (backdrop-filter: blur(1px)) {
+  .aur-navbar, .aur-card--glass, .aur-btn--glass, .aur-modal, .aur-drawer {
+    background: var(--aur-surface-solid-raised);
+  }
+}

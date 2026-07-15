@@ -1,0 +1,219 @@
+/* =============================================================
+   AURORA UI · utilities.css
+   Single-purpose atomic helper classes. Use these to nudge a
+   component instance without writing new CSS. Kept intentionally
+   flat (low specificity, one property each) so they always win
+   over component defaults within the same cascade layer.
+   ============================================================= */
+
+/* ---------- Flexbox ---------- */
+.aur-flex { display: flex; }
+.aur-inline-flex { display: inline-flex; }
+.aur-flex-col { flex-direction: column; }
+.aur-flex-row { flex-direction: row; }
+.aur-flex-wrap { flex-wrap: wrap; }
+.aur-flex-nowrap { flex-wrap: nowrap; }
+.aur-items-start { align-items: flex-start; }
+.aur-items-center { align-items: center; }
+.aur-items-end { align-items: flex-end; }
+.aur-items-stretch { align-items: stretch; }
+.aur-justify-start { justify-content: flex-start; }
+.aur-justify-center { justify-content: center; }
+.aur-justify-end { justify-content: flex-end; }
+.aur-justify-between { justify-content: space-between; }
+.aur-justify-around { justify-content: space-around; }
+.aur-self-center { align-self: center; }
+.aur-flex-1 { flex: 1 1 0%; }
+.aur-flex-auto { flex: 1 1 auto; }
+.aur-flex-none { flex: none; }
+.aur-place-items-center { place-items: center; }
+
+/* ---------- Gap ---------- */
+.aur-gap-0 { gap: 0; }
+.aur-gap-1 { gap: var(--aur-space-1); }
+.aur-gap-2 { gap: var(--aur-space-2); }
+.aur-gap-3 { gap: var(--aur-space-3); }
+.aur-gap-4 { gap: var(--aur-space-4); }
+.aur-gap-5 { gap: var(--aur-space-5); }
+.aur-gap-6 { gap: var(--aur-space-6); }
+.aur-gap-8 { gap: var(--aur-space-8); }
+
+/* ---------- Display ---------- */
+.aur-d-block { display: block; }
+.aur-d-inline { display: inline; }
+.aur-d-inline-block { display: inline-block; }
+.aur-d-grid { display: grid; }
+.aur-d-none { display: none; }
+
+/* ---------- Spacing scale used by margin/padding utilities ---------- */
+/* 0..6 map to the token spacing scale; generated explicitly since
+   this project ships plain CSS (no preprocessor loop). */
+
+.aur-m-0 { margin: 0; } .aur-p-0 { padding: 0; }
+.aur-m-1 { margin: var(--aur-space-1); } .aur-p-1 { padding: var(--aur-space-1); }
+.aur-m-2 { margin: var(--aur-space-2); } .aur-p-2 { padding: var(--aur-space-2); }
+.aur-m-3 { margin: var(--aur-space-3); } .aur-p-3 { padding: var(--aur-space-3); }
+.aur-m-4 { margin: var(--aur-space-4); } .aur-p-4 { padding: var(--aur-space-4); }
+.aur-m-5 { margin: var(--aur-space-5); } .aur-p-5 { padding: var(--aur-space-5); }
+.aur-m-6 { margin: var(--aur-space-6); } .aur-p-6 { padding: var(--aur-space-6); }
+.aur-m-8 { margin: var(--aur-space-8); } .aur-p-8 { padding: var(--aur-space-8); }
+.aur-m-auto { margin: auto; }
+.aur-mx-auto { margin-inline: auto; }
+
+.aur-mt-0 { margin-top: 0; } .aur-mt-1 { margin-top: var(--aur-space-1); }
+.aur-mt-2 { margin-top: var(--aur-space-2); } .aur-mt-3 { margin-top: var(--aur-space-3); }
+.aur-mt-4 { margin-top: var(--aur-space-4); } .aur-mt-5 { margin-top: var(--aur-space-5); }
+.aur-mt-6 { margin-top: var(--aur-space-6); } .aur-mt-8 { margin-top: var(--aur-space-8); }
+
+.aur-mb-0 { margin-bottom: 0; } .aur-mb-1 { margin-bottom: var(--aur-space-1); }
+.aur-mb-2 { margin-bottom: var(--aur-space-2); } .aur-mb-3 { margin-bottom: var(--aur-space-3); }
+.aur-mb-4 { margin-bottom: var(--aur-space-4); } .aur-mb-5 { margin-bottom: var(--aur-space-5); }
+.aur-mb-6 { margin-bottom: var(--aur-space-6); } .aur-mb-8 { margin-bottom: var(--aur-space-8); }
+
+.aur-mx-1 { margin-inline: var(--aur-space-1); } .aur-my-1 { margin-block: var(--aur-space-1); }
+.aur-mx-2 { margin-inline: var(--aur-space-2); } .aur-my-2 { margin-block: var(--aur-space-2); }
+.aur-mx-4 { margin-inline: var(--aur-space-4); } .aur-my-4 { margin-block: var(--aur-space-4); }
+
+.aur-pt-1 { padding-top: var(--aur-space-1); } .aur-pb-1 { padding-bottom: var(--aur-space-1); }
+.aur-pt-2 { padding-top: var(--aur-space-2); } .aur-pb-2 { padding-bottom: var(--aur-space-2); }
+.aur-pt-4 { padding-top: var(--aur-space-4); } .aur-pb-4 { padding-bottom: var(--aur-space-4); }
+.aur-pt-6 { padding-top: var(--aur-space-6); } .aur-pb-6 { padding-bottom: var(--aur-space-6); }
+.aur-pt-8 { padding-top: var(--aur-space-8); } .aur-pb-8 { padding-bottom: var(--aur-space-8); }
+
+.aur-px-1 { padding-inline: var(--aur-space-1); } .aur-py-1 { padding-block: var(--aur-space-1); }
+.aur-px-2 { padding-inline: var(--aur-space-2); } .aur-py-2 { padding-block: var(--aur-space-2); }
+.aur-px-3 { padding-inline: var(--aur-space-3); } .aur-py-3 { padding-block: var(--aur-space-3); }
+.aur-px-4 { padding-inline: var(--aur-space-4); } .aur-py-4 { padding-block: var(--aur-space-4); }
+.aur-px-5 { padding-inline: var(--aur-space-5); } .aur-py-5 { padding-block: var(--aur-space-5); }
+.aur-px-6 { padding-inline: var(--aur-space-6); } .aur-py-6 { padding-block: var(--aur-space-6); }
+.aur-px-8 { padding-inline: var(--aur-space-8); } .aur-py-8 { padding-block: var(--aur-space-8); }
+
+/* ---------- Position ---------- */
+.aur-static { position: static; }
+.aur-relative { position: relative; }
+.aur-absolute { position: absolute; }
+.aur-fixed { position: fixed; }
+.aur-sticky { position: sticky; }
+.aur-inset-0 { inset: 0; }
+.aur-top-0 { top: 0; }
+.aur-right-0 { right: 0; }
+.aur-bottom-0 { bottom: 0; }
+.aur-left-0 { left: 0; }
+
+/* ---------- Overflow ---------- */
+.aur-overflow-hidden { overflow: hidden; }
+.aur-overflow-auto { overflow: auto; }
+.aur-overflow-scroll { overflow: scroll; }
+.aur-overflow-visible { overflow: visible; }
+.aur-overflow-x-auto { overflow-x: auto; overflow-y: hidden; }
+.aur-overflow-y-auto { overflow-y: auto; overflow-x: hidden; }
+
+/* ---------- Text alignment & typography helpers ---------- */
+.aur-text-left { text-align: left; }
+.aur-text-center { text-align: center; }
+.aur-text-right { text-align: right; }
+.aur-text-justify { text-align: justify; }
+.aur-text-muted { color: var(--aur-text-muted); }
+.aur-text-gradient {
+  background: var(--aur-grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.aur-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.aur-line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.aur-line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Width / height ---------- */
+.aur-w-full { width: 100%; }
+.aur-w-auto { width: auto; }
+.aur-w-fit { width: fit-content; }
+.aur-h-full { height: 100%; }
+.aur-h-screen { height: 100vh; }
+.aur-max-w-full { max-width: 100%; }
+.aur-w-25 { width: 25%; }
+.aur-w-50 { width: 50%; }
+.aur-w-75 { width: 75%; }
+.aur-w-100 { width: 100%; }
+
+/* ---------- Visibility ---------- */
+.aur-visible { visibility: visible; }
+.aur-invisible { visibility: hidden; }
+.aur-hidden { display: none !important; }
+
+/* ---------- Render deferral ----------
+   Tells the browser it can skip layout/paint work for this element
+   entirely while it's off-screen, and estimate its size in the
+   meantime so the scrollbar/layout doesn't jump once it's measured.
+   Purely a rendering-cost optimization — content still exists, still
+   scrolls into view normally, and is unaffected functionally; browsers
+   without support just ignore the declaration. Pick the size variant
+   closest to the section's real height to minimize any layout shift
+   the first time it's measured. */
+.aur-defer-offscreen {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+.aur-defer-offscreen--tall {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 2600px;
+}
+
+/* ---------- Aspect ratio ---------- */
+.aur-aspect-square { aspect-ratio: 1 / 1; }
+.aur-aspect-video { aspect-ratio: 16 / 9; }
+.aur-aspect-portrait { aspect-ratio: 3 / 4; }
+
+/* ---------- Misc interaction utilities ---------- */
+.aur-pointer-none { pointer-events: none; }
+.aur-select-none { user-select: none; }
+.aur-cursor-pointer { cursor: pointer; }
+.aur-cursor-grab { cursor: grab; }
+.aur-rounded-sm { border-radius: var(--aur-radius-sm); }
+.aur-rounded-md { border-radius: var(--aur-radius-md); }
+.aur-rounded-lg { border-radius: var(--aur-radius-lg); }
+.aur-rounded-full { border-radius: var(--aur-radius-full); }
+
+/* ---------- Responsive variants ----------
+   Only the highest-value utilities get responsive twins, to keep
+   the stylesheet honest and scannable rather than an infinite
+   cross-product. */
+@media (min-width: 768px) {
+  .aur-md-d-none { display: none; }
+  .aur-md-d-block { display: block; }
+  .aur-md-d-flex { display: flex; }
+  .aur-md-col-6 { grid-column: span 6; }
+  .aur-md-col-4 { grid-column: span 4; }
+  .aur-md-text-left { text-align: left; }
+}
+
+@media (min-width: 1024px) {
+  .aur-lg-d-none { display: none; }
+  .aur-lg-d-block { display: block; }
+  .aur-lg-d-flex { display: flex; }
+  .aur-lg-col-3 { grid-column: span 3; }
+  .aur-lg-col-4 { grid-column: span 4; }
+  .aur-lg-col-6 { grid-column: span 6; }
+  .aur-lg-col-8 { grid-column: span 8; }
+}
+
+@media (max-width: 767px) {
+  .aur-sm-d-none { display: none; }
+  .aur-sm-d-block { display: block; }
+  .aur-sm-col-12 { grid-column: span 12; }
+  .aur-sm-text-center { text-align: center; }
+}
