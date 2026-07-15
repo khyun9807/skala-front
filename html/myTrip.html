@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 여행지 - myTrip</title>
+</head>
+<body>
+    <header>
+        <h1>🌍 나의 여행 앨범 🎵</h1>
+        <p>제가 다녀온 여행지의 사진과 영상, 그리고 여행 중 즐겨 듣던 배경음악을 모아봤습니다.</p>
+        <audio controls>
+            <source src="../media/bgm.wav" type="audio/wav">
+            브라우저가 audio 태그를 지원하지 않습니다.
+        </audio>
+    </header>
+
+    <main>
+        <section id="album">
+            <h2>여행 사진</h2>
+
+            <figure>
+                <img src="../media/lijiang.svg" alt="중국 리장 호도협 협곡" width="400" height="260">
+                <figcaption>리장 호도협 <time datetime="2025">(2025년)</time></figcaption>
+            </figure>
+
+            <figure>
+                <img src="../media/cebu.svg" alt="필리핀 세부 야경" width="400" height="260">
+                <figcaption>세부 탑스뷰 <time datetime="2024">(2024년)</time></figcaption>
+            </figure>
+
+            <figure>
+                <img src="../media/hokkaido.svg" alt="일본 홋카이도 다이세츠산" width="400" height="260">
+                <figcaption>홋카이도 다이세츠산 <time datetime="2025">(2025년)</time></figcaption>
+            </figure>
+        </section>
+
+        <section id="vlog">
+            <h2>📹 나의 여행 브이로그</h2>
+            <figure>
+                <video controls width="400" height="260" poster="../media/lijiang.svg">
+                    <source src="../media/vlog.mp4" type="video/mp4">
+                    브라우저가 video 태그를 지원하지 않습니다.
+                </video>
+                <figcaption>리장의 아름다운 음악 🎶 <small>(직접 촬영한 영상으로 교체 예정)</small></figcaption>
+            </figure>
+        </section>
+    </main>
+
+    <p><a href="index.html">&larr; 메인으로 돌아가기</a></p>
+</body>
+</html>
