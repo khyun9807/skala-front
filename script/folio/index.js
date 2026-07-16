@@ -49,6 +49,7 @@ const HERO_ITEMS = [
   { type: 'image', cat: 'ACTIVITY', title: '개인 일정 관리', src: makeCover(3, 210), href: 'class.html' },
   { type: 'video', cat: 'ACTIVITY', title: '회원 온보딩', src: makeCover(4, 268), href: 'signup.html' },
   { type: 'video', cat: 'ACTIVITY', title: '실시간 대시보드', src: makeCover(5, 200), href: '#signal' },
+  { type: 'image', cat: 'ACTIVITY', title: '느긋한 휴일', src: makeCover(10, 140), href: 'holiday.html' },
   { type: 'image', cat: 'BLOG', title: '바닐라 상태관리', src: makeCover(6, 150), href: 'blog.html' },
   { type: 'video', cat: 'BLOG', title: 'Web Worker 검색', src: makeCover(7, 150), href: 'blog.html' },
   { type: 'image', cat: 'BLOG', title: 'IndexedDB 일정', src: makeCover(8, 150), href: 'blog.html' },
