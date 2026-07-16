@@ -8,13 +8,31 @@
 2. **직접 만든 라이브러리 2개** — [`aurora-ui`](aurora-ui/) (CSS 디자인 시스템) · [`tessera-js`](tessera-js/) (JS 라이브러리). 외부 CSS/JS/CDN/폰트 **0개**(금지 조건 준수), 폰트까지 자체 호스팅.
 3. **v5 folio는 실제 내 경력이 콘텐츠** — Bridge Bank·Payper·Payper Community·Remind Lamia 등 실제 프로젝트와 성능 개선 수치(2,000ms→60ms 등)가 들어있습니다.
 
-**바로 보기** → **[프로젝트 인덱스 `index.html`](index.html)** (모든 버전으로 가는 허브) · **[v5 folio](folio/index.html)** (최신·추천)
+## 🌐 라이브 데모 — 설치 없이 바로 보기
+
+> ### **▶ [https://khyun9807.github.io/skala-front/](https://khyun9807.github.io/skala-front/)**
+>
+> 클론·빌드·서버 실행 없이 브라우저에서 바로 열립니다. 위 주소가 **모든 버전으로 가는 허브**입니다.
+
+| 바로가기 | 주소 |
+|---|---|
+| 🏠 프로젝트 인덱스 (허브) | [khyun9807.github.io/skala-front/](https://khyun9807.github.io/skala-front/) |
+| ✨ **v5 folio** (최신·추천) | [/folio/](https://khyun9807.github.io/skala-front/folio/index.html) |
+| 📊 프로젝트 과정·상황판 | [/about.html](https://khyun9807.github.io/skala-front/about.html) |
+| 🎨 aurora-ui 데모 | [/aurora-ui/](https://khyun9807.github.io/skala-front/aurora-ui/index.html) |
+| 🧩 TesseraJS 데모 앱 | [/tessera-js/](https://khyun9807.github.io/skala-front/tessera-js/index.html) |
+
+<details>
+<summary><b>로컬에서 실행하려면</b> (선택)</summary>
 
 ```bash
 # file:// 로 열면 @import·ES Module·fetch가 막힙니다. 반드시 정적 서버로.
+git clone https://github.com/khyun9807/skala-front.git
+cd skala-front
 python3 -m http.server 4173      # 저장소 루트에서
 # → http://localhost:4173
 ```
+</details>
 
 ---
 
@@ -96,6 +114,8 @@ CSS는 페이지마다 따로 쓰지 않고 **직접 만든 디자인 시스템 
 ```text
 skala-front/
 ├── index.html          ← 프로젝트 인덱스 (모든 버전으로 가는 허브)
+├── 404.html            ← GitHub Pages 404 페이지
+├── .nojekyll           ← Pages에서 Jekyll 빌드 비활성화 (정적 파일 그대로 서빙)
 ├── README.md           ← 이 문서
 ├── html/               [v1~v4] 과제 페이지 7종 × 4버전 = 28개
 ├── script/             [v3] JS 과제 (upDown·grade·bag·weather) + v4/v5 글루
@@ -103,8 +123,8 @@ skala-front/
 ├── tessera-js/         [직접 제작] JS 라이브러리 — 11페이지 데모 앱 포함
 ├── folio/              [v5] 시네마틱 folio — 자체 엔진 + 8페이지
 ├── media/              이미지·영상 자산 (media/portfolio = v5 콘텐츠)
-├── docs/               과제 안내서·요구사항 (git 미추적)
-└── advanced/           벤치마킹 조사 보고서 + 포트폴리오 원본 자료 (git 미추적)
+├── docs/               과제 안내서·요구사항 (참고 자료)
+└── advanced/           벤치마킹 조사 보고서 + 포트폴리오 원본 자료 (참고 자료)
 ```
 
 ---

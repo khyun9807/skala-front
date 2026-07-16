@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — SKALA-FRONT</title>
+<meta name="robots" content="noindex">
+<!--
+  GitHub Pages는 존재하지 않는 모든 경로에 대해 사이트 루트의 이 파일을 서빙한다.
+  이때 브라우저 주소는 원래 요청 경로(예: /skala-front/a/b/c) 그대로 유지되므로
+  상대 경로(../aurora-ui/...)를 쓰면 깊이에 따라 깨진다.
+  → 외부 CSS/JS를 링크하지 않고 전부 인라인으로 자립시킨다. 링크 경로만 JS로 계산.
+-->
+<style>
+  :root {
+    --bg: #0a0a12; --surface: rgba(255,255,255,.045); --border: rgba(255,255,255,.11);
+    --text: #f4f4f8; --muted: rgba(244,244,248,.55); --primary: #8b5cf6; --accent: #22d3ee;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f6f6fb; --surface: rgba(10,10,18,.035); --border: rgba(10,10,18,.1);
+            --text: #14141f; --muted: rgba(20,20,31,.6); }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh; display: grid; place-items: center; padding: 24px;
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(60rem 60rem at 15% -10%, rgba(139,92,246,.18), transparent 60%),
+      radial-gradient(50rem 50rem at 85% 110%, rgba(34,211,238,.14), transparent 60%);
+  }
+  .wrap { width: 100%; max-width: 32rem; text-align: center; }
+  .code {
+    font-size: clamp(4.5rem, 18vw, 8rem); font-weight: 800; line-height: 1; letter-spacing: -.04em;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h1 { font-size: clamp(1.1rem, 4vw, 1.4rem); margin-top: 12px; font-weight: 600; }
+  p { color: var(--muted); margin-top: 10px; font-size: .95rem; line-height: 1.6; }
+  .path {
+    display: inline-block; margin-top: 14px; padding: 6px 12px; max-width: 100%;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--surface);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+  .links { margin-top: 28px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  a.btn {
+    display: inline-block; padding: 10px 18px; border-radius: 10px; text-decoration: none;
+    font-size: .9rem; font-weight: 600; border: 1px solid var(--border); color: var(--text);
+    background: var(--surface); transition: transform .18s ease, border-color .18s ease;
+  }
+  a.btn:hover { transform: translateY(-2px); border-color: var(--primary); }
+  a.btn--primary {
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    color: #0a0a12; border-color: transparent;
+  }
+  @media (prefers-reduced-motion: reduce) { a.btn { transition: none; } a.btn:hover { transform: none; } }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="code">404</div>
+    <h1>페이지를 찾을 수 없습니다</h1>
+    <p>요청하신 경로가 존재하지 않습니다. 아래에서 프로젝트 인덱스로 돌아가세요.</p>
+    <div class="path" id="path"></div>
+    <nav class="links">
+      <a class="btn btn--primary" id="home" href="/">프로젝트 인덱스</a>
+      <a class="btn" id="folio" href="/">v5 folio</a>
+      <a class="btn" href="https://github.com/khyun9807/skala-front">GitHub 저장소</a>
+    </nav>
+  </main>
+<script>
+(function () {
+  // 사이트 루트 계산: github.io 프로젝트 페이지는 /<repo>/ 하위, 로컬 정적 서버는 / 루트.
+  var segments = location.pathname.split("/").filter(Boolean);
+  var base = (location.hostname.indexOf("github.io") !== -1 && segments.length)
+    ? "/" + segments[0] + "/"
+    : "/";
+  document.getElementById("home").href = base;
+  document.getElementById("folio").href = base + "folio/index.html";
+  document.getElementById("path").textContent = location.pathname;
+})();
+</script>
+</body>
+</html>
