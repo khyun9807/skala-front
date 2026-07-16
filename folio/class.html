@@ -25,7 +25,7 @@
     <header class="folio-doc__hero">
       <p class="folio-doc__eyebrow reveal">02 / Class</p>
       <h1 class="folio-doc__title reveal" data-split>강의 시간표</h1>
-      <p class="folio-doc__lead reveal">월요일부터 금요일까지의 주간 수업. 2시간 이상 이어지는 수업과 점심시간은 셀을 합쳐(rowspan·colspan) 표현했습니다.</p>
+      <p class="folio-doc__lead reveal">2026년 7월 14일부터 8월 14일까지, <mark>5주</mark> 동안의 SKALA 커리큘럼. 같은 주제가 여러 날 이어지는 구간은 셀을 합쳐(rowspan·colspan) 표현했습니다.</p>
     </header>
 
     <!-- ══ 요구 보존: <table> + rowspan/colspan (구조/값 그대로, 표현속성만 CSS로) ══ -->
@@ -33,96 +33,74 @@
       <p class="folio-doc__label reveal">Official timetable — rowspan / colspan</p>
       <div class="folio-tablewrap reveal">
         <table class="folio-table">
-          <caption>SKALA 부트캠프 주간 시간표 — 주간 총 40시간</caption>
+          <caption>SKALA 5주 커리큘럼 — 2026.07.14(화) ~ 08.14(금)</caption>
           <colgroup>
-            <col width="12%" />
+            <col width="10%" />
             <col span="5" />
           </colgroup>
           <thead>
             <tr>
-              <th scope="col">시간</th>
-              <th scope="col">월요일</th>
-              <th scope="col">화요일</th>
-              <th scope="col">수요일</th>
-              <th scope="col">목요일</th>
-              <th scope="col">금요일</th>
+              <th scope="col">요일</th>
+              <th scope="col">1주차<small>07.14–07.17</small></th>
+              <th scope="col">2주차<small>07.20–07.24</small></th>
+              <th scope="col">3주차<small>07.27–07.31</small></th>
+              <th scope="col">4주차<small>08.03–08.07</small></th>
+              <th scope="col">5주차<small>08.10–08.14</small></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">09:00 – 10:00</th>
-              <td class="cat cat-web" rowspan="3"><b><abbr title="사용자 인터페이스를 만드는 자바스크립트 프레임워크">Vue.js</abbr></b><small>웹 프레임워크 💻</small></td>
-              <td class="cat cat-infra" rowspan="2">네트워크 보안 기초 🔒</td>
-              <td class="cat cat-web" rowspan="3">웹 시스템 설계 및 분석 📐</td>
-              <td class="cat cat-special">IT 트렌드 특강 💡</td>
-              <td class="cat cat-web" rowspan="2">자바스크립트 심화 실습 🧩</td>
+              <th scope="row">월</th>
+              <td class="cat cat-lunch"><small>과정 시작 전</small></td>
+              <td class="cat cat-data" rowspan="2">데이터 분석을 위한 Python 이해 🐍</td>
+              <td class="cat cat-data" rowspan="2">데이터 분석 개요 및 기초통계 📊</td>
+              <td class="cat cat-infra" rowspan="5"><b>Java, SpringBoot, Rest API 구현</b><small>백엔드 주간 ☕</small></td>
+              <td class="cat cat-special" rowspan="2">Agile 방법론 및 <abbr title="Microservice Architecture">MSA</abbr> 개발 🔄</td>
             </tr>
             <tr>
-              <th scope="row">10:00 – 11:00</th>
-              <td class="cat cat-data" rowspan="2">데이터베이스 <abbr title="Structured Query Language">SQL</abbr> 실습 🗄️</td>
+              <th scope="row">화</th>
+              <td class="cat cat-special">팀빌딩 · Git 이해/활용 🐙<small>과정 시작 (5h)</small></td>
             </tr>
             <tr>
-              <th scope="row">11:00 – 12:00</th>
-              <td class="cat cat-data">알고리즘 문제풀이 🧠</td>
-              <td class="cat cat-data">알고리즘 문제풀이 🧠</td>
+              <th scope="row">수</th>
+              <td class="cat cat-web" rowspan="2"><b><abbr title="HyperText Markup Language">HTML</abbr>, CSS, JavaScript</b><small>웹 프론트엔드 기초 💻</small></td>
+              <td class="cat cat-data" rowspan="3">스마트 데이터 이해 및 활용 📡</td>
+              <td class="cat cat-data">Prompt 설계와 Context 💬</td>
+              <td class="cat cat-data" rowspan="2">sLLM 구현 및 Fine Tunning 🤖</td>
             </tr>
             <tr>
-              <th scope="row">12:00 – 13:00</th>
-              <td class="cat cat-lunch" colspan="5" style="text-align:center">🍚 점심 시간 🍚</td>
+              <th scope="row">목</th>
+              <td class="cat cat-data" rowspan="2"><abbr title="Large Language Model">LLM</abbr>과 Transformer 아키텍처 🧠</td>
             </tr>
             <tr>
-              <th scope="row">13:00 – 14:00</th>
-              <td class="cat cat-web" rowspan="3">UI/UX 디자인 표준 🎨</td>
-              <td class="cat cat-infra">리눅스 시스템 관리 🐧</td>
-              <td class="cat cat-data" rowspan="4">자료구조 📊</td>
-              <td class="cat cat-special" rowspan="4">개인 프로젝트 🚀</td>
-              <td class="cat cat-special" rowspan="2">개인 프로젝트 🚀</td>
-            </tr>
-            <tr>
-              <th scope="row">14:00 – 15:00</th>
-              <td class="cat cat-data" rowspan="2">인공지능 머신러닝 기초 🤖</td>
-            </tr>
-            <tr>
-              <th scope="row">15:00 – 16:00</th>
-              <td class="cat cat-infra" rowspan="2">오픈소스 소프트웨어 🔓</td>
-            </tr>
-            <tr>
-              <th scope="row">16:00 – 17:00</th>
-              <td class="cat cat-infra">Git &amp; GitHub 버전 관리 🐙</td>
-              <td class="cat cat-data">빅데이터 분석 실무 📈</td>
-            </tr>
-            <tr>
-              <th scope="row">17:00 – 18:00</th>
-              <td class="cat cat-special">취업·창업 특강 💼</td>
-              <td class="cat cat-special">주간 회고 📝</td>
-              <td class="cat cat-infra">오픈소스 소프트웨어 🔓</td>
-              <td class="cat cat-special">주간 회고 📝</td>
-              <td class="cat cat-special">주간 회고 📝</td>
+              <th scope="row">금</th>
+              <td class="cat cat-lunch">대체휴일 (개천절) 🌿</td>
+              <td class="cat cat-data">실전 Feature Engineering 🛠️</td>
             </tr>
           </tbody>
           <tfoot>
-            <tr><td colspan="6">주간 총 수업 시간 40시간 (점심시간 제외)</td></tr>
+            <tr><td colspan="6">5주 과정 · 주말과 공휴일 제외 · 2026.08.14 수료 예정</td></tr>
           </tfoot>
         </table>
       </div>
       <div class="folio-legend reveal">
         <span class="cat-web">웹/프론트엔드</span>
         <span class="cat-data">데이터/AI</span>
-        <span class="cat-infra">인프라/보안</span>
-        <span class="cat-special">특강/프로젝트</span>
-        <span class="cat-lunch">점심</span>
+        <span class="cat-infra">백엔드</span>
+        <span class="cat-special">특강/공통</span>
+        <span class="cat-lunch">휴일</span>
       </div>
       <!-- aurora-ui tabs: 과목 계열 안내 (components.js가 전환 처리) -->
       <div class="aur-tabs reveal" style="margin-top:32px">
         <div class="aur-tabs__list" role="tablist">
           <button class="aur-tabs__tab is-active" data-tab="cat-web" type="button">웹 · 프론트</button>
           <button class="aur-tabs__tab" data-tab="cat-data" type="button">데이터 · AI</button>
-          <button class="aur-tabs__tab" data-tab="cat-infra" type="button">인프라 · 보안</button>
+          <button class="aur-tabs__tab" data-tab="cat-infra" type="button">백엔드</button>
           <span class="aur-tabs__indicator"></span>
         </div>
-        <div class="aur-tabs__panel is-active" data-tab-panel="cat-web"><p>Vue.js 웹 프레임워크 · UI/UX 디자인 표준 · 웹 시스템 설계 · 자바스크립트 심화 — 프론트엔드 계열 수업입니다.</p></div>
-        <div class="aur-tabs__panel" data-tab-panel="cat-data"><p>데이터베이스 SQL · 알고리즘 · 자료구조 · 인공지능 머신러닝 · 빅데이터 분석 — 데이터/AI 계열 수업입니다.</p></div>
-        <div class="aur-tabs__panel" data-tab-panel="cat-infra"><p>네트워크 보안 · 리눅스 시스템 관리 · 오픈소스 소프트웨어 · Git &amp; GitHub — 인프라/보안 계열 수업입니다.</p></div>
+        <div class="aur-tabs__panel is-active" data-tab-panel="cat-web"><p>HTML · CSS · JavaScript — 1주차 웹 프론트엔드 기초. 이 folio 사이트가 그 결과물입니다.</p></div>
+        <div class="aur-tabs__panel" data-tab-panel="cat-data"><p>Python 데이터 분석 · 스마트 데이터 · 기초통계 · Prompt 설계 · LLM/Transformer · sLLM Fine Tuning · Feature Engineering — 2·3·5주차의 데이터/AI 계열입니다.</p></div>
+        <div class="aur-tabs__panel" data-tab-panel="cat-infra"><p>Java · SpringBoot · REST API · MSA — 4주차 백엔드 주간. 제 전공 영역이라 가장 기대하는 구간입니다.</p></div>
       </div>
 
       <div class="aur-alert aur-alert--info reveal" role="note" style="margin-top:20px">

@@ -1,0 +1,38 @@
+{
+  "osaka": {
+    "title": "File:Dotonbori, Osaka, at night, November 2016.jpg",
+    "thumburl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Dotonbori%2C_Osaka%2C_at_night%2C_November_2016.jpg/1280px-Dotonbori%2C_Osaka%2C_at_night%2C_November_2016.jpg",
+    "descurl": "https://commons.wikimedia.org/wiki/File:Dotonbori,_Osaka,_at_night,_November_2016.jpg",
+    "artist": "Martin Falbisoner",
+    "license": "CC BY-SA 4.0",
+    "licenseurl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "mime": "image/jpeg",
+    "query": "Dotonbori Osaka night",
+    "file": "osaka.jpg",
+    "bytes": 568769
+  },
+  "lasvegas": {
+    "title": "File:Las Vegas (Nevada, USA), The Strip -- 2012 -- 6232.jpg",
+    "thumburl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Las_Vegas_%28Nevada%2C_USA%29%2C_The_Strip_--_2012_--_6232.jpg/1280px-Las_Vegas_%28Nevada%2C_USA%29%2C_The_Strip_--_2012_--_6232.jpg",
+    "descurl": "https://commons.wikimedia.org/wiki/File:Las_Vegas_(Nevada,_USA),_The_Strip_--_2012_--_6232.jpg",
+    "artist": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0",
+    "licenseurl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "mime": "image/jpeg",
+    "query": "Las Vegas Strip night",
+    "file": "lasvegas.jpg",
+    "bytes": 330319
+  },
+  "argentina": {
+    "title": "File:Asado argentino a la estaca.jpg",
+    "thumburl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Asado_argentino_a_la_estaca.jpg/1280px-Asado_argentino_a_la_estaca.jpg",
+    "descurl": "https://commons.wikimedia.org/wiki/File:Asado_argentino_a_la_estaca.jpg",
+    "artist": "Horacio Cambeiro",
+    "license": "CC BY-SA 4.0",
+    "licenseurl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "mime": "image/jpeg",
+    "query": "Asado argentino",
+    "file": "argentina.jpg",
+    "bytes": 1030891
+  }
+}

@@ -25,7 +25,7 @@
     <header class="folio-doc__hero">
       <p class="folio-doc__eyebrow reveal">03 / Trip</p>
       <h1 class="folio-doc__title reveal" data-split>여행 앨범</h1>
-      <p class="folio-doc__lead reveal">다녀온 여행지의 사진과 영상, 그리고 여행 중 즐겨 듣던 배경음악. 그 아래에 실제 여행 예산과 날씨를 얹었습니다.</p>
+      <p class="folio-doc__lead reveal">다녀온 <mark>오사카</mark>와 <mark>라스베가스</mark>, 그리고 언젠가 갈 <mark>아르헨티나</mark>. 사진과 배경음악 아래에 실제 여행 예산과 날씨를 얹었습니다.</p>
     </header>
 
     <!-- ══ 요구 보존: <audio> 배경음 ══ -->
@@ -46,26 +46,31 @@
       <div class="folio-album reveal">
         <figure>
           <picture>
-            <source media="(min-width: 1px)" srcset="../media/lijiang.svg" />
-            <img src="../media/lijiang.svg" alt="중국 리장 호도협 협곡" />
+            <source media="(min-width: 1px)" srcset="../media/portfolio/trip-osaka.jpg" />
+            <img src="../media/portfolio/trip-osaka.jpg" alt="일본 오사카 도톤보리의 밤 — 강물에 네온 간판이 비치는 거리" loading="lazy" />
           </picture>
-          <figcaption>리장 호도협 <time datetime="2025">2025</time></figcaption>
-          <details class="folio-details" name="album"><summary>여행 후기</summary><p>깎아지른 협곡 사이로 흐르는 강물 소리가 아직도 귀에 생생합니다.</p></details>
+          <figcaption>오사카 도톤보리 <time datetime="2024-07">2024.07</time></figcaption>
+          <details class="folio-details" name="album"><summary>여행 후기</summary><p>글리코 간판 아래 네온이 강물에 번지는 도톤보리의 밤, 타코야키와 오코노미야키로 배를 채우며 걷던 거리가 오래 기억에 남습니다.</p></details>
         </figure>
         <figure>
-          <img src="../media/cebu.svg" alt="필리핀 세부 야경" />
-          <figcaption>세부 탑스뷰 <time datetime="2024">2024</time></figcaption>
-          <details class="folio-details" name="album"><summary>여행 후기</summary><p>야자수 사이로 보이는 도시의 야경이 정말 반짝였습니다.</p></details>
+          <img src="../media/portfolio/trip-lasvegas.jpg" alt="미국 라스베가스 더 스트립의 야경" loading="lazy" />
+          <figcaption>라스베가스 더 스트립 <time datetime="2016-07">2016 여름</time></figcaption>
+          <details class="folio-details" name="album"><summary>여행 후기</summary><p>밤이 되면 더 화려해지는 사막 위의 도시. 쉴 새 없이 반짝이는 The Strip을 걷는 것만으로도 비현실적인 여행이었습니다.</p></details>
         </figure>
         <figure>
-          <img src="../media/hokkaido.svg" alt="일본 홋카이도 다이세츠산" />
-          <figcaption>홋카이도 다이세츠산 <time datetime="2025">2025</time></figcaption>
-          <details class="folio-details" name="album"><summary>여행 후기</summary><p>새하얀 설산의 풍경은 사진보다 실제가 훨씬 아름다웠습니다.</p></details>
+          <img src="../media/portfolio/trip-argentina.jpg" alt="아르헨티나 아사도 — 장작불 옆에 세워 굽는 고기" loading="lazy" />
+          <figcaption>아르헨티나 아사도 <time datetime="2027">언젠가 · 버킷리스트</time></figcaption>
+          <details class="folio-details" name="album"><summary>가고 싶은 이유</summary><p>언젠가 아르헨티나에 가서 장작에 구운 아사도를 말벡 와인과 함께 원 없이 먹는 고기 파티가 버킷리스트입니다. 소고기의 나라에서 제대로 된 파릴라를 경험해보고 싶습니다.</p></details>
         </figure>
       </div>
+      <p class="reveal" style="font-size:11px; line-height:1.8; opacity:.5; margin-top:20px; letter-spacing:.02em">
+        사진 출처 — 오사카: Martin Falbisoner · 라스베가스: Dietmar Rabich · 아르헨티나: Horacio Cambeiro.
+        모두 Wikimedia Commons, <abbr title="Creative Commons Attribution-ShareAlike 4.0 International">CC BY-SA 4.0</abbr>
+        (creativecommons.org/licenses/by-sa/4.0) 라이선스로 이용했습니다.
+      </p>
       <blockquote class="folio-quote reveal">
-        <p>새하얀 설산의 풍경은 사진보다 실제가 훨씬 아름다웠다.</p>
-        <cite>— 홋카이도 다이세츠산에서</cite>
+        <p>밤이 되면 더 화려해지는 사막 위의 도시.</p>
+        <cite>— 라스베가스 더 스트립에서</cite>
       </blockquote>
     </section>
 
@@ -74,11 +79,11 @@
       <p class="folio-doc__label reveal">Vlog — &lt;video&gt;</p>
       <div class="folio-media reveal">
         <figure style="margin:0">
-          <video controls width="420" height="260" poster="../media/lijiang.svg">
+          <video controls width="420" height="260" preload="none" poster="../media/portfolio/trip-osaka.jpg">
             <source src="../media/vlog.mp4" type="video/mp4" />
             브라우저가 video 태그를 지원하지 않습니다.
           </video>
-          <figcaption style="font-size:13px;opacity:.6;margin-top:8px">리장의 거리 공연 브이로그 <small>(직접 촬영 영상으로 교체 예정)</small></figcaption>
+          <figcaption style="font-size:13px;opacity:.6;margin-top:8px">오사카 여행 브이로그 <small>(직접 촬영 영상으로 교체 예정)</small></figcaption>
         </figure>
       </div>
       <div class="aur-alert aur-alert--info reveal" role="note" style="margin-top:16px">

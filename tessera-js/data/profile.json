@@ -1,22 +1,58 @@
 {
-  "name": "강병호",
-  "title": "SKALA 프론트엔드 개발자",
-  "tagline": "사용자에게 좋은 경험을 선물하는 개발자가 되는 것",
-  "bio": "새로운 기술을 직접 만들어보며 배우는 것을 좋아하고, 작은 습관을 꾸준히 지키는 성실함을 무기로 삼는 프론트엔드 개발자입니다. 화면 너머의 사용자가 느낄 감정까지 고민하며 만듭니다.",
-  "avatar": "../media/lijiang.svg",
-  "location": "대한민국",
+  "name": "권경현",
+  "title": "백엔드 개발자",
+  "tagline": "기술보다 문제와 구조를 먼저 보는 백엔드 개발자",
+  "bio": "성능·동시성 문제를 직접 측정하고, 구조를 바꿔 해결하는 걸 좋아하는 백엔드 개발자입니다. Spring 기반으로 캐시·비동기·대용량 처리를 다뤘고, 지금은 금융권 IT 취업을 준비하고 있습니다.",
+  "avatar": "../media/portfolio/avatar.jpeg",
+  "location": "대한민국 · 숭실대학교",
   "contact": {
     "email": "khyun980729@gmail.com",
     "github": "https://github.com/khyun9807",
-    "blog": "https://example.com/blog"
+    "blog": "https://velog.io/@khyun9807"
   },
-  "skills": ["JavaScript", "TypeScript", "HTML5", "CSS3", "React", "Node.js", "IndexedDB", "Canvas API"],
+  "skills": ["Java", "Spring", "JPA", "QueryDSL", "MyBatis", "Redis", "Kafka", "MySQL", "PostgreSQL", "AWS", "Docker", "JavaScript"],
   "traits": [
-    { "label": "호기심", "score": 9, "description": "새로운 기술이나 흥미로운 트렌드를 보면 직접 경험해보고 배워야 직성이 풀립니다." },
-    { "label": "꾸준함", "score": 8, "description": "매일 작은 계획이라도 세우고 그것을 지키기 위해 노력합니다." },
-    { "label": "크리에이티브", "score": 10, "description": "단순한 결과물보다 더 나은 경험과 시각적 즐거움을 주는 것을 좋아합니다." }
+    { "label": "책임감", "score": 9, "description": "맡은 파트는 끝까지. 팀장으로서 공통 API·인터페이스 규칙을 먼저 잡아 병렬 개발의 충돌과 일정 지연을 줄였습니다." },
+    { "label": "취업의지", "score": 10, "description": "금융권 IT 취업이라는 목표가 뚜렷하고, 개선일지와 부하 테스트로 실무 역량을 계속 쌓고 있습니다." },
+    { "label": "외향형", "score": 7, "description": "팀에서 소통하고 사람들과 어울리는 것을 편하게 여깁니다." }
   ],
   "projects": [
+    {
+      "id": "proj-bridge-bank",
+      "title": "Bridge Bank",
+      "description": "대규모 이체 트래픽을 가정한 뱅킹 서버. 복식부기 원장으로 회계 정합성을 보장하고, MyBatis bulk 연산으로 이체 처리량을 3.5만건/분 → 5.8만건/분으로, Union-Find 파티셔닝으로 예약 이체를 400건/분 → 1만건/분으로 끌어올렸습니다. 백엔드 2인 팀의 팀장.",
+      "stack": ["Spring Boot 4", "Java 21", "JPA", "QueryDSL", "MyBatis", "PostgreSQL", "Kafka", "AWS"],
+      "url": "https://github.com/TheBridgePay/bridge-bank-server",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31"
+    },
+    {
+      "id": "proj-payper-community",
+      "title": "Payper Community",
+      "description": "가맹점 기반 혜택 정보를 나누는 커뮤니티. 캐시 스탬피드를 Jitter·Redis 분산 락·논리적 TTL로 완화해 평균 응답을 1.3초 → 217ms로 줄이고, Circuit Breaker로 Redis 장애 시에도 무중단을 유지했습니다. 백엔드 3인 팀의 백엔드 팀장.",
+      "stack": ["Spring Boot 4", "Java 21", "JPA", "QueryDSL", "MySQL", "Redis", "AWS", "Nginx"],
+      "url": "https://velog.io/@khyun9807",
+      "startDate": "2025-07-01",
+      "endDate": "2026-01-31"
+    },
+    {
+      "id": "proj-payper",
+      "title": "Payper",
+      "description": "보유 카드로 주변 가맹점 혜택을 찾아주는 위치 기반 서비스. 카드 검색 쿼리를 2,000ms → 60ms로, Caffeine 인메모리 캐시로 피크 응답을 910ms → 157ms(히트율 97%)로 개선했습니다. 프론트 3 + 백엔드 4인 팀에서 백엔드 담당.",
+      "stack": ["Spring Framework 5.3", "Java 17", "MyBatis", "MySQL", "AWS", "Prometheus", "Grafana", "k6"],
+      "url": "https://github.com/payper-devs",
+      "startDate": "2025-07-01",
+      "endDate": "2025-09-30"
+    },
+    {
+      "id": "proj-remind-lamia",
+      "title": "Remind Lamia",
+      "description": "\"게임 속 주인공과 함께, 현실과 가상을 구하는 모험\" — 탄막·퍼즐·런앤건을 한 세계관에 녹인 내러티브 어드벤처. 3인 팀 Team Polaris에서 Unity 클라이언트 개발을 맡았습니다.",
+      "stack": ["Unity", "C#", "Unreal Engine"],
+      "url": "https://lunaticyb.github.io/team-polaris.github.io/",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    },
     {
       "id": "proj-tessera",
       "title": "TesseraJS",
@@ -29,35 +65,18 @@
     {
       "id": "proj-aurora",
       "title": "Aurora UI",
-      "description": "Glassmorphism과 Bento grid 기반의 순수 CSS 디자인 시스템. 20개 이상의 데모 섹션과 다크모드를 지원합니다.",
+      "description": "Glassmorphism과 Bento grid 기반의 순수 CSS 디자인 시스템. 20개 이상의 데모 섹션과 5종 테마를 지원합니다.",
       "stack": ["CSS3", "JavaScript"],
       "url": "../aurora-ui/index.html",
       "startDate": "2026-03-01",
       "endDate": "2026-04-20"
-    },
-    {
-      "id": "proj-visitor-dash",
-      "title": "방문자 분석 대시보드",
-      "description": "서버 없이 브라우저 저장소만으로 방문자 행동을 추적하고 Canvas 차트로 시각화하는 실험 프로젝트.",
-      "stack": ["JavaScript", "Canvas API", "IndexedDB"],
-      "url": "../pages/visitors.html",
-      "startDate": "2026-02-10",
-      "endDate": "2026-02-28"
-    },
-    {
-      "id": "proj-schedule-app",
-      "title": "수업/여행 통합 일정표",
-      "description": "드래그로 시간을 옮기고 반복 일정과 충돌을 자동으로 검사하는 캘린더 위젯.",
-      "stack": ["JavaScript", "CSS3"],
-      "url": "../pages/schedule.html",
-      "startDate": "2025-11-01",
-      "endDate": "2025-12-15"
     }
   ],
   "timeline": [
-    { "date": "2026-05-01", "title": "TesseraJS 개발 시작", "description": "외부 라이브러리 없는 프론트엔드 라이브러리 설계" },
-    { "date": "2026-03-01", "title": "Aurora UI 디자인 시스템 제작", "description": "Glassmorphism 기반 컴포넌트 라이브러리" },
-    { "date": "2025-09-01", "title": "SKALA 과정 시작", "description": "프론트엔드 심화 교육 과정 수강" },
-    { "date": "2024-03-01", "title": "웹 개발 입문", "description": "HTML/CSS/JavaScript 기초 학습 시작" }
+    { "date": "2026-07-14", "title": "SKALA 과정 시작", "description": "SK AX Full-Stack Engineering — 5주 커리큘럼" },
+    { "date": "2026-02-01", "title": "Bridge Bank 백엔드 팀장", "description": "복식부기 원장·Union-Find 파티셔닝으로 대규모 이체 처리" },
+    { "date": "2025-07-01", "title": "Payper / Payper Community 백엔드", "description": "카드 혜택 서비스와 커뮤니티의 성능·동시성 개선" },
+    { "date": "2024-03-01", "title": "xv6 운영체제 커널 확장", "description": "숭실대 팀 프로젝트 — 시스템 콜·스케줄러·Slab Allocator·CoW" },
+    { "date": "2023-09-01", "title": "C/Linux KVS 서버 구현", "description": "숭실대 팀 프로젝트 — 스냅샷 복구와 프로파일링 기반 튜닝" }
   ]
 }
