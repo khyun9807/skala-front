@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 강의 시간표 - myClass v2</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo"><span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v2</span></div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="myProfile.v2.html">소개</a>
+    <a class="aur-navbar__link is-active" href="myClass.v2.html">수업 시간표</a>
+    <a class="aur-navbar__link" href="myTrip.v2.html">여행 앨범</a>
+    <a class="aur-navbar__link" href="signUp.v2.html">회원가입</a>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+  <div class="aur-text-center aur-mb-4">
+    <h1 class="aur-anim-fade-in">🗓️ 나의 강의 시간표</h1>
+    <p class="aur-text-muted">월요일부터 금요일까지의 주간 수업 일정입니다. 2시간 이상 이어지는 수업과 점심시간은 셀을 합쳐서 표시했습니다.</p>
+    <button class="aur-btn aur-btn--outline aur-btn--sm" popovertarget="legend" popovertargetaction="toggle">🎨 색상 범례 보기</button>
+    <div class="aur-popover" popover id="legend">
+      <h3>🎨 과목 분류 색상 범례</h3>
+      <ul class="aur-flex aur-flex-col aur-gap-2" style="list-style:none">
+        <li><span class="aur-badge" style="background:#dbe9fb;color:#1a3a63">🔵 웹/프론트엔드 계열</span></li>
+        <li><span class="aur-badge" style="background:#dff5df;color:#1e5c2b">🟢 데이터/AI 계열</span></li>
+        <li><span class="aur-badge" style="background:#ece0fb;color:#4b2e77">🟣 인프라/보안 계열</span></li>
+        <li><span class="aur-badge" style="background:#fff6d5;color:#6b5a05">🟡 특강/자기계발</span></li>
+        <li><span class="aur-badge" style="background:#ffe0b3;color:#7a4a05">🟠 점심시간</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="aur-mb-6">
+    <h2 class="aur-mb-3">진행 단계</h2>
+    <div class="aur-card">
+      <div class="aur-stepper">
+        <div class="aur-stepper__step is-complete"><span class="aur-stepper__circle">✓</span></div>
+        <div class="aur-stepper__step is-active"><span class="aur-stepper__circle">2</span></div>
+        <div class="aur-stepper__step"><span class="aur-stepper__circle">3</span></div>
+      </div>
+      <div class="aur-flex aur-justify-between aur-mt-3" style="font-size:var(--aur-text-xs)">
+        <span>1학기 (완료)</span><span>2학기 (진행중)</span><span>수료</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="aur-mb-4">
+    <div class="aur-table-responsive">
+      <table class="aur-table aur-table--hover" width="100%">
+        <caption><strong>SKALA 부트캠프 주간 시간표</strong></caption>
+        <colgroup>
+          <col width="12%">
+          <col span="5">
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">시간</th>
+            <th scope="col">월요일</th>
+            <th scope="col">화요일</th>
+            <th scope="col">수요일</th>
+            <th scope="col">목요일</th>
+            <th scope="col">금요일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">09:00 - 10:00</th>
+            <td rowspan="3" style="background:color-mix(in srgb, #6c5ce7 18%, transparent)"><abbr title="사용자 인터페이스를 만드는 자바스크립트 프레임워크">Vue.js</abbr><br>웹 프레임워크 💻</td>
+            <td rowspan="2" style="background:color-mix(in srgb, #a855f7 18%, transparent)">네트워크 보안 기초 🔒</td>
+            <td rowspan="3" style="background:color-mix(in srgb, #6c5ce7 18%, transparent)">웹 시스템 설계 및 분석 📐</td>
+            <td style="background:color-mix(in srgb, #ffb020 18%, transparent)">IT 트렌드 특강 💡</td>
+            <td rowspan="2" style="background:color-mix(in srgb, #6c5ce7 18%, transparent)">자바스크립트 심화 실습 🧩</td>
+          </tr>
+          <tr>
+            <th scope="row">10:00 - 11:00</th>
+            <td rowspan="2" style="background:color-mix(in srgb, #2ecc71 18%, transparent)">데이터베이스 <abbr title="Structured Query Language">SQL</abbr> 실습 🗄️</td>
+          </tr>
+          <tr>
+            <th scope="row">11:00 - 12:00</th>
+            <td style="background:color-mix(in srgb, #2ecc71 18%, transparent)">알고리즘 문제풀이 🧠</td>
+            <td style="background:color-mix(in srgb, #2ecc71 18%, transparent)">알고리즘 문제풀이 🧠</td>
+          </tr>
+          <tr>
+            <th scope="row">12:00 - 13:00</th>
+            <td colspan="5" class="aur-text-center" style="background:color-mix(in srgb, #ff8a3d 22%, transparent)">🍚 점심 시간 🍚</td>
+          </tr>
+          <tr>
+            <th scope="row">13:00 - 14:00</th>
+            <td rowspan="3" style="background:color-mix(in srgb, #6c5ce7 18%, transparent)">UI/UX 디자인 표준 🎨</td>
+            <td style="background:color-mix(in srgb, #a855f7 18%, transparent)">리눅스 시스템 관리 🐧</td>
+            <td rowspan="4" style="background:color-mix(in srgb, #2ecc71 18%, transparent)">자료구조 📊</td>
+            <td rowspan="4" style="background:color-mix(in srgb, #ffb020 18%, transparent)">개인 프로젝트 🚀</td>
+            <td rowspan="2" style="background:color-mix(in srgb, #ffb020 18%, transparent)">개인 프로젝트 🚀</td>
+          </tr>
+          <tr>
+            <th scope="row">14:00 - 15:00</th>
+            <td rowspan="2" style="background:color-mix(in srgb, #2ecc71 18%, transparent)">인공지능 머신러닝 기초 🤖</td>
+          </tr>
+          <tr>
+            <th scope="row">15:00 - 16:00</th>
+            <td rowspan="2" style="background:color-mix(in srgb, #a855f7 18%, transparent)">오픈소스 소프트웨어 🔓</td>
+          </tr>
+          <tr>
+            <th scope="row">16:00 - 17:00</th>
+            <td style="background:color-mix(in srgb, #a855f7 18%, transparent)">Git &amp; GitHub 버전 관리 🐙</td>
+            <td style="background:color-mix(in srgb, #2ecc71 18%, transparent)">빅데이터 분석 실무 📈</td>
+          </tr>
+          <tr>
+            <th scope="row">17:00 - 18:00</th>
+            <td style="background:color-mix(in srgb, #ffb020 18%, transparent)">취업·창업 특강 💼</td>
+            <td style="background:color-mix(in srgb, #ffb020 18%, transparent)">주간 회고 📝</td>
+            <td style="background:color-mix(in srgb, #a855f7 18%, transparent)">오픈소스 소프트웨어 🔓</td>
+            <td style="background:color-mix(in srgb, #ffb020 18%, transparent)">주간 회고 📝</td>
+            <td style="background:color-mix(in srgb, #ffb020 18%, transparent)">주간 회고 📝</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6" class="aur-text-center"><strong>주간 총 수업 시간: 40시간 (점심시간 제외)</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <p><dfn>비고</dfn>: 색상은 과목 계열을 구분하기 위한 것이며, 자세한 내용은 상단의 색상 범례 버튼을 참고하세요.</p>
+
+  <p><a class="aur-btn aur-btn--outline" href="index.v2.html">&larr; 메인으로 돌아가기</a></p>
+</main>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v2.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v2.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v2.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v2.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v2.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+</body>
+</html>

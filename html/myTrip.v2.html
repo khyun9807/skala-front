@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="teal">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "teal");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 여행지 - myTrip v2</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo"><span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v2</span></div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="myProfile.v2.html">소개</a>
+    <a class="aur-navbar__link" href="myClass.v2.html">수업 시간표</a>
+    <a class="aur-navbar__link is-active" href="myTrip.v2.html">여행 앨범</a>
+    <a class="aur-navbar__link" href="signUp.v2.html">회원가입</a>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+  <div class="aur-text-center aur-mb-4">
+    <h1 class="aur-anim-fade-in">🌍 나의 여행 앨범 🎵</h1>
+    <p class="aur-text-muted">제가 다녀온 여행지의 사진과 영상, 그리고 여행 중 즐겨 듣던 배경음악을 모아봤습니다.</p>
+    <audio controls>
+      <source src="../media/bgm.wav" type="audio/wav">
+      브라우저가 audio 태그를 지원하지 않습니다.
+    </audio>
+  </div>
+
+  <section id="carousel" class="aur-mb-8">
+    <h2 class="aur-text-center aur-mb-4">돌려보는 앨범</h2>
+    <div class="aur-orbit-carousel" style="--n:3; --radius:220px">
+      <button class="aur-btn aur-btn--icon aur-btn--glass aur-orbit-carousel__nav aur-orbit-carousel__nav--prev" data-orbit-prev type="button" aria-label="이전">‹</button>
+      <div class="aur-orbit-carousel__stage">
+        <div class="aur-orbit-carousel__card" style="--i:0"><h4>🏔️ 리장 호도협</h4><p class="aur-text-muted">2025년, 중국</p></div>
+        <div class="aur-orbit-carousel__card" style="--i:1"><h4>🌃 세부 탑스뷰</h4><p class="aur-text-muted">2024년, 필리핀</p></div>
+        <div class="aur-orbit-carousel__card" style="--i:2"><h4>⛄ 다이세츠산</h4><p class="aur-text-muted">2025년, 일본</p></div>
+      </div>
+      <button class="aur-btn aur-btn--icon aur-btn--glass aur-orbit-carousel__nav aur-orbit-carousel__nav--next" data-orbit-next type="button" aria-label="다음">›</button>
+    </div>
+  </section>
+
+  <section id="album" class="aur-mb-8">
+    <h2 class="aur-text-center aur-mb-1">여행 사진</h2>
+    <p class="aur-text-center aur-text-muted aur-mb-4">(사진에 마우스를 올려보세요 — hover 시 카드가 떠오릅니다)</p>
+
+    <div class="aur-auto-grid">
+      <figure class="aur-card aur-card--tilt">
+        <picture>
+          <source media="(min-width: 1px)" srcset="../media/lijiang.svg">
+          <img src="../media/lijiang.svg" alt="중국 리장 호도협 협곡" width="100%" usemap="#lijiangMap" style="border-radius:var(--aur-radius-md)">
+        </picture>
+        <map name="lijiangMap">
+          <area shape="rect" coords="0,0,400,260" href="index.v2.html" alt="메인 허브로 이동">
+        </map>
+        <figcaption class="aur-mt-2">리장 호도협 <time datetime="2025">(2025년)</time></figcaption>
+        <details name="album" class="aur-mt-2">
+          <summary>여행 후기 자세히 보기</summary>
+          <p class="aur-text-muted">깎아지른 협곡 사이로 흐르는 강물 소리가 아직도 귀에 생생합니다.</p>
+        </details>
+      </figure>
+
+      <figure class="aur-card aur-card--tilt">
+        <img src="../media/cebu.svg" alt="필리핀 세부 야경" width="100%" style="border-radius:var(--aur-radius-md)">
+        <figcaption class="aur-mt-2">세부 탑스뷰 <time datetime="2024">(2024년)</time></figcaption>
+        <details name="album" class="aur-mt-2">
+          <summary>여행 후기 자세히 보기</summary>
+          <p class="aur-text-muted">야자수 사이로 보이는 도시의 야경이 정말 반짝였습니다.</p>
+        </details>
+      </figure>
+
+      <figure class="aur-card aur-card--tilt">
+        <img src="../media/hokkaido.svg" alt="일본 홋카이도 다이세츠산" width="100%" style="border-radius:var(--aur-radius-md)">
+        <figcaption class="aur-mt-2">홋카이도 다이세츠산 <time datetime="2025">(2025년)</time></figcaption>
+        <details name="album" class="aur-mt-2">
+          <summary>여행 후기 자세히 보기</summary>
+          <p class="aur-text-muted">새하얀 설산의 풍경은 <cite>사진보다 실제가 훨씬 아름다웠습니다</cite>.</p>
+        </details>
+      </figure>
+    </div>
+  </section>
+
+  <section id="vlog">
+    <h2 class="aur-text-center aur-mb-4">📹 나의 여행 브이로그</h2>
+    <p class="aur-text-center">
+      <button class="aur-btn aur-btn--outline aur-btn--sm" popovertarget="vlog-info" popovertargetaction="toggle">ℹ️ 영상 설명 보기</button>
+    </p>
+    <div class="aur-popover" popover id="vlog-info">
+      <h3>📹 영상 설명</h3>
+      <p>리장 여행 중 우연히 마주친 거리 공연 브이로그입니다. 촬영: 2025년 7월</p>
+    </div>
+    <figure class="aur-card aur-text-center" style="max-width:460px; margin-inline:auto">
+      <video controls width="400" height="260" poster="../media/lijiang.svg" style="border-radius:var(--aur-radius-md); max-width:100%">
+        <source src="../media/vlog.mp4" type="video/mp4">
+        브라우저가 video 태그를 지원하지 않습니다.
+      </video>
+      <figcaption class="aur-mt-2">리장의 아름다운 음악 🎶 <small class="aur-text-muted">(직접 촬영한 영상으로 교체 예정)</small></figcaption>
+    </figure>
+  </section>
+
+  <p><a class="aur-btn aur-btn--outline aur-mt-6" href="index.v2.html">&larr; 메인으로 돌아가기</a></p>
+</main>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v2.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v2.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v2.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v2.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v2.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+</body>
+</html>
