@@ -24,6 +24,109 @@ const fmtDate = (d) => new Date(d).toLocaleDateString('ko-KR', { year: 'numeric'
 const excerpt = (md = '') => md.replace(/[#>*`_[\]-]/g, '').replace(/\s+/g, ' ').trim().slice(0, 110) + '…';
 const meta = (p) => `${p.author} · ${fmtDate(p.publishedAt || p.createdAt)} · 조회 ${p.viewCount ?? 0} · ♡ ${p.likeCount ?? 0}`;
 
+/* ── 미니 마크다운 렌더러 (외부 라이브러리 금지 → 직접 구현) ──
+   지원: #~#### 제목 · **굵게** · `코드` · 목록(-,1.) · > 인용 · ``` 코드블록 · | 표 |
+   innerHTML을 쓰지 않고 DOM 노드로만 조립한다(안전). */
+function renderInline(text, el) {
+  const re = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+  let last = 0, m;
+  while ((m = re.exec(text))) {
+    if (m.index > last) el.appendChild(document.createTextNode(text.slice(last, m.index)));
+    const tok = m[0];
+    if (tok.startsWith('**')) {
+      const b = document.createElement('strong'); b.textContent = tok.slice(2, -2); el.appendChild(b);
+    } else {
+      const c = document.createElement('code'); c.textContent = tok.slice(1, -1); el.appendChild(c);
+    }
+    last = m.index + tok.length;
+  }
+  if (last < text.length) el.appendChild(document.createTextNode(text.slice(last)));
+}
+
+function renderMarkdown(md, root) {
+  root.textContent = '';
+  const lines = String(md ?? '').split('\n');
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) { i++; continue; }
+
+    if (line.startsWith('```')) {                       // 코드블록
+      i++;
+      const buf = [];
+      while (i < lines.length && !lines[i].startsWith('```')) { buf.push(lines[i]); i++; }
+      i++;
+      const pre = document.createElement('pre'); const code = document.createElement('code');
+      code.textContent = buf.join('\n'); pre.appendChild(code); root.appendChild(pre); continue;
+    }
+    if (/^#{1,4}\s/.test(line)) {                        // 제목 (h1→h2로 한 단계 낮춤: 모달 제목이 이미 h3)
+      const level = line.match(/^#+/)[0].length;
+      const h = document.createElement('h' + Math.min(level + 1, 4));
+      renderInline(line.replace(/^#+\s/, ''), h); root.appendChild(h); i++; continue;
+    }
+    if (line.startsWith('> ')) {                          // 인용
+      const q = document.createElement('blockquote'); const p = document.createElement('p');
+      renderInline(line.slice(2), p); q.appendChild(p); root.appendChild(q); i++; continue;
+    }
+    if (line.startsWith('|')) {                           // 표
+      const rows = [];
+      while (i < lines.length && lines[i].startsWith('|')) { rows.push(lines[i]); i++; }
+      const table = document.createElement('table');
+      let head = true;
+      rows.forEach((r) => {
+        const cells = r.split('|').slice(1, -1).map((c) => c.trim());
+        if (cells.every((c) => /^:?-{2,}:?$/.test(c))) { head = false; return; } // 구분선
+        const tr = document.createElement('tr');
+        cells.forEach((c) => { const td = document.createElement(head ? 'th' : 'td'); renderInline(c, td); tr.appendChild(td); });
+        table.appendChild(tr);
+        if (head) head = true;
+      });
+      root.appendChild(table); continue;
+    }
+    if (/^[-*]\s/.test(line)) {                           // 순서 없는 목록
+      const ul = document.createElement('ul');
+      while (i < lines.length && /^[-*]\s/.test(lines[i])) {
+        const li = document.createElement('li'); renderInline(lines[i].replace(/^[-*]\s/, ''), li); ul.appendChild(li); i++;
+      }
+      root.appendChild(ul); continue;
+    }
+    if (/^\d+\.\s/.test(line)) {                          // 순서 있는 목록
+      const ol = document.createElement('ol');
+      while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
+        const li = document.createElement('li'); renderInline(lines[i].replace(/^\d+\.\s/, ''), li); ol.appendChild(li); i++;
+      }
+      root.appendChild(ol); continue;
+    }
+    const buf = [];                                       // 문단(연속 줄 합치기)
+    while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|>\s|\||```|[-*]\s|\d+\.\s)/.test(lines[i])) { buf.push(lines[i]); i++; }
+    const p = document.createElement('p'); renderInline(buf.join(' '), p); root.appendChild(p);
+  }
+}
+
+/** 글 하단 이미지·영상 갤러리 (영상은 poster + preload=none) */
+function renderGallery(images) {
+  const g = document.getElementById('post-gallery');
+  g.textContent = '';
+  (images ?? []).forEach((item) => {
+    const fig = document.createElement('figure');
+    if (item.type === 'video') {
+      const v = document.createElement('video');
+      v.controls = true; v.preload = 'none'; v.playsInline = true;
+      if (item.poster) v.poster = item.poster;
+      const s = document.createElement('source');
+      s.src = item.src; s.type = item.src.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+      v.appendChild(s);
+      fig.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = item.src; img.alt = item.caption ?? ''; img.loading = 'lazy';
+      fig.appendChild(img);
+    }
+    if (item.caption) { const cap = document.createElement('figcaption'); cap.textContent = item.caption; fig.appendChild(cap); }
+    g.appendChild(fig);
+  });
+}
+
 function renderList(posts) {
   const list = document.getElementById('blog-list');
   list.textContent = '';
@@ -36,6 +139,11 @@ function renderList(posts) {
     const h = document.createElement('h3'); h.textContent = post.title;
     const m = document.createElement('span'); m.className = 'folio-block__meta'; m.textContent = meta(post);
     const p = document.createElement('p'); p.style.cssText = 'font-size:13px;opacity:.7;line-height:1.6'; p.textContent = excerpt(post.content);
+    if (post.cover) {                       // 목록 카드 썸네일
+      const thumb = document.createElement('img');
+      thumb.className = 'blog-thumb'; thumb.src = post.cover; thumb.alt = ''; thumb.loading = 'lazy';
+      card.appendChild(thumb);
+    }
     card.append(badge, h, m, p);
     card.addEventListener('click', () => openPost(post.id));
     card.addEventListener('keydown', (e) => { if (e.key === 'Enter') openPost(post.id); });
@@ -50,7 +158,13 @@ async function openPost(id) {
   document.getElementById('post-cat').textContent = CAT[post.category] || post.category;
   document.getElementById('post-title').textContent = post.title;
   document.getElementById('post-meta').textContent = meta(post);
-  document.getElementById('post-content').textContent = post.content;
+
+  const cover = document.getElementById('post-cover');
+  if (post.cover) { cover.src = post.cover; cover.alt = post.title; cover.hidden = false; }
+  else { cover.hidden = true; cover.removeAttribute('src'); }
+
+  renderMarkdown(post.content, document.getElementById('post-content'));
+  renderGallery(post.images);
 
   const likeBtn = document.getElementById('post-like');
   likeBtn.textContent = `♡ 좋아요 ${post.likeCount ?? 0}`;

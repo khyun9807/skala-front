@@ -39,6 +39,22 @@ export function createRing({ stage, items = [], getScroll = () => 0, fadeOnScrol
     media.className = 'folio-tile__media';
     if (item.src) media.style.backgroundImage = item.src.startsWith('url(') ? item.src : `url("${item.src}")`;
 
+    // 영상 타일: 포스터(=src) 위에 실제 <video>를 얹고 호버할 때만 로드·재생한다.
+    // (자동재생하면 링 13개가 동시에 수십 MB를 받으므로 preload="none" + 호버 재생)
+    if (item.type === 'video' && item.video) {
+      const v = document.createElement('video');
+      v.className = 'folio-tile__video';
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+      v.setAttribute('aria-hidden', 'true');
+      const source = document.createElement('source');
+      source.src = item.video;
+      source.type = item.video.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+      v.appendChild(source);
+      media.appendChild(v);
+      a.addEventListener('pointerenter', () => { v.play().catch(() => {}); });
+      a.addEventListener('pointerleave', () => { v.pause(); });
+    }
+
     const overlay = document.createElement('span');
     overlay.className = 'folio-tile__overlay';
     const cat = document.createElement('span'); cat.className = 'folio-tile__cat'; cat.textContent = item.cat;

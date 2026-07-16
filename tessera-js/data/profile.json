@@ -10,7 +10,7 @@
     "github": "https://github.com/khyun9807",
     "blog": "https://velog.io/@khyun9807"
   },
-  "skills": ["Java", "Spring", "JPA", "QueryDSL", "MyBatis", "Redis", "Kafka", "MySQL", "PostgreSQL", "AWS", "Docker", "JavaScript"],
+  "skills": ["Java", "Spring", "JPA", "QueryDSL", "MyBatis", "Redis", "Kafka", "MySQL", "PostgreSQL", "AWS", "Docker", "C", "Linux", "JavaScript"],
   "traits": [
     { "label": "책임감", "score": 9, "description": "맡은 파트는 끝까지. 팀장으로서 공통 API·인터페이스 규칙을 먼저 잡아 병렬 개발의 충돌과 일정 지연을 줄였습니다." },
     { "label": "취업의지", "score": 10, "description": "금융권 IT 취업이라는 목표가 뚜렷하고, 개선일지와 부하 테스트로 실무 역량을 계속 쌓고 있습니다." },
@@ -54,11 +54,29 @@
       "endDate": "2025-12-31"
     },
     {
+      "id": "proj-xv6-kernel",
+      "title": "xv6 운영체제 커널 확장",
+      "description": "교육용 유닉스 커널 xv6를 직접 확장한 시스템 프로그래밍 프로젝트. syscall table부터 커널 함수까지 호출 경로를 확장해 setnice/getnice/ps 시스템 콜과 PCB 기반 프로세스 우선순위 관리를 구현하고, real-time fork 시스템 콜 + RT 우선순위 기반 라운드로빈 혼합 스케줄러로 확장했습니다. 16~2048Byte 고정 크기 Slab Allocator(비트맵 할당/해제·페이지 회수)와 Copy-on-Write 파일 복사(데이터 블록 분리·참조 카운트 해제)까지 다뤘습니다. 숭실대 팀 프로젝트, 시스템 커널 개발 2인.",
+      "stack": ["C", "Linux", "xv6", "시스템 프로그래밍"],
+      "url": "https://github.com/khyun9807/ed_os_gilho",
+      "startDate": "2024-03-01",
+      "endDate": "2024-06-30"
+    },
+    {
+      "id": "proj-kvs-server",
+      "title": "C/Linux 기반 KVS 서버 · 스냅샷 복구",
+      "description": "In-memory Key-Value Store를 C로 직접 구현. set/get/open/close 핵심 API를 정적/동적 라이브러리로 모듈화하고, 스냅샷 기록/복구를 붙여 유저 레벨 I/O 대비 시스템 레벨 I/O의 성능·메모리 사용량을 비교했습니다. TCP 소켓 기반 서버/클라이언트로 set/get 요청 파싱·응답을 처리하고, gprof·perf·uftrace·strace 프로파일링으로 함수 병목·캐시 미스·시스템 콜 패턴을 분석해 I/O 버퍼 크기를 튜닝했습니다. 숭실대 팀 프로젝트, 시스템 개발 2인.",
+      "stack": ["C", "Linux", "TCP 소켓", "gprof", "perf", "uftrace", "strace"],
+      "url": "https://github.com/khyun9807/ed_systemprogramming_lab_eunji",
+      "startDate": "2023-09-01",
+      "endDate": "2023-12-31"
+    },
+    {
       "id": "proj-tessera",
       "title": "TesseraJS",
       "description": "외부 라이브러리 없이 만든 바닐라 자바스크립트 프론트엔드 라이브러리. HTTP 클라이언트, 상태 관리, IndexedDB 래퍼, Web Worker 검색 엔진을 직접 구현했습니다.",
       "stack": ["JavaScript", "IndexedDB", "Canvas API", "Web Worker"],
-      "url": "../index.html",
+      "url": "../tessera-js/index.html",
       "startDate": "2026-05-01",
       "endDate": "2026-07-15"
     },

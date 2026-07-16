@@ -1,0 +1,68 @@
+{
+  "cover-class": {
+    "title": "File:Wikipedia lecture in Benin in 2017.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Wikipedia_lecture_in_Benin_in_2017.jpg/1280px-Wikipedia_lecture_in_Benin_in_2017.jpg",
+    "direct": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Wikipedia_lecture_in_Benin_in_2017.jpg",
+    "mime": "image/jpeg",
+    "artist": "Kulttuurinavigaattori",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Wikipedia_lecture_in_Benin_in_2017.jpg",
+    "dur": null,
+    "size": 3523585
+  },
+  "cover-holiday": {
+    "title": "File:Cozy interior with a sofa (Unsplash).jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Cozy_interior_with_a_sofa_%28Unsplash%29.jpg/1280px-Cozy_interior_with_a_sofa_%28Unsplash%29.jpg",
+    "direct": "https://upload.wikimedia.org/wikipedia/commons/0/02/Cozy_interior_with_a_sofa_%28Unsplash%29.jpg",
+    "mime": "image/jpeg",
+    "artist": "Breather breather",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cozy_interior_with_a_sofa_(Unsplash).jpg",
+    "dur": null,
+    "size": 14471592
+  },
+  "cover-signup": {
+    "title": "File:Gadgets on a desk (Unsplash).jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Gadgets_on_a_desk_%28Unsplash%29.jpg/1280px-Gadgets_on_a_desk_%28Unsplash%29.jpg",
+    "direct": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Gadgets_on_a_desk_%28Unsplash%29.jpg",
+    "mime": "image/jpeg",
+    "artist": "Niklas Veenhuis niklasveenhuis",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Gadgets_on_a_desk_(Unsplash).jpg",
+    "dur": null,
+    "size": 16174902
+  },
+  "cover-code": {
+    "title": "File:Programming code.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Programming_code.jpg/1280px-Programming_code.jpg",
+    "direct": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Programming_code.jpg",
+    "mime": "image/jpeg",
+    "artist": "Martin Vorel",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Programming_code.jpg",
+    "dur": null,
+    "size": 2140925
+  },
+  "cover-server": {
+    "title": "File:BalticServers data center.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/BalticServers_data_center.jpg/1280px-BalticServers_data_center.jpg",
+    "direct": "https://upload.wikimedia.org/wikipedia/commons/5/5d/BalticServers_data_center.jpg",
+    "mime": "image/jpeg",
+    "artist": "BalticServers.com",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BalticServers_data_center.jpg",
+    "dur": null,
+    "size": 438414
+  },
+  "vlog-osaka": {
+    "title": "File:2022 Danjiri Festival at Otori Shrine in Sakai, Osaka 001.webm",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/2022_Danjiri_Festival_at_Otori_Shrine_in_Sakai%2C_Osaka_001.webm/1280px--2022_Danjiri_Festival_at_Otori_Shrine_in_Sakai%2C_Osaka_001.webm.jpg",
+    "direct": "https://upload.wikimedia.org/wikipedia/commons/7/77/2022_Danjiri_Festival_at_Otori_Shrine_in_Sakai%2C_Osaka_001.webm",
+    "mime": "video/webm",
+    "artist": "Naokijp",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:2022_Danjiri_Festival_at_Otori_Shrine_in_Sakai,_Osaka_001.webm",
+    "dur": 64.619,
+    "size": 38069722
+  }
+}

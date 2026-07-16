@@ -12,9 +12,10 @@ import { initCursor } from '../../folio/engine/cursor.js';
 import { initReveals } from '../../folio/engine/reveal.js';
 import { initThemeInvert } from '../../folio/engine/theme.js';
 import { createDotField } from '../../folio/engine/dotfield.js';
-import { createRing, makeReel, makeCover } from '../../folio/engine/ring.js';
+import { createRing } from '../../folio/engine/ring.js';
 import { createPanelField } from '../../folio/engine/panels.js';
-import { createPanelUniverse } from '../../folio/engine/panels-webgl.js';
+// WebGL2 우주 배경은 비활성(아래 패널 필드 주석 참고). 되살리려면 이 import도 함께 복구할 것.
+// import { createPanelUniverse } from '../../folio/engine/panels-webgl.js';
 import { initLoader } from '../../folio/engine/loader.js';
 import { createAudio } from '../../folio/engine/audio.js';
 
@@ -44,29 +45,61 @@ const HERO_ITEMS = [
   { type: 'image', cat: 'PORTFOLIO', title: 'Bridge Bank — 뱅킹 서버', src: '../media/portfolio/log-deadlock.jpg', href: 'blog.html' },
   { type: 'image', cat: 'PORTFOLIO', title: 'Payper Community', src: '../media/portfolio/log-stampede.jpg', href: 'blog.html' },
   { type: 'image', cat: 'PORTFOLIO', title: 'Payper — 카드 혜택', src: '../media/portfolio/payper-arch.jpg', href: 'blog.html' },
-  { type: 'video', cat: 'PORTFOLIO', title: 'Remind Lamia — 게임', src: '../media/portfolio/game-op-poster.jpg', href: 'profile.html' },
+  { type: 'video', cat: 'PORTFOLIO', title: 'Remind Lamia — 게임', src: '../media/portfolio/game-op-poster.jpg', video: '../media/portfolio/game-op.mp4', href: 'blog.html' },
   { type: 'image', cat: 'PORTFOLIO', title: '나를 소개합니다', src: '../media/portfolio/avatar.jpeg', href: 'profile.html' },
-  { type: 'image', cat: 'ACTIVITY', title: '오사카 미식 여행', src: '../media/portfolio/trip-osaka.jpg', href: 'trip.html' },
+  { type: 'video', cat: 'ACTIVITY', title: '오사카 미식 여행', src: '../media/portfolio/trip-osaka.jpg', video: '../media/portfolio/vlog-osaka.webm', href: 'trip.html' },
   { type: 'image', cat: 'ACTIVITY', title: '라스베가스 야경', src: '../media/portfolio/trip-lasvegas.jpg', href: 'trip.html' },
   { type: 'image', cat: 'ACTIVITY', title: '아르헨티나 고기 파티', src: '../media/portfolio/trip-argentina.jpg', href: 'trip.html' },
-  { type: 'image', cat: 'ACTIVITY', title: 'SKALA 5주 커리큘럼', src: makeCover(2, 210), href: 'class.html' },
-  { type: 'image', cat: 'ACTIVITY', title: '느긋한 휴일', src: makeCover(10, 140), href: 'holiday.html' },
-  { type: 'video', cat: 'ACTIVITY', title: '회원 온보딩', src: makeCover(4, 268), href: 'signup.html' },
+  { type: 'image', cat: 'ACTIVITY', title: 'SKALA 5주 커리큘럼', src: '../media/portfolio/cover-class.jpg', href: 'class.html' },
+  { type: 'image', cat: 'ACTIVITY', title: '느긋한 휴일', src: '../media/portfolio/cover-holiday.jpg', href: 'holiday.html' },
+  { type: 'image', cat: 'ACTIVITY', title: '회원 온보딩', src: '../media/portfolio/cover-signup.jpg', href: 'signup.html' },
   { type: 'image', cat: 'BLOG', title: '쿼리 2,000ms → 60ms', src: '../media/portfolio/log-query.jpg', href: 'blog.html' },
-  { type: 'image', cat: 'BLOG', title: 'JPA + MyBatis bulk', src: '../media/portfolio/log-bulk.jpg', href: 'blog.html' },
+  { type: 'video', cat: 'BLOG', title: '탄막 — 게임 플레이', src: '../media/portfolio/game-bullethell-poster.jpg', video: '../media/portfolio/game-bullethell.mp4', href: 'blog.html' },
 ];
 createRing({ stage: document.getElementById('hero-stage'), items: HERO_ITEMS, getScroll: () => scroll.current });
 
-// 패널 필드(nav) — 장식 패널엔 추상 릴 배경을 깔아 밀도 부여
-document.querySelectorAll('.folio-panel--ghost').forEach((el, i) => { el.style.backgroundImage = makeReel(i + 7); });
-createPanelField({ scene: document.getElementById('panel-scene'), getScroll: () => scroll.current });
-
-// WebGL2 우주 배경(하이브리드 장식) — 미지원/reduced-motion이면 조용히 폴백(CSS-3D 고스트/오빗)
-const universe = createPanelUniverse({
-  canvas: document.querySelector('.folio-universe'),
-  host: document.querySelector('.folio-constellation'),
+/* 패널 필드(nav) — 모든 패널에 "실제 콘텐츠 썸네일"을 깐다.
+   (이전엔 추상 SVG 릴 + WebGL 절차적 사각형이 떠다녔는데, 실제 작업물 이미지로 교체) */
+const PANEL_COVER = {
+  'profile.html': 'avatar.jpeg',
+  'class.html': 'cover-class.jpg',
+  'trip.html': 'trip-osaka.jpg',
+  'signup.html': 'cover-signup.jpg',
+  '#about': 'cover-code.jpg',
+  '#signal': 'cover-server.jpg',
+  'blog.html': 'log-query.jpg',
+  'holiday.html': 'cover-holiday.jpg',
+};
+// 라벨(번호/제목/메타) 가독성을 위한 스크림을 이미지 위에 겹침
+const SCRIM = 'linear-gradient(to top, rgba(6,4,3,.88), rgba(6,4,3,.3) 58%, rgba(6,4,3,.55))';
+document.querySelectorAll('.folio-panel:not(.folio-panel--ghost)').forEach((el) => {
+  const file = PANEL_COVER[el.getAttribute('href')];
+  if (file) el.style.backgroundImage = `${SCRIM}, url("../media/portfolio/${file}")`;
 });
-if (universe.supported) document.querySelectorAll('.folio-panel--ghost').forEach((el) => { el.style.display = 'none'; });
+// 배경에 떠다니는 장식 패널 — 추상 캔버스 대신 실제 작업 이미지
+const GHOST_COVERS = ['lamia-main.jpg', 'payper-title.jpg', 'trip-lasvegas.jpg', 'log-stampede.jpg', 'trip-argentina.jpg', 'lamia-stage5.jpg', 'payper-results.jpg'];
+document.querySelectorAll('.folio-panel--ghost').forEach((el, i) => {
+  el.style.backgroundImage = `url("../media/portfolio/${GHOST_COVERS[i % GHOST_COVERS.length]}")`;
+});
+const panelField = createPanelField({ scene: document.getElementById('panel-scene'), getScroll: () => scroll.current });
+
+/* 부스트 버튼 — 누르고 있는 동안만 회전 가속(떼면 기본 속도로 복귀).
+   포인터·키보드(Space/Enter) 모두 지원하고, 포인터가 버튼 밖으로 나가도 확실히 해제한다. */
+const boostBtn = document.getElementById('panel-boost');
+if (boostBtn) {
+  const BOOST = 7;
+  const setBoost = (v) => { panelField.setBoost(v); boostBtn.classList.toggle('is-active', v > 1); };
+  boostBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); setBoost(BOOST); });
+  ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach((ev) => boostBtn.addEventListener(ev, () => setBoost(1)));
+  boostBtn.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setBoost(BOOST); } });
+  boostBtn.addEventListener('keyup', (e) => { if (e.key === ' ' || e.key === 'Enter') setBoost(1); });
+}
+
+/* WebGL2 우주 배경 — 사용자 요청("떠다니는 캔버스를 전부 이미지/영상으로")으로 비활성화.
+   되살리려면 아래 두 줄의 주석을 풀고 위 GHOST_COVERS 블록을 지우면 된다.
+   const universe = createPanelUniverse({ canvas: document.querySelector('.folio-universe'), host: document.querySelector('.folio-constellation') });
+   if (universe.supported) document.querySelectorAll('.folio-panel--ghost').forEach((el) => { el.style.display = 'none'; }); */
+document.querySelector('.folio-universe')?.remove();
 
 /* ════════ 오디오 EQ + 로더/게이트 ════════ */
 const eqEl = document.getElementById('folio-eq');
