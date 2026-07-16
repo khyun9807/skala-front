@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 휴일 일과 - myHoliday v4</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+<style>
+  .v4-plan-item.is-done .v4-plan-text { text-decoration: line-through; color: var(--aur-text-muted); }
+</style>
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo"><span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v4</span></div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="myProfile.v4.html">소개</a>
+    <a class="aur-navbar__link" href="myClass.v4.html">수업 시간표</a>
+    <a class="aur-navbar__link" href="myTrip.v4.html">여행 앨범</a>
+    <a class="aur-navbar__link is-active" href="myHoliday.v4.html">휴일 일과</a>
+    <a class="aur-navbar__link" href="signUp.v4.html">회원가입</a>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+  <div class="aur-text-center aur-mb-6">
+    <span class="aur-badge aur-badge--outline">🌿 실습 · 나의 휴일 일과</span>
+    <h1 class="aur-anim-fade-in aur-mt-3">🌿 나의 느긋한 휴일 일과</h1>
+    <p class="aur-text-muted">평일의 분주함을 잠시 내려놓고, 하루를 온전히 저를 위해 쓰는 휴일의 시간표입니다.</p>
+  </div>
+
+  <div class="aur-auto-grid aur-mb-6">
+    <div class="aur-card aur-card--spotlight">
+      <h2 class="aur-mb-2">🌅 느긋한 아침</h2>
+      <p class="aur-text-muted">알람을 맞추지 않고 <mark>몸이 깨어날 때까지</mark> 푹 잡니다.<br>창문을 활짝 열어 환기를 하고, 좋아하는 음악을 틀어둔 채 <mark>따뜻한 커피 한 잔</mark>과 함께 여유로운 브런치를 즐깁니다.</p>
+      <p>느지막이 일어나 아무 계획 없이 보내는 이 시간이 휴일의 가장 큰 사치입니다.</p>
+    </div>
+    <div class="aur-card aur-card--spotlight">
+      <h2 class="aur-mb-2">🚶 활기찬 오후</h2>
+      <p class="aur-text-muted">가벼운 옷차림으로 집 근처 <mark>공원을 산책</mark>합니다.<br>돌아오는 길엔 동네 서점에 들러 읽고 싶던 책을 고르고, 카페에 자리를 잡고 앉아 <mark>밀린 책을 읽습니다.</mark></p>
+      <p>가끔은 친구를 만나 맛있는 점심을 먹으며 그동안 못 나눈 이야기를 나눕니다.</p>
+    </div>
+    <div class="aur-card aur-card--spotlight">
+      <h2 class="aur-mb-2">🌙 포근한 저녁과 밤</h2>
+      <p class="aur-text-muted">집으로 돌아와 직접 <mark>간단한 저녁 요리</mark>를 해 먹습니다.<br>좋아하는 영화나 드라마를 보며 하루의 피로를 풀고, 잠들기 전엔 <mark>따뜻한 차 한 잔</mark>과 함께 짧은 일기를 씁니다.</p>
+      <p>내일을 위해 일찍 잠자리에 들며 <mark>재충전</mark>으로 휴일을 마무리합니다.</p>
+    </div>
+  </div>
+
+  <section id="v4-holiday-checklist" class="aur-card aur-mb-6">
+    <h2 class="aur-mb-1">📝 이번 휴일에 하고 싶은 일 <span class="aur-badge aur-badge--success">TesseraJS</span></h2>
+    <p class="aur-text-muted aur-mb-3">하고 싶은 일을 추가해보세요. TesseraJS의 저장소 모듈로 이 브라우저의 localStorage에 실제로 저장되어, 새로고침하거나 다시 방문해도 그대로 남아있습니다.</p>
+
+    <form id="v4-plan-form" class="aur-flex aur-items-center aur-gap-2 aur-mb-4" style="flex-wrap:wrap">
+      <label class="aur-sr-only" for="v4-plan-input">휴일 계획 추가</label>
+      <input class="aur-input" type="text" id="v4-plan-input" placeholder="예: 동네 미술관 다녀오기" maxlength="60" style="flex:1 1 220px" autocomplete="off">
+      <button class="aur-btn aur-btn--primary" type="submit">추가</button>
+      <button class="aur-btn aur-btn--outline" type="button" id="v4-plan-export">⬇ JSON 내보내기</button>
+    </form>
+
+    <ul id="v4-plan-list" style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--aur-space-2)"></ul>
+
+    <p class="aur-text-muted aur-mt-3" style="font-size:var(--aur-text-xs)">완료 <span id="v4-plan-done">0</span> / 전체 <span id="v4-plan-total">0</span> · 남은 할 일 <span id="v4-plan-remaining">0</span>개</p>
+  </section>
+
+  <section class="aur-card aur-mb-6">
+    <h2 class="aur-mb-3">✨ 휴일을 보내는 나만의 규칙</h2>
+    <ul>
+      <li>일은 잠시 잊고 <mark>지금 이 순간</mark>에 집중하기</li>
+      <li>스마트폰은 되도록 멀리 두고 <mark>나에게 온전히 집중</mark>하기</li>
+      <li>완벽하지 않아도 괜찮으니 <mark>편안한 하루</mark> 보내기</li>
+    </ul>
+  </section>
+
+  <blockquote class="aur-quote aur-mb-6">
+    <p>&ldquo;잘 쉬는 것도 실력이다&rdquo;</p>
+    <footer>&mdash; <cite>휴일을 대하는 마음가짐</cite></footer>
+  </blockquote>
+
+  <p><a class="aur-btn aur-btn--outline" href="index.v4.html">&larr; 메인으로 돌아가기</a></p>
+</main>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v4.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v4.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v4.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v4.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="myHoliday.v4.html" data-label="휴일">☕</a>
+  <a class="aur-dock__item" href="signUp.v4.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+<script type="module" src="../script/v4/myHoliday.js"></script>
+</body>
+</html>
