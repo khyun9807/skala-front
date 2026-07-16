@@ -1,0 +1,94 @@
+[
+  {
+    "id": "trip-hokkaido",
+    "title": "홋카이도 여름 여행",
+    "startDate": "2026-08-01",
+    "endDate": "2026-08-06",
+    "cities": ["삿포로", "오타루", "하코다테"],
+    "cover": "../media/hokkaido.svg",
+    "status": "planned",
+    "baseCurrency": "KRW",
+    "budgetLimit": 1500000,
+    "estimatedBudget": 1300000,
+    "durationDays": 5,
+    "activities": ["food", "nature"],
+    "bestSeasons": ["summer"],
+    "tags": ["일본", "자연", "미식"],
+    "accommodation": "삿포로 시내 호텔 4박",
+    "transportInfo": "인천-신치토세 왕복 항공, 시내 JR패스",
+    "mapLink": "https://www.google.com/maps/place/Hokkaido",
+    "notes": "오타루 운하 야경, 조잔케이 온천 예약 확인",
+    "checklist": [
+      { "id": "chk-1", "label": "여권 유효기간 확인", "done": true },
+      { "id": "chk-2", "label": "JR 패스 예약", "done": true },
+      { "id": "chk-3", "label": "온천 타올 준비", "done": false },
+      { "id": "chk-4", "label": "엔화 환전", "done": false }
+    ],
+    "expenses": [
+      { "id": "exp-1", "category": "transport", "amount": 450000, "currency": "KRW", "amountBase": 450000, "memo": "왕복 항공권" },
+      { "id": "exp-2", "category": "accommodation", "amount": 60000, "currency": "JPY", "memo": "호텔 4박(1박 요금)" },
+      { "id": "exp-3", "category": "food", "amount": 8000, "currency": "JPY", "memo": "스시 오마카세" },
+      { "id": "exp-4", "category": "activity", "amount": 3000, "currency": "JPY", "memo": "운하 크루즈" }
+    ]
+  },
+  {
+    "id": "trip-cebu",
+    "title": "세부 다이빙 여행",
+    "startDate": "2026-01-10",
+    "endDate": "2026-01-15",
+    "cities": ["세부", "모알보알"],
+    "cover": "../media/cebu.svg",
+    "status": "completed",
+    "baseCurrency": "KRW",
+    "budgetLimit": 1200000,
+    "estimatedBudget": 1100000,
+    "durationDays": 5,
+    "activities": ["beach", "diving"],
+    "bestSeasons": ["winter"],
+    "tags": ["필리핀", "바다", "휴양"],
+    "accommodation": "모알보알 리조트 3박",
+    "transportInfo": "인천-막탄 왕복 항공, 리조트 셔틀",
+    "mapLink": "https://www.google.com/maps/place/Cebu",
+    "notes": "정어리떼 스노클링은 아침 일찍 가는 게 좋음",
+    "review": "정어리떼 스노클링이 인생 최고의 순간이었다. 다만 습도가 높아 자외선 차단제를 넉넉히 챙겼어야 했다. 다음엔 수중 카메라를 꼭 준비할 것.",
+    "checklist": [
+      { "id": "chk-1", "label": "다이빙 자격증 사본", "done": true },
+      { "id": "chk-2", "label": "방수팩", "done": true },
+      { "id": "chk-3", "label": "자외선 차단제", "done": true }
+    ],
+    "expenses": [
+      { "id": "exp-1", "category": "transport", "amount": 520000, "currency": "KRW", "amountBase": 520000, "memo": "왕복 항공권" },
+      { "id": "exp-2", "category": "accommodation", "amount": 45, "currency": "USD", "memo": "리조트 3박(1박)" },
+      { "id": "exp-3", "category": "food", "amount": 15, "currency": "USD", "memo": "해산물 식사" },
+      { "id": "exp-4", "category": "activity", "amount": 60, "currency": "USD", "memo": "다이빙 2회" }
+    ]
+  },
+  {
+    "id": "trip-lijiang",
+    "title": "리장 고성 여행",
+    "startDate": "2026-10-05",
+    "endDate": "2026-10-12",
+    "cities": ["리장", "샹그릴라"],
+    "cover": "../media/lijiang.svg",
+    "status": "planned",
+    "baseCurrency": "KRW",
+    "budgetLimit": 1000000,
+    "estimatedBudget": 900000,
+    "durationDays": 7,
+    "activities": ["culture", "hiking"],
+    "bestSeasons": ["autumn"],
+    "tags": ["중국", "문화", "고산지대"],
+    "accommodation": "고성 내 전통 게스트하우스",
+    "transportInfo": "인천-리장 경유 항공, 고성 내 도보 이동",
+    "mapLink": "https://www.google.com/maps/place/Lijiang",
+    "notes": "고산 지대라 고도 적응 하루 필요",
+    "checklist": [
+      { "id": "chk-1", "label": "고산병 약 준비", "done": false },
+      { "id": "chk-2", "label": "위안화 환전", "done": false },
+      { "id": "chk-3", "label": "방한용 겉옷", "done": false }
+    ],
+    "expenses": [
+      { "id": "exp-1", "category": "transport", "amount": 380000, "currency": "KRW", "amountBase": 380000, "memo": "왕복 항공권" }
+    ]
+  }
+]

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section" style="max-width: 420px;">
+    <h1 class="section__title">로그인</h1>
+    <form id="login-form" class="card stack" novalidate>
+      <label class="field">
+        <span class="field__label">아이디 또는 이메일</span>
+        <input name="identifier" class="field__input" required autocomplete="username" />
+      </label>
+      <label class="field">
+        <span class="field__label">비밀번호</span>
+        <input type="password" name="password" class="field__input" required autocomplete="current-password" />
+      </label>
+      <label class="row"><input type="checkbox" name="keepLoggedIn" /> 로그인 상태 유지</label>
+      <button class="btn btn--primary" type="submit" id="login-submit">로그인</button>
+      <p id="login-error" class="text-sm" role="alert" style="color:var(--color-danger); min-height:1.2em;"></p>
+      <p class="text-sm text-muted">데모 계정: <strong>demo</strong> / <strong>Demo1234!</strong></p>
+      <p class="text-sm"><a href="signup.html">회원가입하기</a></p>
+    </form>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/login.js"></script>
+</body>
+</html>

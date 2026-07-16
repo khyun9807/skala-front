@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방문자 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <h1 class="section__title">방문자 통계</h1>
+
+    <div class="grid grid--3">
+      <div class="card"><h3>현재 세션</h3><p id="visitor-session-info" class="text-sm"></p></div>
+      <div class="card"><h3>방문 횟수</h3><p id="visitor-visit-count" class="text-sm"></p></div>
+      <div class="card"><h3>클릭 수 / 스크롤 깊이</h3><p id="visitor-click-scroll" class="text-sm"></p></div>
+    </div>
+
+    <section class="card" style="margin-top: var(--space-4);">
+      <h3>페이지별 방문수</h3>
+      <canvas id="visitor-pages-chart" style="width:100%;height:200px;"></canvas>
+    </section>
+
+    <section class="card" style="margin-top: var(--space-4);">
+      <h3>이벤트 로그</h3>
+      <ul id="visitor-event-log" class="stack text-sm" style="max-height:240px; overflow:auto;"></ul>
+    </section>
+
+    <section class="card" style="margin-top: var(--space-4);">
+      <h3>개인정보 보호</h3>
+      <label class="row"><input type="checkbox" id="visitor-consent-toggle" /> 상세 이벤트(클릭/스크롤) 수집에 동의합니다</label>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn btn--sm" id="visitor-export-btn" type="button">JSON 내보내기</button>
+        <button class="btn btn--sm btn--danger" id="visitor-clear-btn" type="button">방문 기록 초기화</button>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: var(--space-4);">
+      <h3>서버가 필요한 기능</h3>
+      <p class="text-sm text-muted">브라우저 저장소만으로는 아래 항목을 정확히 집계할 수 없습니다(다른 사용자의 데이터에 접근할 수 없기 때문). 실제 서비스라면 서버 로그 기반 API가 필요합니다.</p>
+      <ul id="visitor-server-required" class="stack text-sm"></ul>
+      <p id="visitor-mock-stats" class="text-sm provider-badge" style="margin-top:8px;"></p>
+    </section>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/visitors.js"></script>
+</body>
+</html>

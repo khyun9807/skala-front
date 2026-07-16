@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TesseraJS 데모</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main>
+    <section class="hero container">
+      <h1 class="hero__title">외부 라이브러리 없이 만든 바닐라 JS 라이브러리, TesseraJS</h1>
+      <p class="text-muted">자기소개 · 블로그 · 회원가입 · 일정 · 여행 · 방문자 통계를 하나의 라이브러리로 엮은 데모입니다.</p>
+      <form class="row" style="justify-content:center; margin-top: var(--space-4);" id="home-search-form">
+        <input type="search" class="field__input" data-search-input placeholder="블로그·여행·일정 검색 ( / )" style="max-width:320px;" />
+        <button class="btn btn--primary" type="submit">검색</button>
+      </form>
+      <ul id="home-search-results" class="stack text-sm" style="margin-top: var(--space-3); max-width: 480px; margin-inline:auto;"></ul>
+    </section>
+
+    <section class="container section grid grid--3">
+      <article class="card" id="home-profile-card">
+        <h2 class="card__title">자기소개</h2>
+        <div id="home-profile-summary" class="stack text-sm"></div>
+        <a class="btn btn--sm" style="margin-top: var(--space-3);" href="pages/profile.html">프로필 자세히 보기</a>
+      </article>
+
+      <article class="card" id="home-blog-card">
+        <h2 class="card__title">최근 블로그 글</h2>
+        <ul id="home-recent-posts" class="stack text-sm"></ul>
+        <a class="btn btn--sm" style="margin-top: var(--space-3);" href="pages/blog.html">블로그 전체보기</a>
+      </article>
+
+      <article class="card" id="home-schedule-card">
+        <h2 class="card__title">다음 수업 / 일정</h2>
+        <div id="home-next-class" class="text-sm"></div>
+        <a class="btn btn--sm" style="margin-top: var(--space-3);" href="pages/schedule.html">일정표 보기</a>
+      </article>
+
+      <article class="card" id="home-travel-card">
+        <h2 class="card__title">예정된 여행</h2>
+        <div id="home-next-travel" class="text-sm"></div>
+        <a class="btn btn--sm" style="margin-top: var(--space-3);" href="pages/travel.html">여행 계획 보기</a>
+      </article>
+
+      <article class="card" id="home-visitor-card">
+        <h2 class="card__title">방문자 요약</h2>
+        <div id="home-visitor-summary" class="text-sm stack"></div>
+        <a class="btn btn--sm" style="margin-top: var(--space-3);" href="pages/visitors.html">방문자 통계 보기</a>
+      </article>
+
+      <article class="card" id="home-weather-card">
+        <h2 class="card__title">현재 날씨</h2>
+        <div id="home-weather" class="text-sm"></div>
+        <button class="btn btn--sm" type="button" id="home-weather-refresh" style="margin-top: var(--space-3);">내 위치로 새로고침</button>
+      </article>
+
+      <article class="card" id="home-exchange-card">
+        <h2 class="card__title">환율 (USD → KRW)</h2>
+        <div id="home-exchange" class="text-sm"></div>
+      </article>
+
+      <article class="card" id="home-activity-card">
+        <h2 class="card__title">최근 활동</h2>
+        <ul id="home-recent-activity" class="stack text-sm"></ul>
+      </article>
+
+      <article class="card" id="home-notification-card">
+        <h2 class="card__title">알림 &amp; 네트워크 상태</h2>
+        <p class="text-sm">네트워크: <span id="home-network-status" class="badge"></span></p>
+        <p class="text-sm">브라우저 알림: <span id="home-notification-status" class="badge">확인 중</span></p>
+        <button class="btn btn--sm" type="button" id="home-notification-enable">알림 켜기</button>
+      </article>
+    </section>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="js/pages/home.js"></script>
+</body>
+</html>

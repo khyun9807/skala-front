@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>여행 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <h1 class="section__title">여행</h1>
+    <div id="travel-list" class="grid grid--2"></div>
+
+    <section class="section">
+      <h2 class="section__title">새 여행 계획</h2>
+      <form id="travel-form" class="card grid grid--3">
+        <input name="title" placeholder="여행 이름" class="field__input" required />
+        <input name="cities" placeholder="방문 도시(쉼표로 구분)" class="field__input" />
+        <select name="baseCurrency" class="field__select">
+          <option value="KRW">KRW</option>
+          <option value="USD">USD</option>
+          <option value="JPY">JPY</option>
+        </select>
+        <label class="field"><span class="field__hint">출발일</span><input type="date" name="startDate" class="field__input" required /></label>
+        <label class="field"><span class="field__hint">도착일</span><input type="date" name="endDate" class="field__input" required /></label>
+        <input type="number" name="budgetLimit" placeholder="예산 한도" class="field__input" />
+        <button class="btn btn--sm btn--primary" type="submit">여행 추가</button>
+      </form>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">여행 추천</h2>
+      <div class="row">
+        <input type="number" id="recommend-budget" class="field__input" placeholder="예산" style="max-width:120px;" />
+        <input type="number" id="recommend-duration" class="field__input" placeholder="희망 일수" style="max-width:120px;" />
+        <button class="btn btn--sm" id="recommend-btn" type="button">추천받기</button>
+      </div>
+      <ul id="recommend-list" class="stack text-sm" style="margin-top: var(--space-3);"></ul>
+    </section>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/travel.js"></script>
+</body>
+</html>

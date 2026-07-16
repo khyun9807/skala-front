@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <rect width="400" height="260" fill="#bfe3f2"/>
+  <polygon points="0,180 80,90 140,160 200,70 260,150 320,100 400,180 400,260 0,260" fill="#7a8ca3"/>
+  <polygon points="60,140 80,90 100,140" fill="#ffffff"/>
+  <polygon points="180,120 200,70 220,120" fill="#ffffff"/>
+  <rect y="200" width="400" height="60" fill="#4f7a5c"/>
+  <text x="200" y="235" font-family="sans-serif" font-size="18" fill="#ffffff" text-anchor="middle">리장 호도협</text>
+</svg>
