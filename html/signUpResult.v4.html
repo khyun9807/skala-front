@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="rose">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "rose");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입결과 - signUpResult v4</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<dialog class="aur-modal" open>
+  <p class="aur-text-center"><span style="font-size:2.5rem">🎉</span><br><strong id="v4-modal-welcome">회원가입이 정상적으로 처리되었습니다!</strong></p>
+  <form method="dialog">
+    <div class="aur-modal__actions" style="justify-content:center"><button class="aur-btn aur-btn--primary">확인</button></div>
+  </form>
+</dialog>
+
+<main class="aur-container aur-container--md aur-py-6">
+  <div class="aur-text-center aur-mb-4">
+    <h1 class="aur-anim-fade-in" id="v4-welcome-title">🎉 회원가입을 진심으로 축하합니다!</h1>
+    <p class="aur-text-muted" id="v4-welcome-sub">SKALA-FRONT 회원이 되신 것을 환영합니다.</p>
+    <p id="v4-account-status" class="aur-badge aur-mt-2"></p>
+  </div>
+
+  <marquee behavior="scroll" direction="right" scrollamount="6" class="aur-mb-6">🎊 축하합니다 🎊 SKALA-FRONT 회원이 되신 것을 환영합니다 🎊</marquee>
+
+  <section id="submitted-info" class="aur-card aur-mb-6">
+    <h2 class="aur-mb-3">제출하신 정보 <span class="aur-badge aur-badge--success">TesseraJS</span></h2>
+    <table class="aur-table">
+      <tbody id="v4-submitted-table"></tbody>
+    </table>
+  </section>
+
+  <section id="notice" class="aur-card aur-mb-6">
+    <h2 class="aur-mb-3">안내 사항</h2>
+    <ul>
+      <li>입력하신 이메일 주소로 가입 확인 메일이 발송되었습니다.</li>
+      <li>보안을 위해 <strong>첫 로그인 후 비밀번호를 다시 한번 확인</strong>해 주세요.</li>
+      <li>작성하신 프로필 정보는 마이페이지에서 언제든지 수정이 가능합니다.</li>
+      <li>비밀번호는 원문이 아니라 <data value="SHA-256">Web Crypto SHA-256 해시</data>로만 저장됩니다.</li>
+    </ul>
+  </section>
+
+  <blockquote class="aur-quote aur-mb-6">
+    <p>가입을 <mark>환영</mark>하는 마음을 담아, 앞으로 함께할 학습 여정을 응원합니다.</p>
+  </blockquote>
+
+  <section class="aur-mb-6">
+    <h2 class="aur-mb-3">다음 단계</h2>
+    <div class="aur-card">
+      <div class="aur-timeline">
+        <div class="aur-timeline__item"><span class="aur-timeline__time">1단계</span><p>이메일 인증 확인하기</p></div>
+        <div class="aur-timeline__item"><span class="aur-timeline__time">2단계</span><p>프로필 사진과 소개 채워넣기</p></div>
+        <div class="aur-timeline__item"><span class="aur-timeline__time">3단계</span><p>첫 강의 시간표 확인하기</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="go">
+    <h2 class="aur-mb-3">이동하기</h2>
+    <p class="aur-text-muted aur-mb-4">아래 링크를 클릭하면 이전에 작성한 다른 페이지로 이동할 수 있습니다.</p>
+
+    <div class="aur-auto-grid">
+      <a class="aur-card aur-card--spotlight aur-text-center" href="myProfile.v4.html">👤<br>나의 프로필 보기</a>
+      <a class="aur-card aur-card--spotlight aur-text-center" href="myClass.v4.html">🗓️<br>나의 수업 시간표 보기</a>
+      <a class="aur-card aur-card--spotlight aur-text-center" href="myTrip.v4.html">🌍<br>나의 여행 앨범 보기</a>
+      <a class="aur-card aur-card--spotlight aur-text-center" href="index.v4.html">🏠<br>메인 허브로 돌아가기</a>
+    </div>
+  </section>
+
+  <footer class="aur-mt-6 aur-text-center">
+    <small class="aur-text-muted">가입일: <time datetime="2026-07-16">2026년 7월 16일</time></small>
+  </footer>
+</main>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v4.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v4.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v4.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v4.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v4.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+<script type="module" src="../script/v4/signUpResult.js"></script>
+</body>
+</html>

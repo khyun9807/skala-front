@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 소개 - myProfile v4</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+<style>
+  .v4-skill-chip.is-active { background: var(--aur-c-primary); color: #fff; border-color: var(--aur-c-primary); }
+</style>
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo"><span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v4</span></div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link is-active" href="myProfile.v4.html">소개</a>
+    <a class="aur-navbar__link" href="myClass.v4.html">수업 시간표</a>
+    <a class="aur-navbar__link" href="myTrip.v4.html">여행 앨범</a>
+    <a class="aur-navbar__link" href="signUp.v4.html">회원가입</a>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+  <div class="aur-text-center aur-mb-6">
+    <h1 class="aur-anim-fade-in">👋 안녕하세요! 저를 소개합니다</h1>
+    <p class="aur-text-muted">아래는 제가 좋아하는 것들과 올해의 계획, 그리고 저를 표현하는 단어들입니다.</p>
+  </div>
+
+  <div class="aur-grid aur-mb-6">
+    <div class="aur-col-4">
+      <div class="aur-card aur-card--profile aur-card--tilt" style="height:100%">
+        <div class="aur-avatar aur-avatar--lg" style="margin-inline:auto">KH</div>
+        <p class="aur-mt-3"><ruby>강병호<rt>SKALA</rt></ruby></p>
+        <span class="aur-status aur-status--online aur-justify-center" style="display:flex"><span class="aur-status__dot"></span> 온라인</span>
+        <button class="aur-btn aur-btn--outline aur-btn--sm aur-mt-4" popovertarget="life-goal" popovertargetaction="toggle">🎯 인생 목표 보기</button>
+        <div class="aur-popover" popover id="life-goal">
+          <h3>🎯 나의 인생 목표</h3>
+          <p>사용자에게 <strong>좋은 경험</strong>을 선물하는 개발자가 되는 것!</p>
+        </div>
+        <div class="aur-flex aur-flex-col aur-gap-2 aur-mt-3">
+          <button class="aur-btn aur-btn--outline aur-btn--sm" id="v4-export-json" type="button">⬇ 프로필 JSON 내보내기</button>
+          <label class="aur-btn aur-btn--outline aur-btn--sm" for="v4-import-json" style="cursor:pointer">⬆ 프로필 JSON 가져오기</label>
+          <input type="file" id="v4-import-json" accept="application/json" hidden>
+        </div>
+      </div>
+    </div>
+
+    <div class="aur-col-8">
+      <div class="aur-card" style="height:100%">
+        <section id="favorite-food" class="aur-mb-5">
+          <h2 class="aur-mb-2">🍜 내가 좋아하는 음식</h2>
+          <ul>
+            <li>아이스 아메리카노 ☕ <sub>(하루 2잔)</sub></li>
+            <li>매콤한 떡볶이 🌶️</li>
+            <li>달콤한 초콜릿 케이크 🍰</li>
+          </ul>
+        </section>
+
+        <section id="todo-this-year">
+          <h2 class="aur-mb-2">📅 올해 할 일</h2>
+          <ol>
+            <li>일주일에 책 한 권씩 읽기 📚 <small>(<s>격주</s> → 매주로 목표 상향)</small></li>
+            <li>꾸준히 운동해서 체력 키우기 💪</li>
+            <li>새로운 프로그래밍 언어 배우기 💻</li>
+          </ol>
+        </section>
+
+        <details class="aur-mt-4">
+          <summary>✏️ 자기소개 수정 (자동 저장)</summary>
+          <form id="v4-profile-edit-form" class="aur-mt-3">
+            <div class="aur-field">
+              <label class="aur-label" for="v4-tagline">한 줄 소개</label>
+              <input class="aur-input" type="text" id="v4-tagline" maxlength="80">
+            </div>
+            <div class="aur-field aur-mt-2">
+              <label class="aur-label" for="v4-bio">자기소개</label>
+              <textarea class="aur-textarea" id="v4-bio" rows="3"></textarea>
+            </div>
+            <button class="aur-btn aur-btn--sm aur-btn--primary aur-mt-2" type="submit">임시 저장</button>
+            <span id="v4-draft-status" class="aur-text-muted" style="font-size:var(--aur-text-xs)"></span>
+          </form>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <div class="aur-auto-grid aur-mb-6">
+    <div class="aur-card aur-card--spotlight aur-text-center">
+      <h3 class="aur-mb-2">호기심</h3>
+      <p class="aur-text-muted">새로운 기술이나 흥미로운 트렌드를 보면 <em>직접 경험해보고</em> 배워야 직성이 풀립니다.</p>
+      <p class="aur-mt-3">지수: <meter value="9" max="10">9/10</meter></p>
+    </div>
+    <div class="aur-card aur-card--spotlight aur-text-center">
+      <h3 class="aur-mb-2">꾸준함</h3>
+      <p class="aur-text-muted">매일 작은 계획이라도 세우고 그것을 지키기 위해 노력하는 <strong>성실함</strong>을 가지고 있습니다.</p>
+      <p class="aur-mt-3">지수: <meter value="8" max="10">8/10</meter></p>
+    </div>
+    <div class="aur-card aur-card--spotlight aur-text-center">
+      <h3 class="aur-mb-2">크리에이티브</h3>
+      <p class="aur-text-muted">단순한 결과물보다는 사용자에게 더 나은 경험과 시각적인 즐거움을 주는 것을 좋아합니다.</p>
+      <p class="aur-mt-3">지수: <meter value="10" max="10">10/10</meter></p>
+    </div>
+  </div>
+
+  <section id="projects" class="aur-card aur-mb-6">
+    <h2 class="aur-mb-1">🛠️ 프로젝트 <span class="aur-badge aur-badge--success">TesseraJS</span></h2>
+    <p class="aur-text-muted aur-mb-3">검색하거나 기술 스택 칩을 눌러 필터링해보세요. 클릭하면 상세 정보가 모달로 열립니다.</p>
+
+    <div class="aur-flex aur-items-center aur-gap-3 aur-mb-3" style="flex-wrap:wrap">
+      <input class="aur-input" type="search" id="v4-project-search" placeholder="프로젝트 검색" style="max-width:220px">
+      <div id="v4-skill-chips" class="aur-flex aur-gap-2" style="flex-wrap:wrap"></div>
+    </div>
+
+    <div id="v4-project-grid" class="aur-auto-grid aur-mb-4"></div>
+
+    <div class="aur-grid">
+      <div class="aur-col-8">
+        <canvas id="v4-skill-chart" style="width:100%; height:200px"></canvas>
+      </div>
+      <div class="aur-col-4">
+        <p class="aur-text-muted" style="font-size:var(--aur-text-xs)">기술 스택 사용 빈도(프로젝트 기준). 즐겨찾기 <span id="v4-favorite-count">0</span>개 · 최근 본 <span id="v4-recent-count">0</span>개.</p>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="aur-modal" id="v4-project-modal">
+    <div class="aur-modal__header">
+      <h3 id="v4-modal-title"></h3>
+      <button class="aur-btn aur-btn--icon aur-btn--sm" type="button" onclick="document.getElementById('v4-project-modal').close()" aria-label="닫기">✕</button>
+    </div>
+    <p id="v4-modal-desc"></p>
+    <div id="v4-modal-stack" class="aur-flex aur-gap-2 aur-mb-3" style="flex-wrap:wrap"></div>
+    <p class="aur-text-muted" id="v4-modal-dates" style="font-size:var(--aur-text-xs)"></p>
+    <div class="aur-modal__actions">
+      <button class="aur-btn aur-btn--outline aur-btn--sm" id="v4-modal-favorite" type="button">☆ 즐겨찾기</button>
+      <a class="aur-btn aur-btn--primary aur-btn--sm" id="v4-modal-open-link" href="#">프로젝트 열기</a>
+    </div>
+  </dialog>
+
+  <section id="about-words" class="aur-card aur-mb-6">
+    <h2 class="aur-mb-3">✨ 나를 설명하는 단어들 (정리)</h2>
+    <dl>
+      <dt>호기심</dt>
+      <dd>새로운 것을 배우는 즐거움</dd>
+      <dt>꾸준함</dt>
+      <dd>작은 습관을 지키는 힘</dd>
+      <dt>크리에이티브</dt>
+      <dd>더 나은 경험을 향한 고민</dd>
+    </dl>
+  </section>
+
+  <blockquote class="aur-quote aur-mb-6" cite="https://example.com/motto">
+    <p>&ldquo;배우는 것을 멈추는 순간, 성장도 멈춘다&rdquo;</p>
+    <footer>&mdash; <cite>나의 좌우명</cite> (친구가 <q>이 말 진짜 너답다</q>고 해준 문장)</footer>
+  </blockquote>
+
+  <p><a class="aur-btn aur-btn--outline" href="index.v4.html">&larr; 메인으로 돌아가기</a></p>
+</main>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v4.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v4.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v4.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v4.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v4.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+<script type="module" src="../script/v4/myProfile.js"></script>
+</body>
+</html>
