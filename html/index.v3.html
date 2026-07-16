@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome SKALA — v3</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+<style>
+  /* 미션4 요구사항(Flexbox로 main/aside 가로 배치)을 문자 그대로 만족시키는
+     최소한의 페이지 전용 규칙. 나머지 스타일은 전부 aurora-ui 클래스. */
+  .aur-hub-flex { display: flex; gap: var(--aur-space-6); align-items: flex-start; }
+  .aur-hub-flex > aside { flex: 0 0 320px; }
+  .aur-hub-flex > main { flex: 1 1 0%; min-width: 0; }
+  @media (max-width: 786px) {
+    .aur-hub-flex { flex-direction: column; }
+    .aur-hub-flex > aside { flex-basis: auto; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+<div data-scroll-progress></div>
+
+<dialog class="aur-modal" open>
+  <div class="aur-modal__header"><h3>👋 환영합니다!</h3></div>
+  <p class="aur-text-muted">나의 SKALA 유니버스 v3에 처음 오셨군요. aurora-ui 디자인 시스템으로 새로 단장했습니다 — 하단 독에서 테마도 바꿔보세요.</p>
+  <form method="dialog">
+    <div class="aur-modal__actions"><button class="aur-btn aur-btn--primary">확인했어요</button></div>
+  </form>
+</dialog>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo">
+    <span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v3</span>
+  </div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="myProfile.v3.html">소개</a>
+    <a class="aur-navbar__link" href="myClass.v3.html">수업 시간표</a>
+    <a class="aur-navbar__link" href="myTrip.v3.html">여행 앨범</a>
+    <div class="aur-dropdown">
+      <button class="aur-navbar__link" data-dropdown-trigger type="button">더보기 ▾</button>
+      <div class="aur-dropdown__panel">
+        <a class="aur-dropdown__item" href="signUp.v3.html">✍️ 회원가입</a>
+        <a class="aur-dropdown__item" href="index.html">📄 v1 (순수 HTML) 보기</a>
+      </div>
+    </div>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+
+  <section class="aur-text-center aur-mb-8">
+    <span class="aur-badge aur-badge--outline">✨ aurora-ui 디자인 시스템 적용</span>
+    <h1 class="aur-anim-fade-in aur-mt-3">환영 인사</h1>
+    <p class="aur-text-muted">저의 프로필, 학습 내용, 여행 기록을 모아둔 개인 <abbr title="Hub Page">Hub</abbr> 페이지입니다. 스칼라에 오신 것을 환영합니다.</p>
+    <marquee behavior="scroll" scrollamount="5">📢 NEW! 회원가입 이벤트 진행중 · 여행 앨범에 새 사진 추가 · 오늘도 화이팅! 🎉</marquee>
+  </section>
+
+  <section class="aur-stats aur-mb-8 aur-reveal">
+    <div><div class="aur-counter" data-target="6">0</div><p class="aur-text-muted">완성한 v3 페이지</p></div>
+    <div><div class="aur-counter" data-target="5">0</div><p class="aur-text-muted">테마 프리셋</p></div>
+    <div><div class="aur-counter" data-target="100" data-suffix="%">0</div><p class="aur-text-muted">외부 라이브러리 없이</p></div>
+    <div><div class="aur-counter" data-target="3">0</div><p class="aur-text-muted">여행지 기록</p></div>
+  </section>
+
+  <div class="aur-hub-flex">
+    <main id="news-area">
+      <section id="news" class="aur-mb-6">
+        <h2 class="aur-mb-4">📌 오늘의 주요 소식</h2>
+        <div class="aur-card">
+          <details name="notice" open>
+            <summary>회원가입 페이지 오픈</summary>
+            <p><mark>SKALA-FRONT 회원가입</mark> 페이지가 새로 열렸습니다. 지금 바로 가입하고 다양한 소식을 받아보세요.</p>
+            <p>작성일: <time datetime="2026-07-15">2026년 7월 15일</time></p>
+          </details>
+          <hr>
+          <details name="notice">
+            <summary>여행 앨범 업데이트</summary>
+            <p>여행 앨범 페이지에 새로운 사진과 영상이 추가되었습니다. <a href="myTrip.v3.html">여행 앨범</a>에서 확인해보세요.</p>
+          </details>
+          <hr>
+          <details name="notice">
+            <summary>강의 시간표 개편 안내</summary>
+            <p>이번 주부터 <a href="myClass.v3.html">강의 시간표</a>가 새롭게 개편되었습니다.</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="best-cut" class="aur-mb-6">
+        <h2 class="aur-mb-4">🏔️ 이달의 베스트 컷</h2>
+        <article class="aur-card aur-card--overlay">
+          <div class="aur-card__bg" style="background-image:url('../media/lijiang.svg'); background-size:cover; background-position:center"></div>
+          <div class="aur-card__scrim"></div>
+          <div class="aur-card__overlay-content">
+            <figcaption>중국 리장 호도협의 웅장한 협곡 모습 (2025년 촬영) &mdash; <small>클릭하면 여행 앨범으로 이동</small></figcaption>
+          </div>
+          <a href="myTrip.v3.html" class="aur-pointer-none" style="position:absolute; inset:0" aria-label="여행 앨범 더보기"></a>
+        </article>
+      </section>
+
+      <blockquote class="aur-quote aur-mb-6" cite="https://www.skala.ai">
+        <p>배움은 멈추지 않는 여행이다.</p>
+      </blockquote>
+
+      <section id="faq">
+        <h2 class="aur-mb-4">자주 묻는 질문</h2>
+        <div class="aur-card" data-accordion-group>
+          <div class="aur-accordion__item is-open">
+            <button class="aur-accordion__trigger" type="button">이 페이지는 v1과 뭐가 다른가요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">필수 태그 구조는 그대로 두고, 직접 만든 <cite>aurora-ui</cite> 디자인 시스템으로 시각적으로 업그레이드했습니다.</div></div>
+          </div>
+          <div class="aur-accordion__item">
+            <button class="aur-accordion__trigger" type="button">테마는 어떻게 바꾸나요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">하단 독의 🎨 버튼이나 헤더의 "테마" 버튼을 누르면 Dark → Light → Aurora → Mono → Cyber 순으로 순환합니다.</div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">🌤️ 실시간 날씨</h2>
+        <address>현재 위치: 광주광역시<wbr>광산구</address>
+        <!-- [JS 심화] 도시를 고르면 realtimeInfo.js가 Open-Meteo API로 실시간 날씨를 표시 -->
+        <div class="aur-field aur-mt-3">
+          <label class="aur-label" for="city-select">도시 선택</label>
+          <select class="aur-select" id="city-select">
+            <option value="">-- 도시를 선택하세요 --</option>
+          </select>
+        </div>
+        <div id="weather-box" class="aur-mt-3"></div>
+        <p class="aur-mt-3"><small class="aur-text-muted">추천 학습 사이트: <a href="https://www.w3schools.com" target="_blank" rel="noopener">W3Schools</a></small></p>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">🎮 JS 미니 도구</h2>
+        <!-- [JS 기초] 버튼 클릭 → prompt/alert 기반 과제 실행 -->
+        <p class="aur-text-muted aur-mb-3">자바스크립트 기초 과제를 직접 실행해 보세요.</p>
+        <div class="aur-flex aur-flex-col aur-gap-2">
+          <button class="aur-btn aur-btn--primary aur-btn--sm" id="btn-updown" type="button">🔢 Up-Down 숫자 게임</button>
+          <button class="aur-btn aur-btn--outline aur-btn--sm" id="btn-grade" type="button">📝 성적 계산기</button>
+          <button class="aur-btn aur-btn--outline aur-btn--sm" id="btn-bag" type="button">🎒 내 가방 보기</button>
+        </div>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">이번 달 학습 진행률</h2>
+        <p class="aur-mb-1">HTML/CSS 과제 진행률</p>
+        <div class="aur-progress aur-progress--striped aur-mb-3"><div class="aur-progress__fill" style="--val:85%"></div></div>
+        <p>전체 만족도: <meter value="9" min="0" max="10" low="3" high="7" optimum="10">9/10</meter> 9/10</p>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">최근 활동</h2>
+        <div class="aur-timeline">
+          <div class="aur-timeline__item"><span class="aur-timeline__time">방금 전</span><p>aurora-ui로 전체 페이지 업그레이드</p></div>
+          <div class="aur-timeline__item"><span class="aur-timeline__time">어제</span><p>여행 앨범에 사진 추가</p></div>
+          <div class="aur-timeline__item"><span class="aur-timeline__time">3일 전</span><p>회원가입 폼 완성</p></div>
+        </div>
+      </div>
+
+      <div class="aur-card">
+        <h2 class="aur-mb-3">바로가기</h2>
+        <table class="aur-table aur-table--hover aur-mb-4">
+          <thead><tr><th>페이지</th><th>상태</th></tr></thead>
+          <tbody>
+            <tr><td>나의 소개</td><td><span class="aur-badge aur-badge--success">완료</span></td></tr>
+            <tr><td>강의 시간표</td><td><span class="aur-badge aur-badge--success">완료</span></td></tr>
+            <tr><td>여행 앨범</td><td><span class="aur-badge aur-badge--success">완료</span></td></tr>
+          </tbody>
+        </table>
+        <div class="aur-flex aur-flex-col aur-gap-2">
+          <a class="aur-btn aur-btn--outline aur-btn--sm" href="myProfile.v3.html">👤 나의 소개 (Profile)</a>
+          <a class="aur-btn aur-btn--outline aur-btn--sm" href="myClass.v3.html">🗓️ 수업 시간표 (Class)</a>
+          <a class="aur-btn aur-btn--outline aur-btn--sm" href="myTrip.v3.html">🌍 여행 앨범 (Album)</a>
+          <a class="aur-btn aur-btn--gradient aur-btn--sm" href="signUp.v3.html">✍️ 회원가입 (Sign Up)</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="aur-footer aur-container">
+  <div class="aur-footer__bottom">
+    <span>이메일 문의: <a href="mailto:medit74@sk.com">medit74@sk.com</a></span>
+    <small>&copy; 2026 SKALA-FRONT · aurora-ui로 만든 v3 페이지</small>
+  </div>
+</footer>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v3.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v3.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v3.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v3.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v3.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+
+<!-- [JS 기초] Up-Down 게임 / 성적 계산기 / 내 가방 보기 -->
+<script src="../script/upDown.js" defer></script>
+<script src="../script/grade.js" defer></script>
+<script src="../script/bag.js" defer></script>
+<!-- [JS 심화] 실시간 날씨 (모듈 분리: realtimeInfo.js가 weatherAPI.js를 import) -->
+<script type="module" src="../script/realtimeInfo.js"></script>
+</body>
+</html>
