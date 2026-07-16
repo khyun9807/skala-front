@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile · SKALA Folio</title>
+  <meta name="description" content="나의 소개 — ul/ol/dl 편집형 프로필 + 프로젝트 그리드·스킬 차트(TesseraJS)." />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m"></div>
+    <div class="folio-nav__r"><a href="index.html" data-cursor="back">← Index</a></div>
+  </nav>
+
+  <main class="folio-doc">
+    <header class="folio-doc__hero">
+      <p class="folio-doc__eyebrow reveal">01 / Profile</p>
+      <h1 class="folio-doc__title reveal" data-split>나를<br>소개합니다</h1>
+      <p class="folio-doc__lead reveal">좋아하는 것, 올해의 다짐, 그리고 나를 설명하는 단어들. 그 아래에 <mark>실제 프로젝트 아카이브</mark>를 얹었습니다.</p>
+      <p class="reveal" style="margin-top:4px"><span class="aur-status aur-status--online"><span class="aur-status__dot"></span> 열려 있음 · 협업 가능</span></p>
+    </header>
+
+    <!-- ══ 요구 보존: <ul> · <ol> · <dl> (편집형으로 재해석) ══ -->
+    <section class="folio-doc__section" data-theme="light">
+      <p class="folio-doc__label reveal">Editorial — 좋아하는 것 · 올해 할 일 · 나를 설명하는 단어</p>
+      <div class="folio-lists reveal">
+        <div class="folio-listcol">
+          <p class="folio-listcol__title">좋아하는 음식 · &lt;ul&gt;</p>
+          <ul>
+            <li>스페셜티 드립 커피</li>
+            <li>마르게리타 피자</li>
+            <li>평양냉면</li>
+            <li>제철 딸기</li>
+          </ul>
+        </div>
+        <div class="folio-listcol">
+          <p class="folio-listcol__title">올해 할 일 · &lt;ol&gt;</p>
+          <ol>
+            <li>포트폴리오 사이트 완성</li>
+            <li>오픈소스에 첫 PR 머지</li>
+            <li>알고리즘 200문제</li>
+            <li>여행지 세 곳 방문</li>
+          </ol>
+        </div>
+        <div class="folio-listcol">
+          <p class="folio-listcol__title">나를 설명하는 단어 · &lt;dl&gt;</p>
+          <dl>
+            <dt>집요함</dt><dd>버그의 근본 원인을 찾을 때까지 파고듭니다.</dd>
+            <dt>디테일</dt><dd>1px, 16ms의 차이를 신경 씁니다.</dd>
+            <dt>호기심</dt><dd>새 브라우저 API를 먼저 실험해 봅니다.</dd>
+          </dl>
+        </div>
+      </div>
+      <blockquote class="folio-quote reveal">
+        <p>좋은 코드는 좋은 글처럼 읽힌다.</p>
+        <cite>— 내가 지키려는 원칙</cite>
+      </blockquote>
+    </section>
+
+    <!-- ══ tessera: 프로젝트 아카이브 (그리드/검색/필터/모달/차트/즐겨찾기/JSON) ══ -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Archive — TesseraJS · Canvas chart · IndexedDB favorites</p>
+      <h2 class="folio-doc__h2 reveal" data-split>프로젝트 아카이브.</h2>
+
+      <form id="profile-edit-form" class="reveal" style="margin-bottom:36px; display:flex; flex-direction:column; gap:14px; max-width:560px">
+        <div class="folio-field"><label for="edit-tagline">한 줄 태그라인</label><input type="text" id="edit-tagline" name="tagline"></div>
+        <div class="folio-field"><label for="edit-bio">자기소개 (임시 저장 · sessionStorage)</label><textarea id="edit-bio" name="bio" rows="3"></textarea></div>
+        <div class="folio-form__actions">
+          <button class="folio-btn" type="submit" data-cursor="save">임시 저장</button>
+          <span class="folio-status" id="draft-status"></span>
+        </div>
+      </form>
+
+      <div class="folio-chips reveal" id="skill-chips"></div>
+      <input type="search" class="folio-search reveal" id="project-search" placeholder="프로젝트 검색…" autocomplete="off" data-cursor="type" aria-label="프로젝트 검색">
+      <div class="folio-cards reveal" id="project-grid"></div>
+
+      <div class="folio-meta-row reveal" style="margin-top:24px">
+        <span>즐겨찾기 <b id="favorite-count">0</b></span>
+        <span>최근 열람 <b id="recent-count">0</b></span>
+      </div>
+
+      <div class="folio-doc__section" style="border:0; padding-bottom:0">
+        <p class="folio-doc__label reveal">스킬 사용 빈도 — Canvas bar chart</p>
+        <canvas id="skill-chart" width="720" height="260" class="reveal" style="max-width:100%"></canvas>
+      </div>
+
+      <div class="folio-file-row reveal">
+        <button class="folio-btn" id="export-json" type="button" data-cursor="export">프로필 JSON 내보내기</button>
+        <label class="folio-file-label" data-cursor="import">JSON 가져오기<input type="file" id="import-json" accept="application/json"></label>
+      </div>
+    </section>
+  </main>
+
+  <footer class="folio-section folio-footer" data-theme="dark">
+    <div class="folio-footer__big reveal" data-split>Back to<br>the hub.</div>
+    <a class="jour" href="index.html" data-cursor="home">
+      <span class="jour__word">SKALA · Index</span>
+      <span class="jour__arrow">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </footer>
+
+  <dialog id="project-modal" class="folio-modal">
+    <div class="folio-modal__inner">
+      <button class="folio-modal__close" type="button" data-modal-close aria-label="닫기">×</button>
+      <h3 id="modal-title"></h3>
+      <p class="folio-block__meta" id="modal-dates"></p>
+      <p id="modal-desc" style="line-height:1.7; opacity:.85"></p>
+      <div class="folio-tags" id="modal-stack"></div>
+      <div class="folio-form__actions">
+        <button class="folio-btn" id="modal-favorite" type="button" data-cursor="star"></button>
+        <a class="folio-btn" id="modal-open-link" href="#" target="_blank" rel="noopener" data-cursor="open">열기 ↗</a>
+      </div>
+    </div>
+  </dialog>
+
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <script type="module" src="../script/folio/profile.js"></script>
+</body>
+</html>

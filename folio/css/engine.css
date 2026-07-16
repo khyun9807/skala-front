@@ -1,0 +1,171 @@
+/* ─────────────────────────────────────────────────────────────
+   folio/css/engine.css — 시네마틱 엔진 공용 스타일 (외부 의존 0)
+   리셋 + 관성스크롤 컨테이너 + 커스텀 커서 + 리빌 + reduced-motion.
+   (로더/게이트/링/패널/EQ/전환의 CSS는 Phase 1~2에서 이 파일에 추가)
+   ───────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  /* 테마 반전 시 배경/글자색이 부드럽게 전환 (@property 등록 덕분에 애니메이션 가능) */
+  transition: --bg var(--dur-slow) var(--ease), --fg var(--dur-slow) var(--ease);
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+
+/* 커스텀 커서 사용 중에는 네이티브 커서 숨김 */
+html.folio-cursor-on, html.folio-cursor-on * { cursor: none !important; }
+
+/* 스크린리더 전용 (WebGL/패널 콘텐츠의 시맨틱 폴백 목록 등) */
+.folio-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ── 관성 스크롤 컨테이너 ────────────────────────────────── */
+.folio-scroll {
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: var(--z-content); will-change: transform;
+}
+.folio-spacer { position: absolute; top: 0; left: 0; width: 1px; pointer-events: none; }
+
+/* ── 커스텀 커서 ────────────────────────────────────────── */
+.folio-cursor {
+  position: fixed; top: 0; left: 0; width: 7px; height: 7px;
+  /* 고정 라이트 색 + difference 블렌드 → 다크/라이트 배경 모두에서 자동 반전되어 항상 보임.
+     (var(--fg)를 쓰면 라이트 섹션에서 difference 결과가 배경과 같아져 커서가 사라짐) */
+  background: var(--color-light); z-index: var(--z-cursor); pointer-events: none;
+  translate: -50% -50%; mix-blend-mode: difference; will-change: transform;
+  transition: width var(--dur-base) var(--ease), height var(--dur-base) var(--ease);
+}
+.folio-cursor.is-big { width: 54px; height: 54px; }
+.folio-cursor-label {
+  position: fixed; top: 0; left: 0; z-index: calc(var(--z-cursor) + 1);
+  pointer-events: none; color: var(--color-light); font-size: var(--fontS);
+  letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
+  mix-blend-mode: difference; translate: 18px 12px; opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease); will-change: transform;
+}
+.folio-cursor-label.is-show { opacity: 1; }
+
+/* ── 리빌 (blur/opacity/translate) + 키네틱 단어 분해 ────── */
+.reveal {
+  opacity: 0; filter: blur(14px); transform: translateY(30px);
+  transition: opacity var(--dur-xslow) var(--ease),
+              filter var(--dur-xslow) var(--ease),
+              transform var(--dur-xslow) var(--ease);
+}
+.reveal.in { opacity: 1; filter: blur(0); transform: none; }
+
+.folio-w {
+  display: inline-block; opacity: 0; filter: blur(12px); transform: translateY(22px);
+  transition: opacity .8s var(--ease), filter .8s var(--ease), transform .8s var(--ease);
+  transition-delay: calc(var(--i) * 55ms);
+}
+.reveal.in .folio-w { opacity: 1; filter: blur(0); transform: none; }
+
+/* ── prefers-reduced-motion 폴백 ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+  .reveal, .folio-w { opacity: 1 !important; filter: none !important; transform: none !important; }
+  /* 가상 스크롤 해제 → 네이티브 스크롤 */
+  .folio-scroll { position: static !important; transform: none !important; }
+  .folio-spacer { display: none !important; }
+}
+
+/* 터치 기기: 커서 요소 자체 숨김 (initCursor가 생성 안 하지만 이중 안전) */
+@media (pointer: coarse) {
+  .folio-cursor, .folio-cursor-label { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   배경 도트필드 (고정) — 다크에서만 보임
+   ═══════════════════════════════════════════════════════════ */
+.folio-bg {
+  position: fixed; inset: 0; z-index: var(--z-bg); pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+:root.theme-light .folio-bg { opacity: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   히어로 스테이지: 회전 이미지 링(강강술래) + 중앙 엠블럼
+   ═══════════════════════════════════════════════════════════ */
+.folio-stage { position: fixed; inset: 0; z-index: var(--z-stage); pointer-events: none; will-change: opacity; }
+:root.theme-light .folio-stage { opacity: 0 !important; }
+.folio-stage .ring { position: absolute; inset: 0; }
+.folio-tile {
+  position: absolute; top: 0; left: 0; width: clamp(112px, 14vw, 224px); aspect-ratio: 16 / 10;
+  background-size: cover; background-position: center; border-radius: var(--radius-xs);
+  will-change: transform, opacity; box-shadow: 0 14px 55px rgba(0, 0, 0, .5); overflow: hidden;
+}
+.folio-stage__emblem {
+  position: absolute; top: 50%; left: 50%; translate: -50% -50%; z-index: 120; color: var(--color-light);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   로더 + 사운드 진입 게이트
+   ═══════════════════════════════════════════════════════════ */
+html.folio-loading, html.folio-loading body { overflow: hidden; }
+.folio-loader {
+  position: fixed; inset: 0; z-index: var(--z-loader); background: var(--color-dark);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .9s var(--ease), filter .9s var(--ease);
+}
+.folio-loader.is-done { opacity: 0; filter: blur(18px); pointer-events: none; }
+.folio-loader__dots { position: absolute; inset: 0; width: 100%; height: 100%; }
+.folio-loader__brand {
+  position: absolute; top: 24px; left: 22px; font-family: var(--font-display);
+  font-size: 32px; font-weight: 400; color: var(--color-light); letter-spacing: .01em;
+}
+.folio-loader__emblem { position: absolute; top: 50%; left: 50%; translate: -50% -50%; color: var(--color-light); }
+.folio-loader__pct {
+  position: absolute; bottom: 20px; left: 50%; translate: -50% 0;
+  color: var(--color-light); font-size: 11px; letter-spacing: .08em;
+}
+.folio-loader__gate {
+  position: absolute; bottom: 15%; left: 50%; translate: -50% 0;
+  display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;
+  color: var(--color-light); opacity: 0; transition: opacity .6s var(--ease); pointer-events: none;
+}
+.folio-loader.is-ready .folio-loader__gate { opacity: 1; pointer-events: auto; }
+.folio-loader__cue { margin: 0; font-size: var(--fontXS); text-transform: uppercase; letter-spacing: .28em; }
+.folio-loader__cue .sp { letter-spacing: .55em; }
+.folio-loader__silent {
+  background: none; border: 1px solid color-mix(in srgb, var(--color-light) 40%, transparent);
+  color: var(--color-light); font-size: var(--fontXS); text-transform: uppercase; letter-spacing: .14em;
+  padding: 8px 18px; border-radius: var(--radius-full);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.folio-loader__silent:hover { background: var(--color-light); color: var(--color-dark); }
+
+/* ═══════════════════════════════════════════════════════════
+   오디오 이퀄라이저 + mute 토글
+   ═══════════════════════════════════════════════════════════ */
+.folio-eq {
+  position: fixed; bottom: 18px; right: 20px; z-index: var(--z-chrome);
+  display: flex; align-items: flex-end; gap: 3px; height: 22px; pointer-events: none;
+}
+.folio-eq__bar {
+  width: 3px; height: 100%; background: var(--fg); transform: scaleY(.1); transform-origin: bottom;
+  will-change: transform;
+}
+.folio-mute {
+  position: fixed; bottom: 14px; right: 74px; z-index: var(--z-chrome); background: none; border: 0;
+  color: var(--fg); font-size: var(--fontXS); text-transform: uppercase; letter-spacing: .14em;
+  opacity: .7; transition: opacity var(--dur-fast) var(--ease);
+}
+.folio-mute:hover { opacity: 1; }
+@media (pointer: coarse) { .folio-eq { display: none; } }
