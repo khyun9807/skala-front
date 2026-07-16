@@ -185,6 +185,7 @@ open http://localhost:4173          # → 프로젝트 인덱스
 - **빌드 불필요** — 번들러·패키지 매니저 없이 그대로 동작합니다.
 - **`file://` 금지** — `@import`, ES Module, `fetch`가 CORS로 막힙니다.
 - 권장 브라우저: 최신 Chrome / Firefox / Safari (WebGL·IndexedDB·Web Worker 사용)
+- **v5 folio는 데스크톱 전용** — 모바일 접속 시 시네마틱 안내 화면을 거쳐 v4(모바일 최적화)로 자동 유도됩니다.
 
 ---
 
