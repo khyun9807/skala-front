@@ -121,6 +121,25 @@
         </div>
       </form>
     </section>
+
+    <!-- aurora-ui accordion: 도움말 · 약관 (components.js가 단일 오픈 처리) -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">도움말 · 약관 — aurora-ui accordion</p>
+      <div class="aur-accordion reveal" data-accordion-group>
+        <div class="aur-accordion__item is-open">
+          <button class="aur-accordion__trigger" type="button">입력한 정보는 어떻게 처리되나요?</button>
+          <div class="aur-accordion__panel"><div class="aur-accordion__body">비밀번호는 브라우저 <code>WebCrypto</code>(SHA-256)로 해시되어 저장되며, 원문은 어디에도 남지 않습니다.</div></div>
+        </div>
+        <div class="aur-accordion__item">
+          <button class="aur-accordion__trigger" type="button">회원가입 폼은 어떻게 동작하나요?</button>
+          <div class="aur-accordion__panel"><div class="aur-accordion__body">요구된 네이티브 <code>&lt;form method="get"&gt;</code> 제출을 그대로 유지하면서, 제출 직전에 실시간 검증과 계정 생성을 수행하고 결과 페이지로 개인화된 값을 넘깁니다.</div></div>
+        </div>
+        <div class="aur-accordion__item">
+          <button class="aur-accordion__trigger" type="button">외부 라이브러리를 썼나요?</button>
+          <div class="aur-accordion__panel"><div class="aur-accordion__body">아니요. 바닐라와 자체 라이브러리(로직은 <cite>tessera-js</cite>, 컴포넌트는 <cite>aurora-ui</cite>)만 사용합니다.</div></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="folio-section folio-footer" data-theme="dark">

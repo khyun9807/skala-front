@@ -35,12 +35,14 @@
 
   <!-- 고정 배경 도트필드(다크에서만) + 히어로 스테이지(회전 이미지 링) -->
   <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
-  <div id="hero-stage" class="folio-stage" aria-hidden="true">
+  <div id="hero-stage" class="folio-stage">
     <div class="ring"></div>
-    <div class="folio-emblem folio-stage__emblem">
+    <div class="folio-emblem folio-stage__emblem" aria-hidden="true">
       <svg class="e1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="currentColor" font-family="Georgia,serif">c</text></svg>
       <svg class="e2" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="46" ry="30" fill="none" stroke="currentColor" stroke-width="3"/></svg>
     </div>
+    <p class="folio-stage__tagline reveal">A campus, <em>and</em> its counter-signal.</p>
+    <p class="folio-stage__hint reveal">포트폴리오 · 주요 활동 · 블로그 — 타일에 마우스를 올리고 클릭하세요</p>
   </div>
 
   <!-- 고정 크롬 -->
@@ -61,10 +63,8 @@
   <div class="folio-scroll" id="scroll-content">
 
     <main>
-      <!-- HERO (dark) -->
-      <section class="folio-section hero" data-theme="dark">
-        <h1 class="hero__tagline reveal" data-split>A campus, <em>and</em> its counter-signal.</h1>
-      </section>
+      <!-- HERO (dark) — 시각/인터랙션은 고정 #hero-stage(회전 콘텐츠 링)가 담당. 이 섹션은 스크롤 공간 확보용 -->
+      <section class="folio-section hero" data-theme="dark" aria-hidden="true"></section>
 
       <!-- MANIFESTO (light 반전) -->
       <section class="folio-section manifesto" id="about" data-theme="light">
@@ -108,6 +108,9 @@
             <a class="folio-panel" href="#signal" data-cursor="live" aria-label="Signal — 실시간 정보">
               <span class="folio-panel__num">06</span><span class="folio-panel__label">Signal</span><span class="folio-panel__meta">실시간 정보</span>
             </a>
+            <a class="folio-panel" href="blog.html" data-cursor="open" aria-label="Blog — 블로그 글">
+              <span class="folio-panel__num">07</span><span class="folio-panel__label">Blog</span><span class="folio-panel__meta">블로그 글</span>
+            </a>
             <!-- 밀도용 장식 패널 (접근성 트리에서 제외) -->
             <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
             <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
@@ -122,6 +125,7 @@
           <li><a href="class.html" data-cursor="open"><span class="n">02</span><span>Class</span><em>강의 시간표</em></a></li>
           <li><a href="trip.html" data-cursor="open"><span class="n">03</span><span>Trip</span><em>여행 앨범</em></a></li>
           <li><a href="signup.html" data-cursor="open"><span class="n">04</span><span>Sign Up</span><em>회원가입</em></a></li>
+          <li><a href="blog.html" data-cursor="open"><span class="n">05</span><span>Blog</span><em>블로그 글</em></a></li>
         </ul>
       </section>
     </main>

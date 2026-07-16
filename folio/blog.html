@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog · SKALA Folio</title>
+  <meta name="description" content="블로그 — TesseraJS 블로그 기능(IndexedDB · 조회수 · 좋아요 · 북마크)으로 구동되는 글 목록." />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m"></div>
+    <div class="folio-nav__r"><a href="index.html" data-cursor="back">← Index</a></div>
+  </nav>
+
+  <main class="folio-doc">
+    <header class="folio-doc__hero">
+      <p class="folio-doc__eyebrow reveal">05 / Blog</p>
+      <h1 class="folio-doc__title reveal" data-split>블로그</h1>
+      <p class="folio-doc__lead reveal">직접 만든 것들에 대한 기록. 목록·조회수·좋아요·북마크가 모두 <mark>IndexedDB</mark>에 실제로 저장됩니다 (TesseraJS 블로그 기능).</p>
+    </header>
+
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Posts — TesseraJS blog · IndexedDB</p>
+      <div class="folio-cards reveal" id="blog-list"></div>
+    </section>
+  </main>
+
+  <footer class="folio-section folio-footer" data-theme="dark">
+    <div class="folio-footer__big reveal" data-split>Back to<br>the hub.</div>
+    <a class="jour" href="index.html" data-cursor="home">
+      <span class="jour__word">SKALA · Index</span>
+      <span class="jour__arrow">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </footer>
+
+  <dialog id="post-modal" class="folio-modal">
+    <article class="folio-modal__inner">
+      <button class="folio-modal__close" type="button" data-modal-close aria-label="닫기">×</button>
+      <span class="aur-badge" id="post-cat"></span>
+      <h3 id="post-title"></h3>
+      <p class="folio-block__meta" id="post-meta"></p>
+      <div id="post-content" style="white-space:pre-wrap; line-height:1.75; font-size:14px; max-height:52vh; overflow:auto"></div>
+      <div class="folio-form__actions">
+        <button class="folio-btn" id="post-like" type="button" data-cursor="like">♡ 좋아요</button>
+        <button class="folio-btn" id="post-bookmark" type="button" data-cursor="save">🔖 북마크</button>
+      </div>
+    </article>
+  </dialog>
+
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <script type="module" src="../script/folio/blog.js"></script>
+</body>
+</html>

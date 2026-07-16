@@ -12,7 +12,7 @@ import { initCursor } from '../../folio/engine/cursor.js';
 import { initReveals } from '../../folio/engine/reveal.js';
 import { initThemeInvert } from '../../folio/engine/theme.js';
 import { createDotField } from '../../folio/engine/dotfield.js';
-import { createRing, makeReel } from '../../folio/engine/ring.js';
+import { createRing, makeReel, makeCover } from '../../folio/engine/ring.js';
 import { createPanelField } from '../../folio/engine/panels.js';
 import { createPanelUniverse } from '../../folio/engine/panels-webgl.js';
 import { initLoader } from '../../folio/engine/loader.js';
@@ -39,7 +39,22 @@ initCursor();
 initReveals({ manual: true });
 initThemeInvert();
 createDotField({ canvas: document.getElementById('folio-bg') });
-createRing({ stage: document.getElementById('hero-stage'), count: 12, getScroll: () => scroll.current });
+// 히어로 회전 링 = 포트폴리오·주요활동·블로그 콘텐츠 타일(이미지/영상). 클릭 시 상세 페이지로.
+const HERO_ITEMS = [
+  { type: 'image', cat: 'PORTFOLIO', title: '홋카이도 여행', src: '../media/hokkaido.svg', href: 'trip.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: '세부 다이빙', src: '../media/cebu.svg', href: 'trip.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: '리장 고성', src: '../media/lijiang.svg', href: 'trip.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: '프로젝트 아카이브', src: makeCover(1, 26), href: 'profile.html' },
+  { type: 'video', cat: 'ACTIVITY', title: '주간 강의 하이라이트', src: makeCover(2, 210), href: 'class.html' },
+  { type: 'image', cat: 'ACTIVITY', title: '개인 일정 관리', src: makeCover(3, 210), href: 'class.html' },
+  { type: 'video', cat: 'ACTIVITY', title: '회원 온보딩', src: makeCover(4, 268), href: 'signup.html' },
+  { type: 'video', cat: 'ACTIVITY', title: '실시간 대시보드', src: makeCover(5, 200), href: '#signal' },
+  { type: 'image', cat: 'BLOG', title: '바닐라 상태관리', src: makeCover(6, 150), href: 'blog.html' },
+  { type: 'video', cat: 'BLOG', title: 'Web Worker 검색', src: makeCover(7, 150), href: 'blog.html' },
+  { type: 'image', cat: 'BLOG', title: 'IndexedDB 일정', src: makeCover(8, 150), href: 'blog.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: '나를 소개합니다', src: makeCover(9, 26), href: 'profile.html' },
+];
+createRing({ stage: document.getElementById('hero-stage'), items: HERO_ITEMS, getScroll: () => scroll.current });
 
 // 패널 필드(nav) — 장식 패널엔 추상 릴 배경을 깔아 밀도 부여
 document.querySelectorAll('.folio-panel--ghost').forEach((el, i) => { el.style.backgroundImage = makeReel(i + 7); });

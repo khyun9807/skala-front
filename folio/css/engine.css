@@ -103,17 +103,62 @@ html.folio-cursor-on, html.folio-cursor-on * { cursor: none !important; }
 /* ═══════════════════════════════════════════════════════════
    히어로 스테이지: 회전 이미지 링(강강술래) + 중앙 엠블럼
    ═══════════════════════════════════════════════════════════ */
-.folio-stage { position: fixed; inset: 0; z-index: var(--z-stage); pointer-events: none; will-change: opacity; }
+/* 히어로 스테이지: 콘텐츠 링을 클릭 가능하게 하려고 content 위(z-index 12), chrome(20) 아래에 둔다.
+   컨테이너는 pointer-events:none, 타일만 auto. 스크롤로 흐려지면(is-faded) 타일 클릭 비활성. */
+.folio-stage { position: fixed; inset: 0; z-index: 12; pointer-events: none; will-change: opacity; }
 :root.theme-light .folio-stage { opacity: 0 !important; }
+.folio-stage.is-faded .folio-tile { pointer-events: none; }
 .folio-stage .ring { position: absolute; inset: 0; }
+
 .folio-tile {
-  position: absolute; top: 0; left: 0; width: clamp(112px, 14vw, 224px); aspect-ratio: 16 / 10;
-  background-size: cover; background-position: center; border-radius: var(--radius-xs);
-  will-change: transform, opacity; box-shadow: 0 14px 55px rgba(0, 0, 0, .5); overflow: hidden;
+  position: absolute; top: 0; left: 0; width: clamp(120px, 15vw, 240px); aspect-ratio: 16 / 10;
+  border-radius: var(--radius-xs); overflow: hidden; pointer-events: auto; text-decoration: none;
+  box-shadow: 0 14px 55px rgba(0, 0, 0, .5); will-change: transform, opacity;
+  transition: box-shadow var(--dur-base) var(--ease), filter var(--dur-base) var(--ease);
 }
-.folio-stage__emblem {
-  position: absolute; top: 50%; left: 50%; translate: -50% -50%; z-index: 120; color: var(--color-light);
+.folio-tile__media {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  background-color: var(--color-void); transition: transform var(--dur-slow) var(--ease);
 }
+.folio-tile__overlay {
+  position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end;
+  gap: 3px; padding: 10px; opacity: 0; transition: opacity var(--dur-base) var(--ease);
+  background: linear-gradient(to top, rgba(6, 4, 3, .84), rgba(6, 4, 3, .18) 55%, transparent);
+}
+.folio-tile__cat { font-size: var(--fontXXS); text-transform: uppercase; letter-spacing: .16em; color: var(--color-light); opacity: .82; }
+.folio-tile__title { font-family: var(--font-display); font-size: 15px; line-height: 1.1; color: var(--color-light); }
+.folio-tile__play {
+  position: absolute; top: 8px; right: 9px; z-index: 3; width: 18px; height: 18px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 8px; color: var(--color-light);
+  background: rgba(6, 4, 3, .5); border: 1px solid rgba(233, 234, 228, .5); padding-left: 1px;
+}
+.folio-tile:hover { box-shadow: 0 24px 72px rgba(0, 0, 0, .72), 0 0 0 1px rgba(233, 234, 228, .55); filter: brightness(1.12); }
+.folio-tile:hover .folio-tile__media { transform: scale(1.08); }
+.folio-tile:hover .folio-tile__overlay { opacity: 1; }
+
+/* 영상 타일: 재생 느낌의 빛 스윕 */
+.folio-tile--video .folio-tile__media::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 42%, rgba(233, 234, 228, .16) 50%, transparent 58%);
+  background-size: 250% 100%; animation: folio-reel 2.6s linear infinite;
+}
+@keyframes folio-reel { to { background-position: -250% 0; } }
+@media (prefers-reduced-motion: reduce) { .folio-tile--video .folio-tile__media::after { animation: none; } }
+
+.folio-stage__emblem { position: absolute; top: 50%; left: 50%; translate: -50% -50%; z-index: 120; color: var(--color-light); }
+/* 링 가운데 태그라인 + 하단 안내 (타일 위 z-index) */
+.folio-stage__tagline {
+  position: absolute; top: calc(50% + 44px); left: 50%; translate: -50% 0; z-index: 130; margin: 0;
+  max-width: 15ch; text-align: center; pointer-events: none; color: var(--color-light);
+  font-family: var(--font-display); font-optical-sizing: auto; font-weight: 340;
+  font-size: clamp(18px, 2.6vw, 34px); line-height: 1.1; letter-spacing: -.01em;
+}
+.folio-stage__tagline em { font-style: italic; }
+.folio-stage__hint {
+  position: absolute; bottom: 5vh; left: 50%; translate: -50% 0; z-index: 130; margin: 0; pointer-events: none;
+  color: var(--color-light); opacity: .6; font-size: var(--fontXS); text-transform: uppercase; letter-spacing: .16em;
+}
+@media (pointer: coarse) { .folio-tile:hover .folio-tile__overlay { opacity: 1; } }
 
 /* ═══════════════════════════════════════════════════════════
    로더 + 사운드 진입 게이트
