@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome · SKALA Folio</title>
+  <meta name="description" content="회원가입 결과 — 네이티브 GET 제출값(location.search)으로 개인화된 환영." />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m"></div>
+    <div class="folio-nav__r"><a href="index.html" data-cursor="back">← Index</a></div>
+  </nav>
+
+  <main class="folio-doc">
+    <header class="folio-doc__hero">
+      <p class="folio-doc__eyebrow reveal">04b / Welcome</p>
+      <h1 class="folio-doc__title reveal" id="welcome-title" data-split>환영합니다</h1>
+      <p class="folio-doc__lead reveal" id="welcome-sub">SKALA-FRONT 회원이 되신 것을 환영합니다.</p>
+      <p class="reveal"><span class="aur-badge" id="account-status" hidden></span></p>
+    </header>
+
+    <section class="folio-doc__section" data-theme="light">
+      <p class="folio-doc__label reveal">제출된 정보 — from location.search (native GET)</p>
+      <table class="folio-summary reveal">
+        <tbody id="submitted-table"></tbody>
+      </table>
+    </section>
+
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">이어서 둘러보기</p>
+      <div class="folio-cards reveal">
+        <a class="folio-block folio-block--click" href="profile.html" data-cursor="open"><h3>Profile</h3><span class="folio-block__meta">나의 소개</span></a>
+        <a class="folio-block folio-block--click" href="class.html" data-cursor="open"><h3>Class</h3><span class="folio-block__meta">강의 시간표</span></a>
+        <a class="folio-block folio-block--click" href="trip.html" data-cursor="open"><h3>Trip</h3><span class="folio-block__meta">여행 앨범</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="folio-section folio-footer" data-theme="dark">
+    <div class="folio-footer__big reveal" data-split>You're in.</div>
+    <a class="jour" href="index.html" data-cursor="home">
+      <span class="jour__word">SKALA · Index</span>
+      <span class="jour__arrow">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </footer>
+
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <script type="module" src="../script/folio/signup-result.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SKALA · Folio</title>
+  <meta name="description" content="SKALA-FRONT — 시네마틱 폴리오 (Cipher × Michael Gatt 벤치마크, 무라이브러리 바닐라)" />
+
+  <!-- 폰트는 '에셋'(라이브러리 아님). 로드 실패 시 tokens.css의 시스템 폴백으로 우아하게 대체. -->
+  <link rel="stylesheet" href="css/fonts.css" />
+
+  <!-- aurora-ui: @layer 기반이라 folio의 언레이어드 CSS가 항상 이김 → 룩은 folio 유지, aur-* 컴포넌트만 aurora 스타일 -->
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+
+  <!-- ═══ 로더 + 사운드 진입 게이트 (Michael Gatt식 오디오 언락) ═══ -->
+  <div id="folio-loader" class="folio-loader">
+    <canvas class="folio-loader__dots" aria-hidden="true"></canvas>
+    <div class="folio-loader__brand folio-shimmer">SKALA</div>
+    <div class="folio-emblem folio-loader__emblem" aria-hidden="true">
+      <svg class="e1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="currentColor" font-family="Georgia,serif">c</text></svg>
+      <svg class="e2" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="46" ry="30" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+    </div>
+    <div class="folio-loader__pct">0%</div>
+    <div class="folio-loader__gate" hidden>
+      <p class="folio-loader__cue">Click anywhere to enter with <span class="sp">sound</span></p>
+      <button class="folio-loader__silent" type="button">enter without sound</button>
+    </div>
+  </div>
+
+  <!-- 고정 배경 도트필드(다크에서만) + 히어로 스테이지(회전 이미지 링) -->
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+  <div id="hero-stage" class="folio-stage">
+    <div class="ring"></div>
+    <div class="folio-emblem folio-stage__emblem" aria-hidden="true">
+      <svg class="e1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="currentColor" font-family="Georgia,serif">c</text></svg>
+      <svg class="e2" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="46" ry="30" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+    </div>
+    <p class="folio-stage__tagline reveal">A campus, <em>and</em> its counter-signal.</p>
+    <p class="folio-stage__hint reveal">포트폴리오 · 주요 활동 · 블로그 — 타일에 마우스를 올리고 클릭하세요</p>
+  </div>
+
+  <!-- 고정 크롬 -->
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m">
+      <a href="#works" data-cursor="index">Index</a>
+    </div>
+    <div class="folio-nav__r">
+      <a href="#today" data-cursor="read">Today</a>
+      <a href="#signal" data-cursor="live">Signal</a>
+      <a href="#footer" data-cursor="say hi">Contact</a>
+    </div>
+  </nav>
+
+  <!-- 관성 스크롤 콘텐츠 -->
+  <div class="folio-scroll" id="scroll-content">
+
+    <main>
+      <!-- HERO (dark) — 시각/인터랙션은 고정 #hero-stage(회전 콘텐츠 링)가 담당. 이 섹션은 스크롤 공간 확보용 -->
+      <section class="folio-section hero" data-theme="dark" aria-hidden="true"></section>
+
+      <!-- MANIFESTO (light 반전) -->
+      <section class="folio-section manifesto" id="about" data-theme="light">
+        <p class="manifesto__statement reveal" data-split>We learn, build, break, and rebuild — one assignment reimagined as a world.</p>
+        <p class="manifesto__sub reveal">SKALA-FRONT · Full-Stack Engineering. <mark>외부 라이브러리 없이</mark> 바닐라와 자체 라이브러리(tessera-js · aurora-ui)만으로 지은 시네마틱 폴리오.</p>
+      </section>
+
+      <!-- DISPATCH — <main> 오늘의 주요 소식 + 아카이브 검색(Web Worker) (light) -->
+      <section class="folio-section dispatch" id="today" data-theme="light">
+        <p class="dispatch__eyebrow reveal">오늘의 주요 소식 — Today's dispatch</p>
+        <h2 class="dispatch__headline reveal" data-split>Six pages, rebuilt as one continuous signal.</h2>
+        <p class="dispatch__meta reveal" id="today-date">—</p>
+        <p class="dispatch__meta reveal">2026 진행률 <progress id="year-progress" max="100" value="0">0%</progress> <span id="year-progress-label"></span></p>
+        <div class="dispatch__search reveal">
+          <input type="search" id="archive-search" placeholder="아카이브 검색 — 프로젝트 · 일정 · 여행 (/ 로 포커스)" autocomplete="off" data-cursor="type" aria-label="아카이브 검색">
+          <ul class="dispatch__results" id="archive-results"></ul>
+        </div>
+      </section>
+
+      <!-- PANEL FIELD — <nav> 페이지 바로가기 (CSS 3D 떠다니는 패널) (dark) -->
+      <section class="folio-section panelfield" id="works" data-theme="dark">
+        <p class="panelfield__eyebrow reveal">Selected pages — SKALA 2026 · 마우스로 둘러보고 클릭하세요</p>
+        <nav class="folio-constellation" aria-label="페이지 바로가기">
+          <canvas class="folio-universe" aria-hidden="true"></canvas>
+          <div class="scene" id="panel-scene">
+            <a class="folio-panel" href="profile.html" data-cursor="open" aria-label="Profile — 나의 소개">
+              <span class="folio-panel__num">01</span><span class="folio-panel__label">Profile</span><span class="folio-panel__meta">나의 소개</span>
+            </a>
+            <a class="folio-panel" href="class.html" data-cursor="open" aria-label="Class — 강의 시간표">
+              <span class="folio-panel__num">02</span><span class="folio-panel__label">Class</span><span class="folio-panel__meta">강의 시간표</span>
+            </a>
+            <a class="folio-panel" href="trip.html" data-cursor="open" aria-label="Trip — 여행 앨범">
+              <span class="folio-panel__num">03</span><span class="folio-panel__label">Trip</span><span class="folio-panel__meta">여행 앨범</span>
+            </a>
+            <a class="folio-panel" href="signup.html" data-cursor="open" aria-label="Sign Up — 회원가입">
+              <span class="folio-panel__num">04</span><span class="folio-panel__label">Sign Up</span><span class="folio-panel__meta">회원가입</span>
+            </a>
+            <a class="folio-panel" href="#about" data-cursor="read" aria-label="About — 소개">
+              <span class="folio-panel__num">05</span><span class="folio-panel__label">About</span><span class="folio-panel__meta">소개</span>
+            </a>
+            <a class="folio-panel" href="#signal" data-cursor="live" aria-label="Signal — 실시간 정보">
+              <span class="folio-panel__num">06</span><span class="folio-panel__label">Signal</span><span class="folio-panel__meta">실시간 정보</span>
+            </a>
+            <a class="folio-panel" href="blog.html" data-cursor="open" aria-label="Blog — 블로그 글">
+              <span class="folio-panel__num">07</span><span class="folio-panel__label">Blog</span><span class="folio-panel__meta">블로그 글</span>
+            </a>
+            <!-- 밀도용 장식 패널 (접근성 트리에서 제외) -->
+            <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
+            <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
+            <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
+            <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
+            <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
+            <div class="folio-panel folio-panel--ghost" aria-hidden="true"></div>
+          </div>
+        </nav>
+        <ul class="panelfield__index reveal" aria-label="전체 페이지 목록">
+          <li><a href="profile.html" data-cursor="open"><span class="n">01</span><span>Profile</span><em>나의 소개</em></a></li>
+          <li><a href="class.html" data-cursor="open"><span class="n">02</span><span>Class</span><em>강의 시간표</em></a></li>
+          <li><a href="trip.html" data-cursor="open"><span class="n">03</span><span>Trip</span><em>여행 앨범</em></a></li>
+          <li><a href="signup.html" data-cursor="open"><span class="n">04</span><span>Sign Up</span><em>회원가입</em></a></li>
+          <li><a href="blog.html" data-cursor="open"><span class="n">05</span><span>Blog</span><em>블로그 글</em></a></li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- ASIDE — 실시간 정보 HUD + 게임 (dark) -->
+    <aside class="folio-section signal" id="signal" data-theme="dark" aria-label="실시간 정보">
+      <div>
+        <p class="signal__eyebrow reveal">실시간 정보 — Live signal</p>
+        <h2 class="signal__title reveal" data-split>The room is listening.</h2>
+      </div>
+
+      <div class="folio-hud">
+        <div class="folio-card reveal">
+          <span class="folio-card__label">Visitor</span>
+          <span class="folio-card__value" id="hud-visitor">기록을 불러오는 중…</span>
+          <div class="folio-timeline" id="hud-timeline"></div>
+        </div>
+        <div class="folio-card reveal">
+          <span class="folio-card__label">USD / KRW</span>
+          <span class="folio-card__value" id="hud-exchange">—</span>
+          <span class="folio-card__note" id="hud-exchange-note"></span>
+        </div>
+        <div class="folio-card reveal">
+          <span class="folio-card__label">실시간 날씨 · Open-Meteo</span>
+          <select id="city-select" data-cursor="select" aria-label="도시 선택"><option value="">도시 선택</option></select>
+          <div id="weather-box"></div>
+        </div>
+        <div class="folio-card reveal">
+          <span class="folio-card__label">Network</span>
+          <span class="folio-card__value"><span class="aur-badge" id="hud-network">—</span></span>
+          <button class="folio-btn" id="hud-toast-test" type="button" data-cursor="ping" style="align-self:flex-start">토스트 테스트</button>
+        </div>
+      </div>
+
+      <div class="folio-games" data-games>
+        <p class="signal__eyebrow reveal">JS 실습 — up·down / grade / bag</p>
+        <div class="folio-games__row reveal">
+          <button class="folio-btn" data-game="updown" type="button" data-cursor="play">up · down</button>
+          <button class="folio-btn" data-game="grade" type="button" data-cursor="play">grade</button>
+          <button class="folio-btn" data-game="bag" type="button" data-cursor="play">my bag</button>
+          <button class="folio-btn folio-games__toggle" data-game-toggle type="button" data-cursor="switch">classic mode</button>
+        </div>
+        <div class="folio-games__stage" data-games-stage></div>
+      </div>
+    </aside>
+
+    <!-- FOOTER (dark) -->
+    <footer class="folio-section folio-footer" id="footer" data-theme="dark">
+      <div class="folio-footer__big reveal" data-split>Enter the<br>archive.</div>
+      <div class="folio-footer__meta reveal">SKALA-FRONT · full-stack engineering · 2026</div>
+      <a class="jour" href="#" data-cursor="top">
+        <span class="jour__word">Back to top</span>
+        <span class="jour__arrow">
+          <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+          <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </span>
+      </a>
+    </footer>
+
+  </div><!-- /folio-scroll -->
+
+  <!-- 스크롤 높이 확보용 스페이서 -->
+  <div class="folio-spacer" id="scroll-spacer"></div>
+
+  <!-- 오디오 이퀄라이저 + mute 토글 (막대는 JS가 생성) -->
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <!-- aurora-ui JS: 토스트/뱃지 등 컴포넌트 렌더 담당 (theme/components만 로드 — spatial/interactions는 folio 엔진과 충돌하므로 제외) -->
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <!-- 실시간 날씨(모듈 분리: realtimeInfo.js ← weatherAPI.js) — #city-select/#weather-box 자동 배선 -->
+  <script type="module" src="../script/realtimeInfo.js"></script>
+  <script type="module" src="../script/folio/index.js"></script>
+</body>
+</html>

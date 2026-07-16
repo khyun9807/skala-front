@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up · SKALA Folio</title>
+  <meta name="description" content="회원가입 — 네이티브 form(method=get) 보존 + TesseraJS 실시간 검증·WebCrypto 계정 생성." />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m"></div>
+    <div class="folio-nav__r"><a href="index.html" data-cursor="back">← Index</a></div>
+  </nav>
+
+  <main class="folio-doc">
+    <header class="folio-doc__hero">
+      <p class="folio-doc__eyebrow reveal">04 / Sign Up</p>
+      <h1 class="folio-doc__title reveal" data-split>아카이브<br>입장</h1>
+      <p class="folio-doc__lead reveal">네이티브 폼(method=get)은 그대로 유지하면서, 실시간 검증과 WebCrypto(SHA-256) 계정 생성을 얹었습니다. 제출하면 결과 페이지로 이동해 입력값이 개인화되어 나타납니다.</p>
+    </header>
+
+    <section class="folio-doc__section" data-theme="dark">
+      <!-- ══ 요구 보존: <form action=signup-result.html method=get> + fieldset/legend/label/input/select/textarea ══ -->
+      <form class="folio-form" id="signup-form" action="signup-result.html" method="get">
+        <fieldset>
+          <legend>계정 정보</legend>
+          <div class="folio-field">
+            <label for="userId">아이디 <small>(필수 · 4~15자)</small></label>
+            <input type="text" id="userId" name="userId" placeholder="4~15자 영문/숫자" minlength="4" maxlength="15" required data-cursor="type" />
+            <span class="folio-status" id="userid-status"></span>
+          </div>
+          <div class="folio-field">
+            <label for="userPw">비밀번호 <small>(필수 · 8자 이상)</small></label>
+            <input type="password" id="userPw" name="userPw" placeholder="8자 이상 입력" minlength="8" required data-cursor="type" />
+            <span class="folio-pw-meter"><span class="folio-pw-meter__fill" id="pw-strength-fill"></span></span>
+            <meter id="pw-meter" class="folio-meter" min="0" max="5" low="2" high="4" optimum="5" value="0" aria-label="비밀번호 강도">0 / 5</meter>
+            <span class="folio-status" id="pw-strength-label"></span>
+          </div>
+          <div class="folio-field">
+            <label for="userEmailId">이메일 <small>(필수)</small></label>
+            <div class="folio-inline" style="align-items:baseline">
+              <input type="text" id="userEmailId" name="userEmailId" placeholder="example" required style="flex:1" data-cursor="type" />
+              <span>@</span>
+              <input type="text" id="emailDomainInput" name="emailDomainInput" list="emailDomainList" placeholder="직접 입력/선택" style="flex:1.4" data-cursor="type" />
+              <datalist id="emailDomainList">
+                <option value="naver.com"></option>
+                <option value="gmail.com"></option>
+                <option value="daum.net"></option>
+                <option value="kakao.com"></option>
+              </datalist>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>개인 프로필 정보</legend>
+          <div class="folio-field">
+            <label for="userName">이름</label>
+            <input type="text" id="userName" name="userName" data-cursor="type" />
+          </div>
+          <div class="folio-field">
+            <label for="birthDate">생년월일</label>
+            <input type="date" id="birthDate" name="birthDate" data-cursor="type" />
+          </div>
+          <fieldset style="border-color:color-mix(in srgb,var(--fg) 12%,transparent)">
+            <legend>성별</legend>
+            <div class="folio-inline">
+              <label class="folio-choice"><input type="radio" name="gender" value="male" checked /> 남성</label>
+              <label class="folio-choice"><input type="radio" name="gender" value="female" /> 여성</label>
+              <label class="folio-choice"><input type="radio" name="gender" value="none" /> 선택안함</label>
+            </div>
+          </fieldset>
+          <fieldset style="border-color:color-mix(in srgb,var(--fg) 12%,transparent)">
+            <legend>관심 분야 (중복 가능)</legend>
+            <div class="folio-inline">
+              <label class="folio-choice"><input type="checkbox" name="interest" value="frontend" /> 웹 프론트엔드</label>
+              <label class="folio-choice"><input type="checkbox" name="interest" value="uiux" /> UI/UX 디자인</label>
+              <label class="folio-choice"><input type="checkbox" name="interest" value="backend" /> 백엔드 &amp; DB</label>
+              <label class="folio-choice"><input type="checkbox" name="interest" value="cloud" /> 클라우드 &amp; 인프라</label>
+            </div>
+          </fieldset>
+          <div class="folio-field">
+            <label for="joinRoute">가입 경로</label>
+            <select id="joinRoute" name="joinRoute" data-cursor="select">
+              <optgroup label="온라인">
+                <option value="">-- 선택해 주세요 --</option>
+                <option value="search">검색 엔진</option>
+                <option value="sns">SNS</option>
+              </optgroup>
+              <optgroup label="오프라인">
+                <option value="friend">지인 추천</option>
+                <option value="event">설명회/행사</option>
+              </optgroup>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>자기소개</legend>
+          <div class="folio-field">
+            <label for="introduce">나를 표현하는 한 줄 소개</label>
+            <textarea id="introduce" name="introduce" rows="4" maxlength="200" placeholder="여기에 내용을 입력하세요 (최대 200자)" data-cursor="type"></textarea>
+          </div>
+        </fieldset>
+
+        <div class="folio-form__actions">
+          <button type="submit" class="folio-submit" data-cursor="submit">동의하고 회원가입</button>
+          <button type="reset" class="folio-reset" data-cursor="reset">다시 작성</button>
+        </div>
+        <div class="aur-alert aur-alert--info" role="note">
+          <div><kbd>Tab</kbd> 으로 항목 이동, <kbd>Enter</kbd> 로 제출할 수 있어요.</div>
+        </div>
+      </form>
+    </section>
+
+    <!-- aurora-ui accordion: 도움말 · 약관 (components.js가 단일 오픈 처리) -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">도움말 · 약관 — aurora-ui accordion</p>
+      <div class="aur-accordion reveal" data-accordion-group>
+        <div class="aur-accordion__item is-open">
+          <button class="aur-accordion__trigger" type="button">입력한 정보는 어떻게 처리되나요?</button>
+          <div class="aur-accordion__panel"><div class="aur-accordion__body">비밀번호는 브라우저 <code>WebCrypto</code>(SHA-256)로 해시되어 저장되며, 원문은 어디에도 남지 않습니다.</div></div>
+        </div>
+        <div class="aur-accordion__item">
+          <button class="aur-accordion__trigger" type="button">회원가입 폼은 어떻게 동작하나요?</button>
+          <div class="aur-accordion__panel"><div class="aur-accordion__body">요구된 네이티브 <code>&lt;form method="get"&gt;</code> 제출을 그대로 유지하면서, 제출 직전에 실시간 검증과 계정 생성을 수행하고 결과 페이지로 개인화된 값을 넘깁니다.</div></div>
+        </div>
+        <div class="aur-accordion__item">
+          <button class="aur-accordion__trigger" type="button">외부 라이브러리를 썼나요?</button>
+          <div class="aur-accordion__panel"><div class="aur-accordion__body">아니요. 바닐라와 자체 라이브러리(로직은 <cite>tessera-js</cite>, 컴포넌트는 <cite>aurora-ui</cite>)만 사용합니다.</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="folio-section folio-footer" data-theme="dark">
+    <div class="folio-footer__big reveal" data-split>One form,<br>one signal.</div>
+    <a class="jour" href="index.html" data-cursor="home">
+      <span class="jour__word">SKALA · Index</span>
+      <span class="jour__arrow">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </footer>
+
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <script type="module" src="../script/folio/signup.js"></script>
+</body>
+</html>

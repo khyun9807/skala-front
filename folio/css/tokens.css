@@ -1,0 +1,73 @@
+/* ─────────────────────────────────────────────────────────────
+   folio/css/tokens.css — 시네마틱 폴리오 디자인 토큰
+   출처: Cipher 실측(색/이징/타이포 스케일) + Michael Gatt 톤.
+   하드코딩 금지 — 모든 값은 이 변수에서 가져온다.
+   ───────────────────────────────────────────────────────────── */
+
+/* 커스텀 프로퍼티 색상 트랜지션(테마 반전)을 위한 등록 */
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #060403; }
+@property --fg { syntax: '<color>'; inherits: true; initial-value: #e9eae4; }
+
+:root {
+  /* 색 — 웜 모노크롬 (Cipher 실측) */
+  --color-dark:  #060403;   /* 웜 블랙 (#000 아님) */
+  --color-light: #e9eae4;   /* 웜 오프화이트 */
+  --color-void:  #000000;   /* MG 시네마틱 패널용 순수 블랙 */
+  --gray:        #676767;
+
+  /* 라이브 테마 토큰 (theme.js가 .theme-light 로 스왑) */
+  --bg: var(--color-dark);
+  --fg: var(--color-light);
+
+  /* 시그니처 이징 (Cipher 실측 — 사이트의 '손맛') */
+  --ease: cubic-bezier(.83, .12, .35, .96);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
+  /* 모션 duration */
+  --dur-fast: .3s;
+  --dur-base: .45s;
+  --dur-slow: .7s;
+  --dur-xslow: .95s;
+
+  /* 타이포 — 디스플레이 세리프 + 그로테스크 산세리프 (폰트는 '에셋', 시스템 폴백 필수) */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* UI 라벨 스케일 (Cipher 실측: 초소형 대문자) */
+  --fontXXS: 8px;
+  --fontXS: 10px;
+  --fontS: 12px;
+  --fontM: 24px;
+
+  /* 스페이싱 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 100px;
+
+  /* 라운드 */
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-full: 999px;
+
+  /* z-index 스케일 */
+  --z-bg: 0;         /* 고정 배경 도트필드 */
+  --z-stage: 1;      /* 히어로 스테이지(회전 링/패널) */
+  --z-content: 2;    /* 관성 스크롤 콘텐츠 */
+  --z-chrome: 20;    /* 로고/내비 */
+  --z-hud: 30;       /* 인-월드 HUD */
+  --z-loader: 100;   /* 로더/사운드 게이트 */
+  --z-cursor: 200;   /* 커스텀 커서 */
+  --z-overlay: 300;  /* 페이지 전환 오버레이 */
+}
+
+/* 테마 반전: 라이트 구간에서 배경↔글자 스왑 (토큰만 교체) */
+:root.theme-light {
+  --bg: var(--color-light);
+  --fg: var(--color-dark);
+}

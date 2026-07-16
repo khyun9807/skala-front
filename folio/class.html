@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Class · SKALA Folio</title>
+  <meta name="description" content="나의 강의 시간표 — rowspan/colspan 시간표를 시네마틱하게 재해석 + IndexedDB 개인 일정." />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m"></div>
+    <div class="folio-nav__r"><a href="index.html" data-cursor="back">← Index</a></div>
+  </nav>
+
+  <main class="folio-doc">
+    <header class="folio-doc__hero">
+      <p class="folio-doc__eyebrow reveal">02 / Class</p>
+      <h1 class="folio-doc__title reveal" data-split>강의 시간표</h1>
+      <p class="folio-doc__lead reveal">월요일부터 금요일까지의 주간 수업. 2시간 이상 이어지는 수업과 점심시간은 셀을 합쳐(rowspan·colspan) 표현했습니다.</p>
+    </header>
+
+    <!-- ══ 요구 보존: <table> + rowspan/colspan (구조/값 그대로, 표현속성만 CSS로) ══ -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Official timetable — rowspan / colspan</p>
+      <div class="folio-tablewrap reveal">
+        <table class="folio-table">
+          <caption>SKALA 부트캠프 주간 시간표 — 주간 총 40시간</caption>
+          <colgroup>
+            <col width="12%" />
+            <col span="5" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">시간</th>
+              <th scope="col">월요일</th>
+              <th scope="col">화요일</th>
+              <th scope="col">수요일</th>
+              <th scope="col">목요일</th>
+              <th scope="col">금요일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">09:00 – 10:00</th>
+              <td class="cat cat-web" rowspan="3"><b><abbr title="사용자 인터페이스를 만드는 자바스크립트 프레임워크">Vue.js</abbr></b><small>웹 프레임워크 💻</small></td>
+              <td class="cat cat-infra" rowspan="2">네트워크 보안 기초 🔒</td>
+              <td class="cat cat-web" rowspan="3">웹 시스템 설계 및 분석 📐</td>
+              <td class="cat cat-special">IT 트렌드 특강 💡</td>
+              <td class="cat cat-web" rowspan="2">자바스크립트 심화 실습 🧩</td>
+            </tr>
+            <tr>
+              <th scope="row">10:00 – 11:00</th>
+              <td class="cat cat-data" rowspan="2">데이터베이스 <abbr title="Structured Query Language">SQL</abbr> 실습 🗄️</td>
+            </tr>
+            <tr>
+              <th scope="row">11:00 – 12:00</th>
+              <td class="cat cat-data">알고리즘 문제풀이 🧠</td>
+              <td class="cat cat-data">알고리즘 문제풀이 🧠</td>
+            </tr>
+            <tr>
+              <th scope="row">12:00 – 13:00</th>
+              <td class="cat cat-lunch" colspan="5" style="text-align:center">🍚 점심 시간 🍚</td>
+            </tr>
+            <tr>
+              <th scope="row">13:00 – 14:00</th>
+              <td class="cat cat-web" rowspan="3">UI/UX 디자인 표준 🎨</td>
+              <td class="cat cat-infra">리눅스 시스템 관리 🐧</td>
+              <td class="cat cat-data" rowspan="4">자료구조 📊</td>
+              <td class="cat cat-special" rowspan="4">개인 프로젝트 🚀</td>
+              <td class="cat cat-special" rowspan="2">개인 프로젝트 🚀</td>
+            </tr>
+            <tr>
+              <th scope="row">14:00 – 15:00</th>
+              <td class="cat cat-data" rowspan="2">인공지능 머신러닝 기초 🤖</td>
+            </tr>
+            <tr>
+              <th scope="row">15:00 – 16:00</th>
+              <td class="cat cat-infra" rowspan="2">오픈소스 소프트웨어 🔓</td>
+            </tr>
+            <tr>
+              <th scope="row">16:00 – 17:00</th>
+              <td class="cat cat-infra">Git &amp; GitHub 버전 관리 🐙</td>
+              <td class="cat cat-data">빅데이터 분석 실무 📈</td>
+            </tr>
+            <tr>
+              <th scope="row">17:00 – 18:00</th>
+              <td class="cat cat-special">취업·창업 특강 💼</td>
+              <td class="cat cat-special">주간 회고 📝</td>
+              <td class="cat cat-infra">오픈소스 소프트웨어 🔓</td>
+              <td class="cat cat-special">주간 회고 📝</td>
+              <td class="cat cat-special">주간 회고 📝</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="6">주간 총 수업 시간 40시간 (점심시간 제외)</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="folio-legend reveal">
+        <span class="cat-web">웹/프론트엔드</span>
+        <span class="cat-data">데이터/AI</span>
+        <span class="cat-infra">인프라/보안</span>
+        <span class="cat-special">특강/프로젝트</span>
+        <span class="cat-lunch">점심</span>
+      </div>
+      <!-- aurora-ui tabs: 과목 계열 안내 (components.js가 전환 처리) -->
+      <div class="aur-tabs reveal" style="margin-top:32px">
+        <div class="aur-tabs__list" role="tablist">
+          <button class="aur-tabs__tab is-active" data-tab="cat-web" type="button">웹 · 프론트</button>
+          <button class="aur-tabs__tab" data-tab="cat-data" type="button">데이터 · AI</button>
+          <button class="aur-tabs__tab" data-tab="cat-infra" type="button">인프라 · 보안</button>
+          <span class="aur-tabs__indicator"></span>
+        </div>
+        <div class="aur-tabs__panel is-active" data-tab-panel="cat-web"><p>Vue.js 웹 프레임워크 · UI/UX 디자인 표준 · 웹 시스템 설계 · 자바스크립트 심화 — 프론트엔드 계열 수업입니다.</p></div>
+        <div class="aur-tabs__panel" data-tab-panel="cat-data"><p>데이터베이스 SQL · 알고리즘 · 자료구조 · 인공지능 머신러닝 · 빅데이터 분석 — 데이터/AI 계열 수업입니다.</p></div>
+        <div class="aur-tabs__panel" data-tab-panel="cat-infra"><p>네트워크 보안 · 리눅스 시스템 관리 · 오픈소스 소프트웨어 · Git &amp; GitHub — 인프라/보안 계열 수업입니다.</p></div>
+      </div>
+
+      <div class="aur-alert aur-alert--info reveal" role="note" style="margin-top:20px">
+        <div><dfn>비고</dfn> — 셀 색상은 과목 계열을 구분하기 위한 것이며, 좁은 화면에서는 <kbd>Shift</kbd>+휠로 표를 가로로 넘겨볼 수 있습니다.</div>
+      </div>
+    </section>
+
+    <!-- ══ tessera: IndexedDB 개인 일정 (공식 표는 건드리지 않음) ══ -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Personal schedule — IndexedDB · countdown · export</p>
+      <h2 class="folio-doc__h2 reveal" data-split>공식 시간표 밖의 내 일정.</h2>
+      <p class="folio-countdown reveal" id="sched-countdown">일정을 불러오는 중…</p>
+      <div class="folio-cards" style="margin-top:24px">
+        <div class="folio-block reveal"><h3>오늘</h3><ul class="folio-list-clean" id="sched-today"></ul></div>
+        <div class="folio-block reveal"><h3>다가오는 일정</h3><ul class="folio-list-clean" id="sched-upcoming"></ul></div>
+        <div class="folio-block reveal"><h3>지난 일정</h3><ul class="folio-list-clean" id="sched-past"></ul></div>
+      </div>
+      <div class="folio-form__actions reveal" style="margin-top:28px">
+        <button class="folio-btn" id="sched-csv" type="button" data-cursor="export">export CSV</button>
+        <button class="folio-btn" id="sched-json" type="button" data-cursor="export">export JSON</button>
+        <button class="folio-btn" id="sched-ics" type="button" data-cursor="export">export ICS</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="folio-section folio-footer" data-theme="dark">
+    <div class="folio-footer__big reveal" data-split>Back to<br>the hub.</div>
+    <a class="jour" href="index.html" data-cursor="home">
+      <span class="jour__word">SKALA · Index</span>
+      <span class="jour__arrow">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </footer>
+
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <script type="module" src="../script/folio/class.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trip · SKALA Folio</title>
+  <meta name="description" content="나의 여행 앨범 — 사진(picture/img)·배경음(audio)·브이로그(video) + TesseraJS 여행 예산/날씨." />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="../aurora-ui/css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/engine.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
+
+  <a class="folio-logo" href="index.html" data-cursor="home">SKALA</a>
+  <nav class="folio-nav" aria-label="주요 메뉴">
+    <div class="folio-nav__l"></div>
+    <div class="folio-nav__m"></div>
+    <div class="folio-nav__r"><a href="index.html" data-cursor="back">← Index</a></div>
+  </nav>
+
+  <main class="folio-doc">
+    <header class="folio-doc__hero">
+      <p class="folio-doc__eyebrow reveal">03 / Trip</p>
+      <h1 class="folio-doc__title reveal" data-split>여행 앨범</h1>
+      <p class="folio-doc__lead reveal">다녀온 여행지의 사진과 영상, 그리고 여행 중 즐겨 듣던 배경음악. 그 아래에 실제 여행 예산과 날씨를 얹었습니다.</p>
+    </header>
+
+    <!-- ══ 요구 보존: <audio> 배경음 ══ -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Soundtrack — &lt;audio&gt;</p>
+      <div class="folio-media reveal">
+        <audio controls>
+          <source src="../media/bgm.wav" type="audio/wav" />
+          브라우저가 audio 태그를 지원하지 않습니다.
+        </audio>
+        <span style="font-size:13px;opacity:.6">여행 중 즐겨 듣던 <abbr title="Background Music">BGM</abbr></span>
+      </div>
+    </section>
+
+    <!-- ══ 요구 보존: <picture>/<img> 사진 앨범 ══ -->
+    <section class="folio-doc__section" data-theme="light">
+      <p class="folio-doc__label reveal">Album — &lt;picture&gt; · &lt;img&gt;</p>
+      <div class="folio-album reveal">
+        <figure>
+          <picture>
+            <source media="(min-width: 1px)" srcset="../media/lijiang.svg" />
+            <img src="../media/lijiang.svg" alt="중국 리장 호도협 협곡" />
+          </picture>
+          <figcaption>리장 호도협 <time datetime="2025">2025</time></figcaption>
+          <details class="folio-details" name="album"><summary>여행 후기</summary><p>깎아지른 협곡 사이로 흐르는 강물 소리가 아직도 귀에 생생합니다.</p></details>
+        </figure>
+        <figure>
+          <img src="../media/cebu.svg" alt="필리핀 세부 야경" />
+          <figcaption>세부 탑스뷰 <time datetime="2024">2024</time></figcaption>
+          <details class="folio-details" name="album"><summary>여행 후기</summary><p>야자수 사이로 보이는 도시의 야경이 정말 반짝였습니다.</p></details>
+        </figure>
+        <figure>
+          <img src="../media/hokkaido.svg" alt="일본 홋카이도 다이세츠산" />
+          <figcaption>홋카이도 다이세츠산 <time datetime="2025">2025</time></figcaption>
+          <details class="folio-details" name="album"><summary>여행 후기</summary><p>새하얀 설산의 풍경은 사진보다 실제가 훨씬 아름다웠습니다.</p></details>
+        </figure>
+      </div>
+      <blockquote class="folio-quote reveal">
+        <p>새하얀 설산의 풍경은 사진보다 실제가 훨씬 아름다웠다.</p>
+        <cite>— 홋카이도 다이세츠산에서</cite>
+      </blockquote>
+    </section>
+
+    <!-- ══ 요구 보존: <video> 브이로그 (실제 mp4 없음 → poster 폴백은 의도된 placeholder) ══ -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Vlog — &lt;video&gt;</p>
+      <div class="folio-media reveal">
+        <figure style="margin:0">
+          <video controls width="420" height="260" poster="../media/lijiang.svg">
+            <source src="../media/vlog.mp4" type="video/mp4" />
+            브라우저가 video 태그를 지원하지 않습니다.
+          </video>
+          <figcaption style="font-size:13px;opacity:.6;margin-top:8px">리장의 거리 공연 브이로그 <small>(직접 촬영 영상으로 교체 예정)</small></figcaption>
+        </figure>
+      </div>
+      <div class="aur-alert aur-alert--info reveal" role="note" style="margin-top:16px">
+        <div>실제 촬영 영상(<code>mp4</code>)은 아직 없어 <code>poster</code> 이미지로 대체 중입니다 — 요구된 <code>&lt;video&gt;&lt;source&gt;</code> 구조는 그대로 유지됩니다.</div>
+      </div>
+    </section>
+
+    <!-- ══ tessera: 여행 계획/예산 (사진첩의 3개 여행지와 일치하는 시드) ══ -->
+    <section class="folio-doc__section" data-theme="dark">
+      <p class="folio-doc__label reveal">Plans — TesseraJS · Canvas donut · weather / exchange</p>
+      <h2 class="folio-doc__h2 reveal" data-split>여행 계획과 예산.</h2>
+      <div class="folio-cards reveal" id="trip-cards" style="margin-top:24px"></div>
+    </section>
+  </main>
+
+  <footer class="folio-section folio-footer" data-theme="dark">
+    <div class="folio-footer__big reveal" data-split>Back to<br>the hub.</div>
+    <a class="jour" href="index.html" data-cursor="home">
+      <span class="jour__word">SKALA · Index</span>
+      <span class="jour__arrow">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </footer>
+
+  <template id="trip-card-template">
+    <article class="folio-block">
+      <h3 class="trip-title"></h3>
+      <p class="folio-block__meta trip-meta"></p>
+      <p class="trip-progress" style="font-size:var(--fontXS);text-transform:uppercase;letter-spacing:.12em;opacity:.7"></p>
+      <canvas class="trip-chart folio-chart" width="240" height="240"></canvas>
+      <ul class="folio-trip__checklist trip-checklist"></ul>
+      <div class="folio-form__actions" style="flex-wrap:wrap">
+        <button class="folio-btn trip-weather-btn" type="button" data-cursor="fetch">날씨·환율</button>
+        <button class="folio-btn trip-share-btn" type="button" data-cursor="share">공유 텍스트</button>
+        <button class="folio-btn trip-backup-btn" type="button" data-cursor="export">JSON</button>
+      </div>
+      <div class="trip-weather-result" style="font-size:13px;line-height:1.6"></div>
+      <textarea class="folio-out trip-share-output" hidden readonly rows="4"></textarea>
+    </article>
+  </template>
+
+  <button class="folio-mute" type="button" aria-pressed="false" data-cursor="audio">♪ sound off</button>
+  <div class="folio-eq" id="folio-eq" aria-hidden="true"></div>
+
+  <script src="../aurora-ui/js/theme.js" defer></script>
+  <script src="../aurora-ui/js/components.js" defer></script>
+  <script type="module" src="../script/folio/trip.js"></script>
+</body>
+</html>
