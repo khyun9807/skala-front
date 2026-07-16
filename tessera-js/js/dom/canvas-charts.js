@@ -31,16 +31,32 @@ function drawBar(ctx, width, height, { labels, values, colors }) {
   const padding = 24;
   const barGap = 10;
   const barWidth = (width - padding * 2) / values.length - barGap;
+  ctx.font = "11px system-ui, sans-serif";
+  // 라벨이 막대 폭보다 넓으면 가로로 그릴 때 서로 겹친다 → 45° 기울이고 아래 라벨 공간을 확보한다.
+  // (라벨이 충분히 짧으면 기존과 동일하게 가로로 그린다)
+  const needsRotate = labels.some((l) => ctx.measureText(String(l ?? "")).width > barWidth);
+  const labelSpace = needsRotate ? 52 : 0;
+  const baseline = height - padding - labelSpace;
   values.forEach((value, i) => {
-    const barHeight = ((height - padding * 2) * value) / max;
+    const barHeight = ((baseline - padding) * value) / max;
     const x = padding + i * (barWidth + barGap);
-    const y = height - padding - barHeight;
+    const y = baseline - barHeight;
     ctx.fillStyle = colors[i % colors.length];
     ctx.fillRect(x, y, barWidth, barHeight);
     ctx.fillStyle = "#5a5f73";
     ctx.font = "11px system-ui, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(labels[i] ?? "", x + barWidth / 2, height - padding + 14);
+    const label = String(labels[i] ?? "");
+    if (needsRotate) {
+      ctx.save();
+      ctx.translate(x + barWidth / 2 + 4, baseline + 8);
+      ctx.rotate(-Math.PI / 4);
+      ctx.textAlign = "right";
+      ctx.fillText(label, 0, 0);
+      ctx.restore();
+    } else {
+      ctx.textAlign = "center";
+      ctx.fillText(label, x + barWidth / 2, baseline + 14);
+    }
   });
 }
 

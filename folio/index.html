@@ -41,8 +41,8 @@
       <svg class="e1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="currentColor" font-family="Georgia,serif">c</text></svg>
       <svg class="e2" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="46" ry="30" fill="none" stroke="currentColor" stroke-width="3"/></svg>
     </div>
-    <p class="folio-stage__tagline reveal">A campus, <em>and</em> its counter-signal.</p>
-    <p class="folio-stage__hint reveal">포트폴리오 · 주요 활동 · 블로그 — 타일에 마우스를 올리고 클릭하세요</p>
+    <p class="folio-stage__tagline reveal">측정하고, <em>구조를</em> 바꿉니다.</p>
+    <p class="folio-stage__hint reveal">백엔드 개발자 <strong>권경현</strong> · 포트폴리오 · 주요 활동 · 블로그 — 타일에 마우스를 올리고 클릭하세요</p>
   </div>
 
   <!-- 고정 크롬 -->
@@ -68,18 +68,23 @@
 
       <!-- MANIFESTO (light 반전) -->
       <section class="folio-section manifesto" id="about" data-theme="light">
-        <p class="manifesto__statement reveal" data-split>We learn, build, break, and rebuild — one assignment reimagined as a world.</p>
-        <p class="manifesto__sub reveal">SKALA-FRONT · Full-Stack Engineering. <mark>외부 라이브러리 없이</mark> 바닐라와 자체 라이브러리(tessera-js · aurora-ui)만으로 지은 시네마틱 폴리오.</p>
+        <p class="manifesto__statement reveal" data-split>하나의 과제를, 다섯 번 다시 만들었습니다.</p>
+        <p class="manifesto__sub reveal">순수 HTML(v1)에서 시작해 CSS(v2) · JavaScript(v3) · 직접 만든 라이브러리(v4)를 거쳐, 이 사이트(v5)에 닿았습니다. <mark>외부 라이브러리 없이</mark> 바닐라와 자체 라이브러리(tessera-js · aurora-ui)만으로 지었습니다.</p>
+        <a class="manifesto__cta reveal" href="../about.html" data-cursor="read">
+          <span>전체 과정 · 요구사항 상황판 보기</span>
+          <span class="manifesto__cta-arrow" aria-hidden="true">→</span>
+        </a>
       </section>
 
       <!-- DISPATCH — <main> 오늘의 주요 소식 + 아카이브 검색(Web Worker) (light) -->
       <section class="folio-section dispatch" id="today" data-theme="light">
         <p class="dispatch__eyebrow reveal">오늘의 주요 소식 — Today's dispatch</p>
-        <h2 class="dispatch__headline reveal" data-split>Six pages, rebuilt as one continuous signal.</h2>
+        <h2 class="dispatch__headline reveal" data-split>여기 있는 모든 것을 한 번에 찾습니다.</h2>
         <p class="dispatch__meta reveal" id="today-date">—</p>
         <p class="dispatch__meta reveal">2026 진행률 <progress id="year-progress" max="100" value="0">0%</progress> <span id="year-progress-label"></span></p>
         <div class="dispatch__search reveal">
-          <input type="search" id="archive-search" placeholder="아카이브 검색 — 프로젝트 · 일정 · 여행 (/ 로 포커스)" autocomplete="off" data-cursor="type" aria-label="아카이브 검색">
+          <input type="search" id="archive-search" placeholder="아카이브 검색" autocomplete="off" data-cursor="type" aria-label="아카이브 검색 — 프로젝트 · 일정 · 여행">
+          <p class="dispatch__hint">프로젝트 · 일정 · 여행을 한 번에 — <kbd>/</kbd> 키로 바로 포커스</p>
           <ul class="dispatch__results" id="archive-results"></ul>
         </div>
       </section>
@@ -87,6 +92,13 @@
       <!-- PANEL FIELD — <nav> 페이지 바로가기 (CSS 3D 떠다니는 패널) (dark) -->
       <section class="folio-section panelfield" id="works" data-theme="dark">
         <p class="panelfield__eyebrow reveal">Selected pages — SKALA 2026 · 마우스로 둘러보고 클릭하세요</p>
+        <div class="panelfield__controls reveal">
+          <button class="panelfield__boost" id="panel-boost" type="button" data-cursor="hold"
+                  aria-label="누르고 있는 동안 패널이 빠르게 회전합니다">
+            <span class="panelfield__boost-icon" aria-hidden="true">››</span>
+            <span>누르는 동안 빨리 돌리기</span>
+          </button>
+        </div>
         <nav class="folio-constellation" aria-label="페이지 바로가기">
           <canvas class="folio-universe" aria-hidden="true"></canvas>
           <div class="scene" id="panel-scene">
@@ -137,7 +149,7 @@
     <aside class="folio-section signal" id="signal" data-theme="dark" aria-label="실시간 정보">
       <div>
         <p class="signal__eyebrow reveal">실시간 정보 — Live signal</p>
-        <h2 class="signal__title reveal" data-split>The room is listening.</h2>
+        <h2 class="signal__title reveal" data-split>지금, 실시간으로 불러옵니다.</h2>
       </div>
 
       <div class="folio-hud">
@@ -177,7 +189,7 @@
 
     <!-- FOOTER (dark) -->
     <footer class="folio-section folio-footer" id="footer" data-theme="dark">
-      <div class="folio-footer__big reveal" data-split>Enter the<br>archive.</div>
+      <div class="folio-footer__big reveal" data-split>함께<br>일하고 싶습니다.</div>
       <div class="folio-footer__meta reveal">SKALA-FRONT · full-stack engineering · 2026</div>
       <a class="jour" href="#" data-cursor="top">
         <span class="jour__word">Back to top</span>

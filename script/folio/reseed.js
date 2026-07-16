@@ -15,7 +15,7 @@ import { indexedDb } from '../../tessera-js/js/storage/indexed-db.js';
 import { localStore } from '../../tessera-js/js/storage/local-storage.js';
 
 /** 시드 내용을 바꿀 때마다 이 값을 올린다. */
-export const SEED_VERSION = '2026-07-16-real-content';
+export const SEED_VERSION = '2026-07-16-real-content-2'; // v2: 블로그 글에 cover/images 추가
 
 /**
  * 시드 버전이 바뀌었으면 스토어를 비운다.

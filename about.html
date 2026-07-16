@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>프로젝트 과정 · 요구사항 상황판 — SKALA-FRONT</title>
+<meta name="description" content="SKALA-FRONT 프로젝트 과정 상세 — 요구사항 23개 충족 상황판, v1→v5 발전 과정, Git 브랜치·PR 형상 관리 이력.">
+<link rel="stylesheet" href="aurora-ui/css/main.css">
+<style>
+  .ab-status { text-align: center; white-space: nowrap; }
+  .ab-num { width: 3em; text-align: center; opacity: .5; }
+  .ab-tree { font-family: var(--aur-font-mono); font-size: var(--aur-text-xs); line-height: 1.9; overflow-x: auto; white-space: pre; }
+  .ab-kpi { text-align: center; }
+  .ab-kpi__v { font-size: var(--aur-text-3xl); font-weight: 700; line-height: 1; display: block; }
+  .ab-kpi__l { font-size: var(--aur-text-xs); opacity: .6; text-transform: uppercase; letter-spacing: .1em; }
+</style>
+</head>
+<body>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo"><a href="index.html" style="text-decoration:none;color:inherit"><span class="aur-navbar__mark">🚀</span> SKALA-FRONT</a></div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="#status">요구사항 상황판</a>
+    <a class="aur-navbar__link" href="#process">v1 → v5 과정</a>
+    <a class="aur-navbar__link" href="#git">Git 형상관리</a>
+  </nav>
+  <div class="aur-navbar__actions">
+    <a class="aur-btn aur-btn--outline aur-btn--sm" href="index.html">← 인덱스</a>
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+
+  <!-- ══ 두괄식: 결론 먼저 ══ -->
+  <section class="aur-mb-8">
+    <span class="aur-badge aur-badge--outline">프로젝트 과정 상세</span>
+    <h1 class="aur-anim-fade-in aur-mt-3">한 줄 요약</h1>
+    <blockquote class="aur-quote">
+      <p>SK AX Full-Stack Engineering 과제 <strong>23개를 전부 구현</strong>했고, 같은 과제를 <strong>v1→v5로 다섯 번</strong> 다시 만들며
+      “순수 HTML”에서 “Awwwards 벤치마킹 시네마틱 사이트”까지 끌어올렸습니다.
+      <mark>외부 라이브러리는 한 개도 쓰지 않았고</mark>, CSS 디자인 시스템과 JS 라이브러리를 직접 만들어 그 위에 얹었습니다.</p>
+    </blockquote>
+
+    <div class="aur-auto-grid aur-mt-5">
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">23</span><span class="ab-kpi__l">요구사항 전부 충족</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">5</span><span class="ab-kpi__l">버전 (v1 → v5)</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">0</span><span class="ab-kpi__l">외부 라이브러리</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">2</span><span class="ab-kpi__l">직접 만든 라이브러리</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">24</span><span class="ab-kpi__l">커밋 · PR 6건</span></div>
+    </div>
+
+    <div class="aur-auto-grid aur-mt-5">
+      <div class="aur-card">
+        <h3>1. 요구사항 23개 전부 충족</h3>
+        <p class="aur-text-muted">[과제] 17 + [실습] 4 + CSS 챌린지 2. 아래 상황판에 <strong>항목별 산출물 경로</strong>까지 매핑했습니다.</p>
+      </div>
+      <div class="aur-card">
+        <h3>2. 라이브러리를 직접 만들었습니다</h3>
+        <p class="aur-text-muted"><a href="aurora-ui/index.html">aurora-ui</a>(CSS 디자인 시스템) · <a href="tessera-js/index.html">TesseraJS</a>(JS 라이브러리). CDN·폰트까지 전부 자체 호스팅.</p>
+      </div>
+      <div class="aur-card">
+        <h3>3. v5는 실제 경력이 콘텐츠</h3>
+        <p class="aur-text-muted">Bridge Bank·Payper·Remind Lamia 등 실제 프로젝트와 개선 수치(2,000ms→60ms 등)가 들어있습니다. <a href="folio/index.html">folio 보기 →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 요구사항 충족 상황판 ══ -->
+  <section id="status" class="aur-mb-8">
+    <h2 class="aur-mb-1">📊 요구사항 충족 상황판</h2>
+    <p class="aur-text-muted aur-mb-4">과제 안내서 기준 전 항목. 각 페이지는 v1~v4가 모두 존재하며, v5에서 한 번 더 재해석했습니다.</p>
+
+    <h3 class="aur-mb-2">1. Web 개요 · HTML 기초 · Form · 심화</h3>
+    <div class="aur-table-responsive aur-mb-5">
+      <table class="aur-table aur-table--hover" width="100%">
+        <thead><tr><th class="ab-num">#</th><th>항목</th><th>구분</th><th>산출물</th><th class="ab-status">상태</th></tr></thead>
+        <tbody>
+          <tr><td class="ab-num">01</td><td>Project 구성과 index.html 생성</td><td><span class="aur-badge">과제</span></td><td><a href="index.html">index.html</a> — 전 버전 허브로 확장</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">02</td><td>나의 휴일 일과</td><td><span class="aur-badge aur-badge--info">실습</span></td><td><a href="html/myHoliday.html">html/myHoliday</a> v1~v4 · <a href="folio/holiday.html">v5</a></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">03</td><td>나의 소개</td><td><span class="aur-badge">과제</span></td><td><a href="html/myProfile.html">html/myProfile</a> v1~v4 · <a href="folio/profile.html">v5</a></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">04</td><td>나의 강의 일정</td><td><span class="aur-badge">과제</span></td><td><a href="html/myClass.html">html/myClass</a> v1~v4 · <a href="folio/class.html">v5</a></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">05</td><td>바로가기</td><td><span class="aur-badge">과제</span></td><td><a href="html/index.html">html/index</a> v1~v4</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">06</td><td>회원가입</td><td><span class="aur-badge">과제</span></td><td><a href="html/signUp.html">html/signUp</a> v1~v4 · <a href="folio/signup.html">v5</a></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">07</td><td>회원가입결과</td><td><span class="aur-badge">과제</span></td><td><a href="html/signUpResult.html">html/signUpResult</a> v1~v4 · <a href="folio/signup-result.html">v5</a></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">08</td><td>나의 여행지</td><td><span class="aur-badge">과제</span></td><td><a href="html/myTrip.html">html/myTrip</a> v1~v4 · <a href="folio/trip.html">v5</a></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">09</td><td>포털 사이트형 메인 Hub</td><td><span class="aur-badge">과제</span></td><td><a href="html/index.v4.html">html/index.v2~v4</a> · <a href="folio/index.html">v5 허브</a></td><td class="ab-status">✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="aur-mb-2">2. CSS 기초 · 심화</h3>
+    <div class="aur-alert aur-alert--info aur-mb-3" role="note">
+      <div>CSS는 페이지마다 흩뿌리지 않고 <strong>직접 만든 디자인 시스템 <a href="aurora-ui/index.html">aurora-ui</a></strong>로 통합했습니다. v2~v5가 모두 <code>aurora-ui/css/main.css</code> 하나만 링크합니다.</div>
+    </div>
+    <div class="aur-table-responsive aur-mb-5">
+      <table class="aur-table aur-table--hover" width="100%">
+        <thead><tr><th class="ab-num">#</th><th>항목</th><th>구분</th><th>산출물</th><th class="ab-status">상태</th></tr></thead>
+        <tbody>
+          <tr><td class="ab-num">10</td><td>CSS Code Challenge (w3schools)</td><td><span class="aur-badge aur-badge--info">실습</span></td><td class="aur-text-muted">w3schools 사이트 내 실습 (저장소 외부)</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">11</td><td>미션1 — 전체 테마 및 텍스트 Styling</td><td><span class="aur-badge">과제</span></td><td><code>aurora-ui/css/tokens.css</code> · <code>themes.css</code> — 테마 5종 · accent 4종</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">12</td><td>미션2 — 박스 모델의 이해</td><td><span class="aur-badge">과제</span></td><td><code>aurora-ui/css/reset.css</code> · <code>components.css</code></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">13</td><td>미션3 — 가독성 높은 회원가입 폼</td><td><span class="aur-badge">과제</span></td><td><a href="html/signUp.v2.html">signUp.v2</a> + components.css 폼 컴포넌트</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">14</td><td>CSS Code Challenge (w3schools)</td><td><span class="aur-badge aur-badge--info">실습</span></td><td class="aur-text-muted">w3schools 사이트 내 실습 (저장소 외부)</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">15</td><td>미션4 — Flex와 Grid로 레이아웃</td><td><span class="aur-badge aur-badge--info">실습</span></td><td><code>aurora-ui/css/layout.css</code> — 12단 그리드 · bento · app shell</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">16</td><td>미션5 — 스마트폰에서 보기 (반응형)</td><td><span class="aur-badge aur-badge--info">실습</span></td><td>layout.css + 각 페이지 <code>@media</code> (375px 검증)</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">17</td><td>미션6 — 생동감을 불어넣는 애니메이션</td><td><span class="aur-badge aur-badge--info">실습</span></td><td><code>aurora-ui/css/animations.css</code> — <code>prefers-reduced-motion</code> 대응</td><td class="ab-status">✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="aur-mb-2">3. JavaScript 기초 · 심화</h3>
+    <div class="aur-table-responsive aur-mb-3">
+      <table class="aur-table aur-table--hover" width="100%">
+        <thead><tr><th class="ab-num">#</th><th>항목</th><th>구분</th><th>산출물</th><th class="ab-status">상태</th></tr></thead>
+        <tbody>
+          <tr><td class="ab-num">19</td><td>Up-Down 숫자 맞추기 게임</td><td><span class="aur-badge">과제</span></td><td><code>script/upDown.js</code> → <a href="html/index.v3.html">index.v3</a>/<a href="html/index.v4.html">v4</a> · v5 인월드 UI</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">20</td><td>성적 계산기</td><td><span class="aur-badge">과제</span></td><td><code>script/grade.js</code> → index.v3/v4 · v5</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">21</td><td>내 가방 보기</td><td><span class="aur-badge">과제</span></td><td><code>script/bag.js</code> → index.v3/v4 · v5</td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">23</td><td>실시간 날씨 — DOM/이벤트</td><td><span class="aur-badge">과제</span></td><td><code>script/realtimeInfo.js</code></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">24</td><td>실시간 날씨 — 비동기 호출</td><td><span class="aur-badge">과제</span></td><td><code>script/weatherAPI.js</code></td><td class="ab-status">✅</td></tr>
+          <tr><td class="ab-num">25</td><td>실시간 날씨 — 모듈 분리</td><td><span class="aur-badge">과제</span></td><td>weatherAPI(API) ↔ realtimeInfo(DOM) 책임 분리</td><td class="ab-status">✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="aur-mb-2">4. 제한 사항 준수</h3>
+    <div class="aur-table-responsive">
+      <table class="aur-table" width="100%">
+        <thead><tr><th>금지 항목</th><th class="ab-status">사용 여부</th></tr></thead>
+        <tbody>
+          <tr><td>Bootstrap · Tailwind · Material UI · Bulma · Foundation</td><td class="ab-status">❌ 미사용</td></tr>
+          <tr><td>Animate.css · Font Awesome · Material Icons · GSAP · Three.js · jQuery</td><td class="ab-status">❌ 미사용</td></tr>
+          <tr><td>React · Vue · Svelte 등 프레임워크</td><td class="ab-status">❌ 미사용</td></tr>
+          <tr><td>CDN으로 불러오는 모든 CSS/JS</td><td class="ab-status">❌ 미사용 — <strong>폰트도 자체 호스팅</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ v1 → v5 과정 ══ -->
+  <section id="process" class="aur-mb-8">
+    <h2 class="aur-mb-1">🧭 프로젝트 진행 과정 — v1 → v5</h2>
+    <p class="aur-text-muted aur-mb-4">같은 과제를 <strong>다섯 번</strong> 다시 만들었습니다. 각 단계는 이전 단계를 지우지 않고 나란히 보존해, 발전 과정을 그대로 비교할 수 있습니다.</p>
+
+    <div class="aur-timeline">
+      <div class="aur-timeline__item">
+        <h3>v1 · 순수 HTML</h3>
+        <p class="aur-text-muted">시맨틱 마크업만으로 구조 잡기. 표의 <code>rowspan/colspan</code>, 폼의 네이티브 검증 등 HTML 자체 기능에 집중.</p>
+        <p><a class="aur-btn aur-btn--outline aur-btn--sm" href="html/index.html">v1 열기</a></p>
+      </div>
+      <div class="aur-timeline__item">
+        <h3>v2 · + CSS</h3>
+        <p class="aur-text-muted">페이지마다 CSS를 흩뿌리는 대신 <strong>디자인 시스템 aurora-ui를 직접 만들어</strong> 적용. 토큰·테마·레이아웃·컴포넌트 체계.</p>
+        <p><a class="aur-btn aur-btn--outline aur-btn--sm" href="html/index.v2.html">v2 열기</a> <a class="aur-btn aur-btn--outline aur-btn--sm" href="aurora-ui/index.html">aurora-ui 데모</a></p>
+      </div>
+      <div class="aur-timeline__item">
+        <h3>v3 · + Vanilla JS</h3>
+        <p class="aur-text-muted">Up-Down·성적계산기·내가방·실시간날씨 등 JS 과제를 배선. DOM/이벤트/비동기/모듈 분리.</p>
+        <p><a class="aur-btn aur-btn--outline aur-btn--sm" href="html/index.v3.html">v3 열기</a></p>
+      </div>
+      <div class="aur-timeline__item">
+        <h3>v4 · + JS 라이브러리</h3>
+        <p class="aur-text-muted"><strong>TesseraJS를 직접 만들어</strong> 결합. HTTP 클라이언트·IndexedDB·Web Worker·상태관리를 실제 페이지에.</p>
+        <p><a class="aur-btn aur-btn--outline aur-btn--sm" href="html/index.v4.html">v4 열기</a> <a class="aur-btn aur-btn--outline aur-btn--sm" href="tessera-js/index.html">TesseraJS 데모</a></p>
+      </div>
+      <div class="aur-timeline__item">
+        <h3>v5 · folio — 완전히 다른 형식</h3>
+        <p class="aur-text-muted">Awwwards 노미네이트작(<strong>Cipher</strong> · <strong>Michael Gatt</strong>)을 벤치마킹 → 자체 vanilla 엔진(스무스스크롤·커스텀커서·3D 오빗·회전 링)으로 시네마틱 재해석. 콘텐츠도 <strong>실제 경력</strong>으로 교체.</p>
+        <p><a class="aur-btn aur-btn--gradient aur-btn--sm" href="folio/index.html">v5 folio 열기</a></p>
+      </div>
+    </div>
+
+    <div class="aur-card aur-mt-4">
+      <p><strong>v5가 v4와 다른 점</strong> — v1~v4가 “과제를 잘 하는 것”이었다면, v5는 <em>“이 과제를 포트폴리오로 만들면 어디까지 가나”</em>입니다. 벤치마킹 대상을 조사 보고서로 먼저 분석하고, 그 인터랙션을 라이브러리 없이 이식했습니다.</p>
+    </div>
+  </section>
+
+  <!-- ══ Git 형상 관리 ══ -->
+  <section id="git" class="aur-mb-8">
+    <h2 class="aur-mb-1">🔀 Git 형상 관리</h2>
+    <p class="aur-text-muted aur-mb-4"><strong>기능 단위 브랜치 → Pull Request → main 머지</strong>를 반복했습니다. 커밋 24개 · PR 6건 · 기능 브랜치 6개. 직접 push 없이 모든 병합은 PR을 거쳤습니다.</p>
+
+    <div class="aur-card aur-mb-4">
+      <h3 class="aur-mb-3">브랜치 전략</h3>
+      <div class="ab-tree">main ──●────────●────────●────────●────────●────────●──→
+        ↑        ↑        ↑        ↑        ↑        ↑
+      PR#5     PR#6     PR#8     PR#9     PR#12    PR#14
+     feat/#1  feat/#2  feat/#3  feat/#4  feat/#5  feat/#6
+    aurora-ui   CSS    기초 JS   JS 라이브러리  folio  myHoliday</div>
+      <ul class="aur-mt-3">
+        <li><code>feat/#N</code> — 기능 단위 개발 브랜치 (이슈 번호와 1:1)</li>
+        <li><code>doc/#N</code> — 문서 작업 브랜치</li>
+      </ul>
+    </div>
+
+    <div class="aur-table-responsive aur-mb-4">
+      <table class="aur-table aur-table--hover" width="100%">
+        <caption><strong>주요 마일스톤 커밋</strong></caption>
+        <thead><tr><th>커밋</th><th>내용</th><th>규모</th></tr></thead>
+        <tbody>
+          <tr><td><code>af8930c</code></td><td>add gitignore</td><td class="aur-text-muted">초기 설정</td></tr>
+          <tr><td><code>15320b8</code></td><td>basic features</td><td class="aur-text-muted">HTML 기초 과제</td></tr>
+          <tr><td><code>15fdd88</code></td><td>advanced htmls</td><td class="aur-text-muted">HTML 심화 과제</td></tr>
+          <tr><td><code>492c974</code></td><td><strong>add my css library aurora-ui</strong> (PR #5)</td><td class="aur-text-muted">CSS 디자인 시스템</td></tr>
+          <tr><td><code>c65c376</code></td><td>add css (PR #6)</td><td class="aur-text-muted">v2 — 페이지에 CSS 적용</td></tr>
+          <tr><td><code>72e0f4a</code></td><td>add basic js (PR #8)</td><td class="aur-text-muted">v3 — 1,286줄</td></tr>
+          <tr><td><code>56897bf</code></td><td><strong>add frontend js lib</strong> (PR #9)</td><td class="aur-text-muted">TesseraJS — 116파일 11,453줄</td></tr>
+          <tr><td><code>23e995f</code></td><td>tessera.js + aurora-ui css</td><td class="aur-text-muted">v4 — 라이브러리 결합</td></tr>
+          <tr><td><code>0ced89d</code></td><td><strong>first look</strong></td><td class="aur-text-muted">v5 folio 착수 — 36파일 3,331줄</td></tr>
+          <tr><td><code>8554284</code></td><td>second look</td><td class="aur-text-muted">v5 다듬기</td></tr>
+          <tr><td><code>1f440e0</code></td><td><strong>add myHoliday</strong> (PR #14)</td><td class="aur-text-muted">실습 페이지 + v1~v4</td></tr>
+          <tr><td><code>d828203</code></td><td>adjust info</td><td class="aur-text-muted">실제 경력 콘텐츠 — 171파일 5,922줄</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aur-alert aur-alert--info" role="note">
+      <div><strong>버전 보존 방식</strong> — v1~v4를 브랜치가 아니라 <strong>파일명 접미사(<code>.v2</code>/<code>.v3</code>/<code>.v4</code>)로 나란히 보존</strong>했습니다.
+      브랜치로 나누면 한 시점에 한 버전만 볼 수 있지만, 이 방식은 <strong>네 버전을 동시에 띄워 비교</strong>할 수 있어 “발전 과정을 보여주는” 목적에 더 맞습니다.
+      각 단계의 실제 작업 이력은 위 커밋·PR에 남아 있습니다.</div>
+    </div>
+
+    <details class="aur-mt-4">
+      <summary>직접 확인해보기 — git 명령어</summary>
+      <pre class="aur-code aur-mt-2"><code>git log --oneline --graph --all    # 전체 이력
+git log --oneline --shortstat      # 커밋별 변경 규모
+git branch -a                      # 브랜치 목록</code></pre>
+    </details>
+  </section>
+
+  <p class="aur-text-center aur-mt-8">
+    <a class="aur-btn aur-btn--gradient" href="folio/index.html">✨ v5 folio 보기</a>
+    <a class="aur-btn aur-btn--outline" href="index.html">← 프로젝트 인덱스</a>
+  </p>
+
+</main>
+
+<footer class="aur-footer aur-mt-8">
+  <p class="aur-text-muted aur-text-center">SKALA-FRONT · 권경현 · <a href="https://github.com/khyun9807">github.com/khyun9807</a></p>
+</footer>
+
+<script src="aurora-ui/js/theme.js" defer></script>
+<script src="aurora-ui/js/components.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.components.init();
+});
+</script>
+</body>
+</html>
