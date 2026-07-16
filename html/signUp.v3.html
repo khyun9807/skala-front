@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입 - signUp v3</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo"><span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v3</span></div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="myProfile.v3.html">소개</a>
+    <a class="aur-navbar__link" href="myClass.v3.html">수업 시간표</a>
+    <a class="aur-navbar__link" href="myTrip.v3.html">여행 앨범</a>
+    <a class="aur-navbar__link is-active" href="signUp.v3.html">회원가입</a>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-container--md aur-py-6">
+  <div class="aur-text-center aur-mb-5">
+    <h1 class="aur-anim-fade-in">👤 회원가입</h1>
+    <p class="aur-text-muted">SKALA-FRONT 회원가입을 환영합니다.</p>
+  </div>
+
+  <div class="aur-card">
+    <form action="signUpResult.v3.html" method="get">
+      <fieldset>
+        <legend>계정 정보
+          <button type="button" class="aur-btn aur-btn--sm aur-btn--outline" popovertarget="terms" popovertargetaction="toggle">📄 약관 보기</button>
+        </legend>
+        <div class="aur-popover" popover id="terms">
+          <h3>📄 회원가입 약관 (요약)</h3>
+          <p>1. 입력하신 정보는 학습 서비스 제공 목적으로만 사용됩니다.<br>
+          2. 비밀번호는 안전하게 암호화되어 저장됩니다.<br>
+          3. 언제든지 마이페이지에서 정보를 수정하거나 탈퇴할 수 있습니다.</p>
+        </div>
+
+        <div class="aur-field">
+          <label class="aur-label" for="userId">아이디 <small>(필수)</small></label>
+          <input class="aur-input" type="text" id="userId" name="userId" placeholder="4~15자 영문/숫자" minlength="4" maxlength="15" required>
+        </div>
+
+        <div class="aur-field">
+          <label class="aur-label" for="userPw">비밀번호 <small>(필수)</small></label>
+          <div class="aur-input--password-wrap">
+            <input class="aur-input" type="password" id="userPw" name="userPw" placeholder="8자 이상 입력" minlength="8" required>
+            <button class="aur-toggle-visibility" type="button" aria-label="비밀번호 표시">👁</button>
+          </div>
+        </div>
+
+        <div class="aur-field">
+          <label class="aur-label" for="userEmail">이메일</label>
+          <div class="aur-flex aur-items-center aur-gap-2">
+            <input class="aur-input" type="text" id="userEmail" name="userEmailId" placeholder="example" required style="flex:1">
+            <span>@</span>
+            <input class="aur-input" type="text" id="emailDomainInput" name="emailDomainInput" list="emailDomainList" placeholder="직접 입력 또는 선택" style="flex:1">
+            <datalist id="emailDomainList">
+              <option value="naver.com"><option value="gmail.com"><option value="daum.net"><option value="kakao.com">
+            </datalist>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>개인 프로필 정보</legend>
+
+        <div class="aur-grid">
+          <div class="aur-col-6 aur-field">
+            <label class="aur-label" for="userName">이름</label>
+            <input class="aur-input" type="text" id="userName" name="userName">
+          </div>
+          <div class="aur-col-6 aur-field">
+            <label class="aur-label" for="birthDate">생년월일</label>
+            <input class="aur-input" type="date" id="birthDate" name="birthDate">
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>성별</legend>
+          <label class="aur-radio"><input type="radio" name="gender" value="male" checked> 남성</label>
+          <label class="aur-radio"><input type="radio" name="gender" value="female"> 여성</label>
+          <label class="aur-radio"><input type="radio" name="gender" value="none"> 선택안함</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>관심 분야 (중복 선택 가능)</legend>
+          <label class="aur-checkbox"><input type="checkbox" name="interest" value="frontend"> 웹 프론트엔드 (Vue.js/HTML)</label>
+          <label class="aur-checkbox"><input type="checkbox" name="interest" value="uiux"> UI/UX 디자인 표준</label>
+          <label class="aur-checkbox"><input type="checkbox" name="interest" value="backend"> 백엔드 &amp; 데이터베이스</label>
+          <label class="aur-checkbox"><input type="checkbox" name="interest" value="cloud"> 클라우드 &amp; 인프라</label>
+        </fieldset>
+
+        <div class="aur-field">
+          <label class="aur-label" for="joinRoute">가입 경로</label>
+          <select class="aur-select" id="joinRoute" name="joinRoute">
+            <optgroup label="온라인">
+              <option value="">-- 선택해 주세요 --</option>
+              <option value="search">검색 엔진</option>
+              <option value="sns">SNS</option>
+            </optgroup>
+            <optgroup label="오프라인">
+              <option value="friend">지인 추천</option>
+              <option value="event">설명회/행사</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="aur-field">
+          <label class="aur-label" for="excitement">가입 기대치</label>
+          <input class="aur-range" type="range" id="excitement" min="0" max="100" value="70">
+          <output data-range-output="excitement">70</output>%
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>자기소개</legend>
+        <div class="aur-field">
+          <label class="aur-label">나를 표현하는 한 줄 소개 또는 가입 인사</label>
+          <textarea class="aur-textarea" name="introduce" maxlength="200" placeholder="여기에 내용을 입력하세요 (최대 200자)"></textarea>
+        </div>
+      </fieldset>
+
+      <p class="aur-text-center">
+        <button class="aur-btn aur-btn--gradient aur-btn--shine" type="submit">✅ 동의하고 회원가입</button>
+        <button class="aur-btn aur-btn--outline" type="reset">↺ 다시 작성</button>
+      </p>
+      <p class="aur-text-center"><small class="aur-text-muted">입력을 마쳤다면 <kbd class="aur-kbd">Tab</kbd> 키로 다음 항목, <kbd class="aur-kbd">Enter</kbd> 키로 제출할 수 있어요.</small></p>
+    </form>
+  </div>
+
+  <p><a class="aur-btn aur-btn--outline aur-mt-4" href="index.v3.html">&larr; 메인으로 돌아가기</a></p>
+</main>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v3.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v3.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v3.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v3.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v3.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+</body>
+</html>
