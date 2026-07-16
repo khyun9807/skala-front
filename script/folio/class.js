@@ -11,6 +11,8 @@ import { Countdown } from '../../tessera-js/js/utils/timer.js';
 import { formatDurationClock } from '../../tessera-js/js/utils/formatter.js';
 import { formatTime, formatDate, addDays } from '../../tessera-js/js/utils/date.js';
 import * as schedule from '../../tessera-js/js/features/schedule.js';
+import { OBJECT_STORES } from '../../tessera-js/js/config/constants.js';
+import { reseedIfStale } from './reseed.js';
 
 initPage();
 
@@ -56,6 +58,7 @@ document.getElementById('sched-json').addEventListener('click', async () => sche
 document.getElementById('sched-ics').addEventListener('click', async () => schedule.exportSchedulesICS(await schedule.getAllSchedules()));
 
 (async function init() {
+  await reseedIfStale(OBJECT_STORES.SCHEDULES); // 시드 버전이 바뀌었으면 옛 데모 일정을 비움
   await schedule.seedSchedulesIfEmpty(() => fetchJSON('../tessera-js/data/schedules.json'));
   await refresh();
 })();

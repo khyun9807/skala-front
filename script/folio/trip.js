@@ -9,6 +9,8 @@ import { initPage } from './page.js';
 import { showToast } from '../../tessera-js/js/features/notifications.js';
 import { apiClient } from '../../tessera-js/js/network/api-client.js';
 import * as travel from '../../tessera-js/js/features/travel.js';
+import { OBJECT_STORES } from '../../tessera-js/js/config/constants.js';
+import { reseedIfStale } from './reseed.js';
 import { createChart } from '../../tessera-js/js/dom/canvas-charts.js';
 import { getCurrentWeatherByCity, getWeatherWarning } from '../../tessera-js/js/services/weather-service.js';
 import { convertCurrency } from '../../tessera-js/js/services/exchange-service.js';
@@ -78,6 +80,7 @@ function renderCard(trip, container) {
 }
 
 (async function init() {
+  await reseedIfStale(OBJECT_STORES.TRAVELS); // 시드 버전이 바뀌었으면 옛 데모 여행을 비움
   await travel.seedTravelsIfEmpty(() => fetchJSON('../tessera-js/data/travel-posts.json'));
   const trips = (await travel.getAllTravels()).slice().sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
   const container = document.getElementById('trip-cards');

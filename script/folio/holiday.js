@@ -15,9 +15,9 @@ initPage();
 
 const STORAGE_KEY = 'holiday-plans';
 const SEED_PLANS = [
-  { id: 'seed-1', text: '동네 미술관 다녀오기', done: false },
-  { id: 'seed-2', text: '밀린 책 한 권 다 읽기', done: true },
-  { id: 'seed-3', text: '친구와 브런치 약속 잡기', done: false },
+  { id: 'seed-1', text: '수육 맛집 다녀오기', done: false },
+  { id: 'seed-2', text: '코딩 테스트 2문제 풀기', done: true },
+  { id: 'seed-3', text: '아르헨티나 항공권 값 알아보기', done: false },
 ];
 
 let plans = [];

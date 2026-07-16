@@ -41,19 +41,19 @@ initThemeInvert();
 createDotField({ canvas: document.getElementById('folio-bg') });
 // 히어로 회전 링 = 포트폴리오·주요활동·블로그 콘텐츠 타일(이미지/영상). 클릭 시 상세 페이지로.
 const HERO_ITEMS = [
-  { type: 'image', cat: 'PORTFOLIO', title: '홋카이도 여행', src: '../media/hokkaido.svg', href: 'trip.html' },
-  { type: 'image', cat: 'PORTFOLIO', title: '세부 다이빙', src: '../media/cebu.svg', href: 'trip.html' },
-  { type: 'image', cat: 'PORTFOLIO', title: '리장 고성', src: '../media/lijiang.svg', href: 'trip.html' },
-  { type: 'image', cat: 'PORTFOLIO', title: '프로젝트 아카이브', src: makeCover(1, 26), href: 'profile.html' },
-  { type: 'video', cat: 'ACTIVITY', title: '주간 강의 하이라이트', src: makeCover(2, 210), href: 'class.html' },
-  { type: 'image', cat: 'ACTIVITY', title: '개인 일정 관리', src: makeCover(3, 210), href: 'class.html' },
-  { type: 'video', cat: 'ACTIVITY', title: '회원 온보딩', src: makeCover(4, 268), href: 'signup.html' },
-  { type: 'video', cat: 'ACTIVITY', title: '실시간 대시보드', src: makeCover(5, 200), href: '#signal' },
+  { type: 'image', cat: 'PORTFOLIO', title: 'Bridge Bank — 뱅킹 서버', src: '../media/portfolio/log-deadlock.jpg', href: 'blog.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: 'Payper Community', src: '../media/portfolio/log-stampede.jpg', href: 'blog.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: 'Payper — 카드 혜택', src: '../media/portfolio/payper-arch.jpg', href: 'blog.html' },
+  { type: 'video', cat: 'PORTFOLIO', title: 'Remind Lamia — 게임', src: '../media/portfolio/game-op-poster.jpg', href: 'profile.html' },
+  { type: 'image', cat: 'PORTFOLIO', title: '나를 소개합니다', src: '../media/portfolio/avatar.jpeg', href: 'profile.html' },
+  { type: 'image', cat: 'ACTIVITY', title: '오사카 미식 여행', src: '../media/portfolio/trip-osaka.jpg', href: 'trip.html' },
+  { type: 'image', cat: 'ACTIVITY', title: '라스베가스 야경', src: '../media/portfolio/trip-lasvegas.jpg', href: 'trip.html' },
+  { type: 'image', cat: 'ACTIVITY', title: '아르헨티나 고기 파티', src: '../media/portfolio/trip-argentina.jpg', href: 'trip.html' },
+  { type: 'image', cat: 'ACTIVITY', title: 'SKALA 5주 커리큘럼', src: makeCover(2, 210), href: 'class.html' },
   { type: 'image', cat: 'ACTIVITY', title: '느긋한 휴일', src: makeCover(10, 140), href: 'holiday.html' },
-  { type: 'image', cat: 'BLOG', title: '바닐라 상태관리', src: makeCover(6, 150), href: 'blog.html' },
-  { type: 'video', cat: 'BLOG', title: 'Web Worker 검색', src: makeCover(7, 150), href: 'blog.html' },
-  { type: 'image', cat: 'BLOG', title: 'IndexedDB 일정', src: makeCover(8, 150), href: 'blog.html' },
-  { type: 'image', cat: 'PORTFOLIO', title: '나를 소개합니다', src: makeCover(9, 26), href: 'profile.html' },
+  { type: 'video', cat: 'ACTIVITY', title: '회원 온보딩', src: makeCover(4, 268), href: 'signup.html' },
+  { type: 'image', cat: 'BLOG', title: '쿼리 2,000ms → 60ms', src: '../media/portfolio/log-query.jpg', href: 'blog.html' },
+  { type: 'image', cat: 'BLOG', title: 'JPA + MyBatis bulk', src: '../media/portfolio/log-bulk.jpg', href: 'blog.html' },
 ];
 createRing({ stage: document.getElementById('hero-stage'), items: HERO_ITEMS, getScroll: () => scroll.current });
 

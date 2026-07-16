@@ -10,6 +10,16 @@
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/engine.css" />
   <link rel="stylesheet" href="css/pages.css" />
+  <style>
+    /* 페이지 스코프 — 초상(의도된 대비) · 플레이 영상 릴 */
+    .folio-portrait { margin: 30px 0 0; max-width: 208px; }
+    .folio-portrait img { width: 100%; height: auto; display: block; border-radius: 2px; filter: grayscale(.18) contrast(1.04); }
+    .folio-portrait figcaption { margin-top: 10px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; opacity: .45; line-height: 1.5; }
+    .folio-reel { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 18px; }
+    .folio-reel figure { margin: 0; }
+    .folio-reel video { width: 100%; height: auto; display: block; border-radius: 3px; background: #000; }
+    .folio-reel figcaption { margin-top: 8px; font-size: 12px; opacity: .6; }
+  </style>
 </head>
 <body>
   <canvas id="folio-bg" class="folio-bg" aria-hidden="true"></canvas>
@@ -25,8 +35,12 @@
     <header class="folio-doc__hero">
       <p class="folio-doc__eyebrow reveal">01 / Profile</p>
       <h1 class="folio-doc__title reveal" data-split>나를<br>소개합니다</h1>
-      <p class="folio-doc__lead reveal">좋아하는 것, 올해의 다짐, 그리고 나를 설명하는 단어들. 그 아래에 <mark>실제 프로젝트 아카이브</mark>를 얹었습니다.</p>
-      <p class="reveal" style="margin-top:4px"><span class="aur-status aur-status--online"><span class="aur-status__dot"></span> 열려 있음 · 협업 가능</span></p>
+      <p class="folio-doc__lead reveal">성능·동시성 문제를 직접 측정하고 구조를 바꿔 해결하는 <mark>백엔드 개발자</mark> 권경현입니다. 좋아하는 것과 올해의 다짐 아래에, <mark>실제 프로젝트 아카이브</mark>를 얹었습니다.</p>
+      <p class="reveal" style="margin-top:4px"><span class="aur-status aur-status--online"><span class="aur-status__dot"></span> 열려 있음 · 금융권 IT 취업 준비 중</span></p>
+      <figure class="folio-portrait reveal">
+        <img src="../media/portfolio/avatar.jpeg" alt="권경현의 프로필 이미지 — 안경을 쓰고 깅엄 셔츠를 입은 강아지" width="208" height="266" loading="lazy">
+        <figcaption>Portrait — 실물과 다소 차이가 있을 수 있습니다.</figcaption>
+      </figure>
     </header>
 
     <!-- ══ 요구 보존: <ul> · <ol> · <dl> (편집형으로 재해석) ══ -->
@@ -36,33 +50,31 @@
         <div class="folio-listcol">
           <p class="folio-listcol__title">좋아하는 음식 · &lt;ul&gt;</p>
           <ul>
-            <li>스페셜티 드립 커피</li>
-            <li>마르게리타 피자</li>
-            <li>평양냉면</li>
-            <li>제철 딸기</li>
+            <li>수육</li>
+            <li>피자</li>
+            <li>갈비</li>
           </ul>
         </div>
         <div class="folio-listcol">
           <p class="folio-listcol__title">올해 할 일 · &lt;ol&gt;</p>
           <ol>
-            <li>포트폴리오 사이트 완성</li>
-            <li>오픈소스에 첫 PR 머지</li>
-            <li>알고리즘 200문제</li>
-            <li>여행지 세 곳 방문</li>
+            <li>금융권 IT 취업</li>
+            <li>여행</li>
+            <li>수염 레이저 제모</li>
           </ol>
         </div>
         <div class="folio-listcol">
           <p class="folio-listcol__title">나를 설명하는 단어 · &lt;dl&gt;</p>
           <dl>
-            <dt>집요함</dt><dd>버그의 근본 원인을 찾을 때까지 파고듭니다.</dd>
-            <dt>디테일</dt><dd>1px, 16ms의 차이를 신경 씁니다.</dd>
-            <dt>호기심</dt><dd>새 브라우저 API를 먼저 실험해 봅니다.</dd>
+            <dt>책임감</dt><dd>맡은 파트는 끝까지. 팀장으로서 공통 규칙을 먼저 잡아 충돌을 줄였습니다.</dd>
+            <dt>취업의지</dt><dd>목표가 뚜렷하고, 개선일지와 부하 테스트로 역량을 계속 쌓습니다.</dd>
+            <dt>외향형</dt><dd>팀에서 소통하고 사람들과 어울리는 것을 편하게 여깁니다.</dd>
           </dl>
         </div>
       </div>
       <blockquote class="folio-quote reveal">
-        <p>좋은 코드는 좋은 글처럼 읽힌다.</p>
-        <cite>— 내가 지키려는 원칙</cite>
+        <p>욕망은 정의다.</p>
+        <cite>— 이시가미 센쿠</cite>
       </blockquote>
     </section>
 
@@ -97,6 +109,35 @@
       <div class="folio-file-row reveal">
         <button class="folio-btn" id="export-json" type="button" data-cursor="export">프로필 JSON 내보내기</button>
         <label class="folio-file-label" data-cursor="import">JSON 가져오기<input type="file" id="import-json" accept="application/json"></label>
+      </div>
+
+      <!-- Remind Lamia 플레이 영상 — 용량이 커서 poster + preload="none"으로 자동 로드하지 않음 -->
+      <div class="folio-doc__section" style="padding-bottom:0">
+        <p class="folio-doc__label reveal">Remind Lamia — 플레이 영상 · Unity 클라이언트</p>
+        <p class="reveal" style="font-size:13px; opacity:.6; line-height:1.7; max-width:52ch">하나의 세계관 안에 장르를 섞었습니다. 재생 버튼을 눌러야 불러옵니다.</p>
+        <div class="folio-reel reveal">
+          <figure>
+            <video controls preload="none" playsinline poster="../media/portfolio/game-op-poster.jpg" data-cursor="play">
+              <source src="../media/portfolio/game-op.mp4" type="video/mp4">
+              브라우저가 video 태그를 지원하지 않습니다.
+            </video>
+            <figcaption>오프닝 시퀀스</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="none" playsinline poster="../media/portfolio/game-drawpuzzle-poster.jpg" data-cursor="play">
+              <source src="../media/portfolio/game-drawpuzzle.mp4" type="video/mp4">
+              브라우저가 video 태그를 지원하지 않습니다.
+            </video>
+            <figcaption>그리기 퍼즐 — 선을 그어 길을 만든다</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="none" playsinline poster="../media/portfolio/game-bullethell-poster.jpg" data-cursor="play">
+              <source src="../media/portfolio/game-bullethell.mp4" type="video/mp4">
+              브라우저가 video 태그를 지원하지 않습니다.
+            </video>
+            <figcaption>탄막 — 패턴을 읽고 피하는 구간</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
   </main>

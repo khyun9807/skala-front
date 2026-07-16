@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CIPHER — vanilla benchmark clone</title>
+
+<!--
+  ────────────────────────────────────────────────────────────────────────
+  Cipher(cipher.tv) 벤치마킹 — 무(無)라이브러리/프레임워크 바닐라 재현
+  포함: 도트필드 로더(진행률) · 큐브 커서(+difference 라벨) · 관성 스무스 스크롤
+        · 다크↔라이트 테마 반전 · blur 리빌 · works hover-리빌 · JOUΓ 화살표 스왑
+  외부 의존: Google Fonts(폰트 '에셋'만; 라이브러리 아님) — 제거/교체 용이.
+  시그니처 이징: cubic-bezier(.83,.12,.35,.96)
+  ────────────────────────────────────────────────────────────────────────
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Space+Grotesk:wght@300..600&display=swap" rel="stylesheet">
+
+<style>
+/* 커스텀 프로퍼티 색상 트랜지션을 위한 등록 */
+@property --bg { syntax:'<color>'; inherits:true; initial-value:#060403; }
+@property --fg { syntax:'<color>'; inherits:true; initial-value:#e9eae4; }
+
+:root{
+  --color-dark:#060403;      /* 실측: 웜 블랙 */
+  --color-light:#e9eae4;     /* 실측: 웜 오프화이트 */
+  --gray:#676767;
+  --ease:cubic-bezier(.83,.12,.35,.96);   /* 실측 시그니처 이징 */
+  --fontXXS:8px; --fontXS:10px; --fontS:12px; --fontM:24px;
+  --bg:var(--color-dark);
+  --fg:var(--color-light);
+}
+.theme-light{ --bg:var(--color-light); --fg:var(--color-dark); }
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ height:100%; }
+@media (pointer:fine){ *{ cursor:none; } }
+
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  transition:--bg .7s var(--ease), --fg .7s var(--ease);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── 관성 스크롤 컨테이너 ─────────────────────────────── */
+#scroll-content{ position:fixed; top:0; left:0; width:100%; will-change:transform; z-index:2; }
+#scroll-spacer{ position:absolute; top:0; left:0; width:1px; }
+
+/* ── 배경 도트필드(고정) ─────────────────────────────── */
+#bg-dots{ position:fixed; inset:0; width:100vw; height:100vh; z-index:0;
+  transition:opacity .8s var(--ease); pointer-events:none; }
+.theme-light #bg-dots{ opacity:0; }
+
+/* ── 홈 히어로 스테이지: 회전 이미지 링(강강술래) + 중앙 엠블럼 ─── */
+#hero-stage{ position:fixed; inset:0; z-index:1; pointer-events:none; will-change:opacity; }
+.theme-light #hero-stage{ opacity:0 !important; }
+.ring{ position:absolute; inset:0; }
+.tile{ position:absolute; top:0; left:0; width:clamp(112px,14vw,224px); aspect-ratio:16/10;
+  background-size:cover; background-position:center; border-radius:2px;
+  will-change:transform,opacity; box-shadow:0 14px 55px rgba(0,0,0,.5); overflow:hidden; }
+.stage-emblem{ position:absolute; top:50%; left:50%; translate:-50% -50%;
+  width:26px; height:26px; color:var(--color-light); z-index:120; }
+.stage-emblem svg{ position:absolute; inset:0; width:100%; height:100%; }
+.stage-emblem .e1{ animation:spin 9s linear infinite; }
+.stage-emblem .e2{ animation:spin 6s linear infinite reverse; opacity:.65; }
+
+/* ── 로더 ───────────────────────────────────────────── */
+#loader{ position:fixed; inset:0; z-index:100; background:var(--color-dark);
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity .9s var(--ease), filter .9s var(--ease); }
+#loader.done{ opacity:0; filter:blur(18px); pointer-events:none; }
+#loader canvas{ position:absolute; inset:0; width:100%; height:100%; }
+#loader .brand{ position:absolute; top:26px; left:24px; color:var(--color-light);
+  font-size:34px; letter-spacing:-.01em; font-weight:400; }
+#loader .pct{ position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  color:var(--color-light); font-size:11px; letter-spacing:.06em; }
+.emblem{ position:relative; width:26px; height:26px; }
+.emblem svg{ position:absolute; inset:0; width:100%; height:100%; }
+.emblem .e1{ animation:spin 9s linear infinite; }
+.emblem .e2{ animation:spin 6s linear infinite reverse; opacity:.7; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+@keyframes breathe{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.12) rotate(6deg) } }
+
+/* ── 커스텀 커서 ─────────────────────────────────────── */
+#cube{ position:fixed; top:0; left:0; width:6px; height:6px; background:var(--fg);
+  z-index:200; pointer-events:none; translate:-50% -50%;
+  transition:width .4s var(--ease), height .4s var(--ease), background .4s var(--ease);
+  mix-blend-mode:difference; }
+#cube.big{ width:56px; height:56px; background:var(--color-light); }
+#cursor-label{ position:fixed; top:0; left:0; z-index:201; pointer-events:none;
+  color:var(--color-light); font-size:var(--fontS); letter-spacing:.04em;
+  mix-blend-mode:difference; translate:18px 10px; opacity:0;
+  transition:opacity .3s var(--ease); text-transform:uppercase; }
+#cursor-label.show{ opacity:1; }
+@media (pointer:coarse){ #cube,#cursor-label{ display:none; } }
+
+/* ── 내비 ────────────────────────────────────────────── */
+.logo{ position:fixed; top:18px; left:22px; z-index:20; font-size:30px; font-weight:400;
+  letter-spacing:-.01em; color:var(--fg); text-decoration:none; line-height:1; }
+.nav{ position:fixed; top:0; left:0; width:100%; z-index:20;
+  display:grid; grid-template-columns:1fr 1fr 1fr; align-items:center;
+  padding:16px 24px; font-size:var(--fontXS); text-transform:uppercase;
+  letter-spacing:.12em; line-height:19px; color:var(--fg); }
+.nav .m{ display:flex; justify-content:center; gap:26px; }
+.nav .r{ display:flex; justify-content:flex-end; gap:26px; }
+.nav a{ color:inherit; text-decoration:none; position:relative; }
+.nav a::after{ content:''; position:absolute; left:0; bottom:-3px; width:100%; height:1px;
+  background:currentColor; transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease); }
+.nav a:hover::after{ transform:scaleX(1); transform-origin:left; }
+@media (max-width:768px){ .nav .m{ display:none; } }
+
+/* ── 섹션 공통 ───────────────────────────────────────── */
+section{ position:relative; width:100%; padding:0 24px; }
+.center-emblem{ position:absolute; top:50%; left:50%; translate:-50% -50%;
+  width:26px; height:26px; color:var(--fg); z-index:5; }
+.center-emblem svg{ position:absolute; inset:0; width:100%; height:100%; }
+.center-emblem .e1{ animation:spin 9s linear infinite; }
+.center-emblem .e2{ animation:spin 6s linear infinite reverse; opacity:.65; }
+
+/* HERO */
+.hero{ height:100vh; display:flex; align-items:flex-end; justify-content:center; }
+.hero .tagline{ position:absolute; bottom:9vh; left:50%; translate:-50%;
+  font-family:'Fraunces', Georgia, serif; font-optical-sizing:auto;
+  font-size:clamp(22px,4.4vw,64px); font-weight:340; text-align:center;
+  line-height:1.02; letter-spacing:-.01em; max-width:16ch; }
+.jour-abs{ position:absolute; bottom:16px; right:20px; z-index:20; }
+
+/* MANIFESTO */
+.manifesto{ min-height:150vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; gap:4vh; }
+.statement{ font-family:'Fraunces', Georgia, serif; font-optical-sizing:auto;
+  font-weight:330; font-size:clamp(26px,5vw,74px); line-height:1.05;
+  letter-spacing:-.012em; max-width:20ch; }
+.subcopy{ font-size:var(--fontXS); text-transform:uppercase; letter-spacing:.14em;
+  max-width:44ch; line-height:2.1; opacity:.75; }
+
+/* WORKS INDEX */
+.works{ min-height:130vh; padding-top:22vh; padding-bottom:16vh; }
+.works .eyebrow{ font-size:var(--fontXS); text-transform:uppercase; letter-spacing:.14em;
+  opacity:.6; margin-bottom:40px; text-align:center; }
+.index{ max-width:1100px; margin:0 auto; border-top:1px solid color-mix(in srgb, var(--fg) 22%, transparent); }
+.row{ display:grid; grid-template-columns:64px 1fr auto; align-items:center;
+  padding:20px 4px; border-bottom:1px solid color-mix(in srgb, var(--fg) 22%, transparent);
+  text-decoration:none; color:var(--fg); position:relative; overflow:hidden; }
+.row .num{ font-size:var(--fontXS); letter-spacing:.1em; opacity:.55; }
+.row .title{ font-family:'Fraunces', Georgia, serif; font-size:clamp(20px,3.4vw,40px);
+  font-weight:340; letter-spacing:-.01em; transition:transform .5s var(--ease), opacity .5s var(--ease);
+  will-change:transform; }
+.row .meta{ font-size:var(--fontXS); text-transform:uppercase; letter-spacing:.12em; opacity:.55; }
+.row:hover .title{ transform:translateX(26px); }
+.row .fill{ position:absolute; inset:0; background:color-mix(in srgb, var(--fg) 6%, transparent);
+  transform:scaleY(0); transform-origin:bottom; transition:transform .5s var(--ease); z-index:-1; }
+.row:hover .fill{ transform:scaleY(1); }
+
+/* hover 리빌 에셋 (커서 추적) */
+#asset{ position:fixed; top:0; left:0; width:230px; height:300px; z-index:15;
+  pointer-events:none; opacity:0; translate:-50% -50%; overflow:hidden; border-radius:2px;
+  transition:opacity .45s var(--ease), scale .6s var(--ease); scale:.85; }
+#asset.show{ opacity:1; scale:1; }
+#asset .art{ width:100%; height:100%; }
+
+/* FOOTER + JOUR arrow */
+.footer{ min-height:60vh; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:30px; text-align:center; }
+.footer .big{ font-family:'Fraunces', Georgia, serif; font-weight:330;
+  font-size:clamp(30px,7vw,110px); line-height:.98; letter-spacing:-.02em; }
+.footer .contact{ font-size:var(--fontXS); text-transform:uppercase; letter-spacing:.14em; opacity:.7; }
+
+.jour{ display:inline-flex; align-items:baseline; gap:10px; text-decoration:none;
+  color:var(--fg); pointer-events:auto; }
+.jour .word{ font-weight:600; letter-spacing:.02em; font-size:15px;
+  transition:transform .45s var(--ease); }
+.jour:hover .word{ transform:translateX(6px); }
+.arrow_c{ position:relative; width:15px; height:15px; overflow:hidden; display:inline-flex; }
+.arrow_c svg{ width:9px; height:9px; position:absolute; }
+.arrow_c .rel{ left:3px; top:3px; transition:transform .45s var(--ease); }
+.arrow_c .abs{ left:3px; top:3px; transform:translate(-160%,160%); transition:transform .45s var(--ease); }
+.jour:hover .rel{ transform:translate(160%,-160%); }
+.jour:hover .abs{ transform:translate(0,0); }
+
+/* ── 리빌 ───────────────────────────────────────────── */
+.reveal{ opacity:0; filter:blur(14px); transform:translateY(30px);
+  transition:opacity .95s var(--ease), filter .95s var(--ease), transform .95s var(--ease); }
+.reveal.in{ opacity:1; filter:blur(0); transform:none; }
+.reveal .w{ display:inline-block; opacity:0; filter:blur(12px); transform:translateY(20px);
+  transition:opacity .8s var(--ease), filter .8s var(--ease), transform .8s var(--ease);
+  transition-delay:calc(var(--i) * 55ms); }
+.reveal.in .w{ opacity:1; filter:blur(0); transform:none; }
+
+/* prefers-reduced-motion 폴백 */
+@media (prefers-reduced-motion: reduce){
+  .reveal,.reveal .w{ opacity:1 !important; filter:none !important; transform:none !important; }
+  #loader{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- 배경 도트필드 -->
+<canvas id="bg-dots"></canvas>
+
+<!-- 홈 히어로 스테이지: 회전 이미지 링(강강술래) + 중앙 엠블럼 (고정, 스크롤 시 페이드) -->
+<div id="hero-stage" aria-hidden="true">
+  <div class="ring"></div>
+  <div class="stage-emblem">
+    <svg class="e1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#e9eae4" stroke-width="4"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="#e9eae4" font-family="Georgia,serif">c</text></svg>
+    <svg class="e2" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="46" ry="30" fill="none" stroke="#e9eae4" stroke-width="3"/></svg>
+  </div>
+</div>
+
+<!-- 커스텀 커서 -->
+<div id="cube"></div>
+<div id="cursor-label"></div>
+
+<!-- 고정 UI -->
+<a class="logo" href="#" data-cursor="home">cīphər</a>
+<nav class="nav">
+  <div class="l"></div>
+  <div class="m"><a href="#works" data-cursor="index">Works</a></div>
+  <div class="r">
+    <a href="#talents" data-cursor="soon">Talents</a>
+    <a href="#footer" data-cursor="say hi">Contact</a>
+    <a href="#manifesto" data-cursor="read">About</a>
+  </div>
+</nav>
+
+<!-- hover 리빌 에셋 -->
+<div id="asset"><div class="art"></div></div>
+
+<!-- 관성 스크롤 콘텐츠 -->
+<div id="scroll-content">
+
+  <!-- HERO (dark) — 회전 이미지 링은 아래 #hero-stage(고정)에서 렌더 -->
+  <section class="hero" data-theme="dark">
+    <h1 class="tagline reveal">For culture <em style="font-style:italic">and</em> its counter.</h1>
+    <div class="jour-abs">
+      <a class="jour" href="https://www.studiojour.paris/" target="_blank" rel="noopener" data-cursor="studio">
+        <span class="word">JOUR</span>
+        <span class="arrow_c">
+          <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+          <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- MANIFESTO (light) -->
+  <section class="manifesto" id="manifesto" data-theme="light">
+    <p class="statement reveal" data-split>We build, bend, break, and rebuild — crafting classics while exploring what comes next.</p>
+    <p class="subcopy reveal">Cipher is a creative production company working between the established and the experimental. Born in Paris, reaching further.</p>
+  </section>
+
+  <!-- WORKS (light) -->
+  <section class="works" id="works" data-theme="light">
+    <p class="eyebrow reveal">Selected works — 2024 / 2026</p>
+    <div class="index">
+      <!-- 행은 JS로 생성 -->
+    </div>
+  </section>
+
+  <!-- FOOTER (dark) -->
+  <section class="footer" id="footer" data-theme="dark">
+    <div class="big reveal" data-split>Let's make<br>something.</div>
+    <div class="contact reveal">prod@cipher.tv &nbsp;·&nbsp; 7 impasse franchemont, paris 11</div>
+    <a class="jour" href="https://www.studiojour.paris/" target="_blank" rel="noopener" data-cursor="studio">
+      <span class="word">Site by Studio Jour</span>
+      <span class="arrow_c">
+        <svg class="rel" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        <svg class="abs" viewBox="0 0 10 10"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      </span>
+    </a>
+  </section>
+
+</div><!-- /scroll-content -->
+
+<!-- 스크롤 높이 확보용 스페이서 -->
+<div id="scroll-spacer"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <canvas></canvas>
+  <div class="brand">cīphər</div>
+  <div class="emblem" aria-hidden="true">
+    <svg class="e1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#e9eae4" stroke-width="4"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="#e9eae4" font-family="Georgia,serif">c</text></svg>
+    <svg class="e2" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="46" ry="30" fill="none" stroke="#e9eae4" stroke-width="3"/></svg>
+  </div>
+  <div class="pct">0%</div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   0. 유틸 — lerp / clamp / 시그니처 베지어 이징 샘플러
+   ═══════════════════════════════════════════════════════════════════ */
+const lerp  = (a,b,t)=> a+(b-a)*t;
+const clamp = (v,a,b)=> Math.min(b, Math.max(a, v));
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE    = matchMedia('(pointer:fine)').matches;
+
+// cubic-bezier(.83,.12,.35,.96) 를 JS로 샘플링 (원본과 동일한 '손맛')
+function cubicBezier(p1x,p1y,p2x,p2y){
+  const cx=3*p1x, bx=3*(p2x-p1x)-cx, ax=1-cx-bx;
+  const cy=3*p1y, by=3*(p2y-p1y)-cy, ay=1-cy-by;
+  const fx=t=>((ax*t+bx)*t+cx)*t;
+  const fy=t=>((ay*t+by)*t+cy)*t;
+  const dfx=t=>(3*ax*t+2*bx)*t+cx;
+  return function(x){
+    let t=x;
+    for(let i=0;i<5;i++){ const e=fx(t)-x; if(Math.abs(e)<1e-4)break; t-=e/(dfx(t)||1e-6); }
+    return fy(clamp(t,0,1));
+  };
+}
+const EASE = cubicBezier(.83,.12,.35,.96);
+
+/* ═══════════════════════════════════════════════════════════════════
+   1. WORKS 인덱스 생성 + 플레이스홀더 에셋(자체 SVG 그라디언트)
+   ═══════════════════════════════════════════════════════════════════ */
+const WORKS = [
+  ['001','The Circle','Direction'], ['002','Unekual','Film'],
+  ['003','Dualis','Identity'],      ['004','Counter Culture','Editorial'],
+  ['005','BDK','Fragrance'],        ['006','The Ultimate Shield','Campaign'],
+  ['007','Evidens de Beauté','Beauty'], ['008','Marly','Studio'],
+];
+function makeArt(seed){
+  // 라이브러리 없이 자체 SVG 데이터 URI로 추상 에셋 생성
+  const h=(seed*47)%360, h2=(h+40)%360;
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='230' height='300'>
+    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='hsl(${h},18%,52%)'/>
+      <stop offset='1' stop-color='hsl(${h2},22%,20%)'/></linearGradient></defs>
+    <rect width='230' height='300' fill='url(#g)'/>
+    <g fill='none' stroke='rgba(233,234,228,.35)' stroke-width='1'>
+      ${Array.from({length:9},(_,i)=>`<circle cx='115' cy='150' r='${18+i*15}'/>`).join('')}
+    </g></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+const indexEl = document.querySelector('.index');
+WORKS.forEach(([num,title,meta],i)=>{
+  const a=document.createElement('a');
+  a.className='row reveal'; a.href='#'; a.dataset.cursor='view';
+  a.dataset.art=makeArt(i+3);
+  a.innerHTML=`<span class="fill"></span><span class="num">${num}</span>`+
+              `<span class="title">${title}</span><span class="meta">${meta}</span>`;
+  indexEl.appendChild(a);
+});
+
+/* hover 리빌 에셋 (커서 추적) */
+const assetEl=document.getElementById('asset');
+const artEl=assetEl.querySelector('.art');
+let assetX=innerWidth/2, assetY=innerHeight/2, assetTX=assetX, assetTY=assetY;
+document.querySelectorAll('.row').forEach(row=>{
+  row.addEventListener('mouseenter',()=>{ artEl.style.backgroundImage=row.dataset.art;
+    artEl.style.backgroundSize='cover'; assetEl.classList.add('show'); });
+  row.addEventListener('mouseleave',()=> assetEl.classList.remove('show'));
+});
+addEventListener('mousemove',e=>{ assetTX=e.clientX; assetTY=e.clientY; });
+
+/* ═══════════════════════════════════════════════════════════════════
+   1.5 홈 히어로 — 회전 이미지 링(강강술래 갤러리)  ★ 원본 시그니처
+   원본은 WebGL 캔버스에 영상 텍스처를 타원 링에 배치하고 스크롤로 회전.
+   여기선 라이브러리 없이 DOM 타일 + 타원 좌표 + rAF로 재현.
+   ═══════════════════════════════════════════════════════════════════ */
+const RING_N=12;
+const ringEl=document.querySelector('.ring');
+const stage=document.getElementById('hero-stage');
+const tiles=[];
+function makeReel(seed){ // 라이브러리 없이 자체 SVG로 '작업 릴' 타일 생성 (실제론 <video> 권장)
+  const h=(seed*53)%360, h2=(h+50)%360;
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200'>
+   <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+     <stop offset='0' stop-color='hsl(${h},30%,55%)'/><stop offset='1' stop-color='hsl(${h2},34%,17%)'/></linearGradient></defs>
+   <rect width='320' height='200' fill='url(#g)'/>
+   <g fill='none' stroke='rgba(233,234,228,.26)' stroke-width='1'>
+     ${Array.from({length:6},(_,i)=>`<circle cx='160' cy='100' r='${18+i*22}'/>`).join('')}</g></svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+for(let i=0;i<RING_N;i++){ const t=document.createElement('div'); t.className='tile';
+  t.style.backgroundImage=makeReel(i); ringEl.appendChild(t); tiles.push(t); }
+
+function layoutRing(now){
+  const cx=innerWidth/2, cy=innerHeight/2;
+  const Rx=Math.min(innerWidth*0.27, 540), Ry=Math.min(innerHeight*0.32, 340);
+  // 회전각: 항상 도는 idle(강강술래) + 스크롤 가속
+  const phi = now*0.00006 + curr*0.0016;
+  for(let i=0;i<RING_N;i++){
+    const a=phi + i*(Math.PI*2/RING_N);
+    const x=cx+Rx*Math.cos(a), y=cy+Ry*Math.sin(a);
+    const depth=(Math.sin(a)+1)/2;                 // 하단=앞(크고 진하게)
+    const t=tiles[i];
+    // 타일은 '세운 채' 위치만 회전 = 강강술래. (rotate(a) 추가 시 링과 함께 기욺)
+    t.style.transform=`translate(${x}px,${y}px) translate(-50%,-50%) scale(${(0.78+depth*0.34).toFixed(3)})`;
+    t.style.zIndex=Math.round(depth*100);
+    t.style.opacity=(0.5+depth*0.5).toFixed(3);
+  }
+  // 히어로를 벗어나면 스테이지 페이드아웃(원본의 고정 anim_layer 리빌 방식)
+  stage.style.opacity=(1 - clamp(curr/(innerHeight*0.72),0,1)).toFixed(3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. 단어 분해 (stagger 리빌)
+   ═══════════════════════════════════════════════════════════════════ */
+document.querySelectorAll('[data-split]').forEach(el=>{
+  const parts=el.innerHTML.split(/(<br\s*\/?>)/i);
+  let idx=0, html='';
+  parts.forEach(p=>{
+    if(/<br/i.test(p)){ html+=p; return; }
+    html+=p.split(' ').filter(Boolean).map(w=>`<span class="w" style="--i:${idx++}">${w}</span>`).join(' ');
+  });
+  el.innerHTML=html;
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. 커스텀 큐브 커서 + 라벨
+   ═══════════════════════════════════════════════════════════════════ */
+const cube=document.getElementById('cube');
+const label=document.getElementById('cursor-label');
+let mx=innerWidth/2, my=innerHeight/2, cx=mx, cy=my;
+if(FINE){
+  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; });
+  document.querySelectorAll('[data-cursor]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ cube.classList.add('big');
+      label.textContent=el.dataset.cursor; label.classList.add('show'); });
+    el.addEventListener('mouseleave',()=>{ cube.classList.remove('big');
+      label.classList.remove('show'); });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. 관성 스무스 스크롤 (Lenis 대체)
+   ═══════════════════════════════════════════════════════════════════ */
+const content=document.getElementById('scroll-content');
+const spacer=document.getElementById('scroll-spacer');
+let curr=0, targ=0;
+const SCROLL_EASE = REDUCED ? 1 : 0.085;
+function sizeSpacer(){ spacer.style.height=content.scrollHeight+'px'; }
+addEventListener('scroll',()=> targ=scrollY);
+addEventListener('resize',()=>{ sizeSpacer(); sizeBg(); });
+
+/* 앵커 클릭 → 스무스 이동 */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href'); if(id==='#') return;
+    const t=document.querySelector(id); if(!t) return;
+    e.preventDefault();
+    const y=t.getBoundingClientRect().top + curr;   // 변형 보정
+    scrollTo({top:y, behavior:REDUCED?'auto':'smooth'});
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. 리빌 + 테마 반전 (관성 스크롤과 함께 rAF에서 판정)
+   ═══════════════════════════════════════════════════════════════════ */
+const reveals=[...document.querySelectorAll('.reveal')];
+const sections=[...document.querySelectorAll('section[data-theme]')];
+function updateScene(){
+  const vh=innerHeight;
+  // 리빌: 요소가 뷰포트 하단 85% 안으로 들어오면 in
+  for(let i=reveals.length-1;i>=0;i--){
+    const el=reveals[i];
+    if(el.getBoundingClientRect().top < vh*0.85){ el.classList.add('in'); reveals.splice(i,1); }
+  }
+  // 테마: 화면 중앙을 점유한 섹션의 data-theme 채택
+  for(const s of sections){
+    const r=s.getBoundingClientRect();
+    if(r.top<=vh*0.5 && r.bottom>=vh*0.5){
+      const light = s.dataset.theme==='light';
+      document.documentElement.classList.toggle('theme-light', light);
+      document.documentElement.classList.toggle('theme-dark', !light);
+      break;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. 배경 도트필드 (Canvas 2D, 값-노이즈 근사) — WebGL 없이 인상 재현
+   ═══════════════════════════════════════════════════════════════════ */
+const bg=document.getElementById('bg-dots');
+const bx=bg.getContext('2d');
+let BW,BH, DPR=Math.min(devicePixelRatio||1, 2);
+function sizeBg(){ BW=bg.width=innerWidth*DPR; BH=bg.height=innerHeight*DPR;
+  bg.style.width=innerWidth+'px'; bg.style.height=innerHeight+'px'; }
+const GAP=20*DPR, R=1.1*DPR;
+function pnoise(x,y,t){ return (Math.sin(x*0.0022+t)+Math.sin(y*0.0026-t*0.8)+Math.sin((x+y)*0.0012+t*1.3))/3; }
+function drawBg(t){
+  bx.clearRect(0,0,BW,BH);
+  bx.fillStyle='#e9eae4';
+  const parX=(mx/innerWidth-0.5)*30*DPR, parY=(my/innerHeight-0.5)*30*DPR; // 마우스 패럴랙스
+  for(let y=0;y<BH;y+=GAP){
+    for(let x=0;x<BW;x+=GAP){
+      const n=(pnoise(x+parX, y+parY, t)+1)/2;
+      bx.globalAlpha=0.06+n*0.5;
+      bx.beginPath(); bx.arc(x, y, R*(0.5+n), 0, 6.283); bx.fill();
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. 로더 (프리로드 진행률 + 도트필드 리빌 마스크)
+   ═══════════════════════════════════════════════════════════════════ */
+const loader=document.getElementById('loader');
+const lc=loader.querySelector('canvas'), lx=lc.getContext('2d');
+const pctEl=loader.querySelector('.pct');
+let LW,LH; function sizeLoader(){ LW=lc.width=innerWidth*DPR; LH=lc.height=innerHeight*DPR;
+  lc.style.width=innerWidth+'px'; lc.style.height=innerHeight+'px'; }
+let progress=0, shown=0, loaderDone=false;
+
+// 실제 폰트/에셋 로딩을 진행률로 사용 (+ 최소 표출시간)
+const startT=performance.now();
+Promise.all([
+  document.fonts.ready,
+  new Promise(r=>setTimeout(r, 1400))     // 최소 노출(연출)
+]).then(()=> progress=1);
+// 폰트가 오래 걸려도 3초 후 강제 완료
+setTimeout(()=> progress=1, 3000);
+
+function drawLoader(t){
+  lx.clearRect(0,0,LW,LH);
+  lx.fillStyle='#e9eae4';
+  for(let y=0;y<LH;y+=GAP){
+    for(let x=0;x<LW;x+=GAP){
+      const n=(pnoise(x,y,t)+1)/2;
+      const reveal = n < shown ? 1 : 0.10;           // 진행률 아래 도트만 밝게
+      lx.globalAlpha=(0.06+n*0.6)*reveal;
+      lx.beginPath(); lx.arc(x,y,R*(0.6+n),0,6.283); lx.fill();
+    }
+  }
+}
+function finishLoader(){
+  loaderDone=true; loader.classList.add('done');
+  document.body.style.overflow='';
+  setTimeout(()=> loader.remove(), 1000);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   8. 통합 rAF 루프 (커서 · 스크롤 · 도트필드 · 로더 · 씬)
+   ═══════════════════════════════════════════════════════════════════ */
+function frame(now){
+  const t=now*0.0004;
+  // 커서
+  if(FINE){
+    cx=lerp(cx,mx,0.2); cy=lerp(cy,my,0.2);
+    cube.style.transform=`translate(${cx}px,${cy}px)`;
+    label.style.transform=`translate(${mx}px,${my}px)`;
+  }
+  // 관성 스크롤
+  curr=lerp(curr,targ,SCROLL_EASE);
+  if(Math.abs(curr-targ)<0.05) curr=targ;
+  content.style.transform=`translate3d(0,${-curr}px,0)`;
+  // 리빌 에셋 추적
+  assetX=lerp(assetX,assetTX,0.15); assetY=lerp(assetY,assetTY,0.15);
+  assetEl.style.transform=`translate(${assetX}px,${assetY}px)`;
+  // 씬(리빌/테마)
+  updateScene();
+  // 회전 이미지 링 + 스테이지 페이드
+  layoutRing(now);
+  // 배경 도트필드
+  if(document.documentElement.classList.contains('theme-dark')) drawBg(t);
+  // 로더
+  if(!loaderDone){
+    shown=lerp(shown, progress, 0.06);
+    drawLoader(t);
+    pctEl.textContent=Math.round(shown*100)+'%';
+    if(progress>=1 && shown>0.992){ shown=1; pctEl.textContent='100%'; finishLoader(); }
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   init
+   ═══════════════════════════════════════════════════════════════════ */
+function initSizes(){ sizeSpacer(); sizeBg(); sizeLoader(); }
+document.body.style.overflow='hidden';          // 로더 동안 스크롤 잠금
+initSizes();
+document.fonts.ready.then(sizeSpacer);          // 폰트 로드 후 높이 재계산
+addEventListener('load', sizeSpacer);
+if(REDUCED){ progress=1; }                       // 모션 최소화 시 즉시
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

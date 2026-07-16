@@ -8,11 +8,13 @@ import { initPage } from './page.js';
 import { showToast } from '../../tessera-js/js/features/notifications.js';
 import { apiClient } from '../../tessera-js/js/network/api-client.js';
 import * as blog from '../../tessera-js/js/features/blog.js';
+import { OBJECT_STORES } from '../../tessera-js/js/config/constants.js';
+import { reseedIfStale } from './reseed.js';
 
 initPage();
 
 const dialog = document.getElementById('post-modal');
-const CAT = { frontend: '프론트엔드', travel: '여행', backend: '백엔드', devops: 'DevOps', design: '디자인', career: '커리어', database: '데이터베이스' };
+const CAT = { frontend: '프론트엔드', travel: '여행', backend: '백엔드', devops: 'DevOps', design: '디자인', career: '커리어', database: '데이터베이스', project: '프로젝트', game: '게임' };
 
 async function fetchJSON(path) {
   const { data } = await apiClient.get(path, { cache: { enabled: true, ttl: 5 * 60_000 } });
@@ -75,6 +77,7 @@ dialog.querySelector('[data-modal-close]').addEventListener('click', () => dialo
 dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
 
 (async function init() {
+  await reseedIfStale(OBJECT_STORES.BLOG_POSTS); // 시드 버전이 바뀌었으면 옛 데모 글을 비움
   await blog.seedPostsIfEmpty(() => fetchJSON('../tessera-js/data/blog-posts.json'));
   const posts = (await blog.getAllPosts())
     .filter((p) => (p.status ?? 'published') === 'published')

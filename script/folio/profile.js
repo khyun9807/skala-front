@@ -9,9 +9,10 @@ import { initPage } from './page.js';
 import { showToast } from '../../tessera-js/js/features/notifications.js';
 import {
   loadProfile, searchProjects, filterProjectsBySkill, computeSkillFrequency,
-  saveProfileDraft, getProfileDraft, exportProfileJSON, importProfileJSON,
+  saveProfileDraft, getProfileDraft, clearProfileDraft, exportProfileJSON, importProfileJSON,
   toggleFavoriteProject, getFavoriteProjects, recordRecentProject, getRecentProjects,
 } from '../../tessera-js/js/features/profile.js';
+import { runOnceForVersion } from './reseed.js';
 import { createChart } from '../../tessera-js/js/dom/canvas-charts.js';
 import { debounce } from '../../tessera-js/js/utils/debounce.js';
 
@@ -97,6 +98,8 @@ function renderSkillChart() {
 
 function initEditForm() {
   const form = document.getElementById('profile-edit-form');
+  // 데모 시절 임시저장 초안이 남아 있으면 실제 프로필(profile.json)을 덮어쓰므로 시드 버전당 1회 정리
+  runOnceForVersion('profile-draft', clearProfileDraft);
   const draft = getProfileDraft(null);
   document.getElementById('edit-tagline').value = draft?.tagline ?? profileData.tagline ?? '';
   document.getElementById('edit-bio').value = draft?.bio ?? profileData.bio ?? '';
