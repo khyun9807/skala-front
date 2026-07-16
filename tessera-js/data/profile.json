@@ -1,0 +1,63 @@
+{
+  "name": "강병호",
+  "title": "SKALA 프론트엔드 개발자",
+  "tagline": "사용자에게 좋은 경험을 선물하는 개발자가 되는 것",
+  "bio": "새로운 기술을 직접 만들어보며 배우는 것을 좋아하고, 작은 습관을 꾸준히 지키는 성실함을 무기로 삼는 프론트엔드 개발자입니다. 화면 너머의 사용자가 느낄 감정까지 고민하며 만듭니다.",
+  "avatar": "../media/lijiang.svg",
+  "location": "대한민국",
+  "contact": {
+    "email": "khyun980729@gmail.com",
+    "github": "https://github.com/khyun9807",
+    "blog": "https://example.com/blog"
+  },
+  "skills": ["JavaScript", "TypeScript", "HTML5", "CSS3", "React", "Node.js", "IndexedDB", "Canvas API"],
+  "traits": [
+    { "label": "호기심", "score": 9, "description": "새로운 기술이나 흥미로운 트렌드를 보면 직접 경험해보고 배워야 직성이 풀립니다." },
+    { "label": "꾸준함", "score": 8, "description": "매일 작은 계획이라도 세우고 그것을 지키기 위해 노력합니다." },
+    { "label": "크리에이티브", "score": 10, "description": "단순한 결과물보다 더 나은 경험과 시각적 즐거움을 주는 것을 좋아합니다." }
+  ],
+  "projects": [
+    {
+      "id": "proj-tessera",
+      "title": "TesseraJS",
+      "description": "외부 라이브러리 없이 만든 바닐라 자바스크립트 프론트엔드 라이브러리. HTTP 클라이언트, 상태 관리, IndexedDB 래퍼, Web Worker 검색 엔진을 직접 구현했습니다.",
+      "stack": ["JavaScript", "IndexedDB", "Canvas API", "Web Worker"],
+      "url": "../index.html",
+      "startDate": "2026-05-01",
+      "endDate": "2026-07-15"
+    },
+    {
+      "id": "proj-aurora",
+      "title": "Aurora UI",
+      "description": "Glassmorphism과 Bento grid 기반의 순수 CSS 디자인 시스템. 20개 이상의 데모 섹션과 다크모드를 지원합니다.",
+      "stack": ["CSS3", "JavaScript"],
+      "url": "../aurora-ui/index.html",
+      "startDate": "2026-03-01",
+      "endDate": "2026-04-20"
+    },
+    {
+      "id": "proj-visitor-dash",
+      "title": "방문자 분석 대시보드",
+      "description": "서버 없이 브라우저 저장소만으로 방문자 행동을 추적하고 Canvas 차트로 시각화하는 실험 프로젝트.",
+      "stack": ["JavaScript", "Canvas API", "IndexedDB"],
+      "url": "../pages/visitors.html",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-28"
+    },
+    {
+      "id": "proj-schedule-app",
+      "title": "수업/여행 통합 일정표",
+      "description": "드래그로 시간을 옮기고 반복 일정과 충돌을 자동으로 검사하는 캘린더 위젯.",
+      "stack": ["JavaScript", "CSS3"],
+      "url": "../pages/schedule.html",
+      "startDate": "2025-11-01",
+      "endDate": "2025-12-15"
+    }
+  ],
+  "timeline": [
+    { "date": "2026-05-01", "title": "TesseraJS 개발 시작", "description": "외부 라이브러리 없는 프론트엔드 라이브러리 설계" },
+    { "date": "2026-03-01", "title": "Aurora UI 디자인 시스템 제작", "description": "Glassmorphism 기반 컴포넌트 라이브러리" },
+    { "date": "2025-09-01", "title": "SKALA 과정 시작", "description": "프론트엔드 심화 교육 과정 수강" },
+    { "date": "2024-03-01", "title": "웹 개발 입문", "description": "HTML/CSS/JavaScript 기초 학습 시작" }
+  ]
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <rect width="400" height="260" fill="#dceefc"/>
+  <polygon points="100,220 200,60 300,220" fill="#eef2f5"/>
+  <polygon points="150,220 200,60 250,220" fill="#ffffff"/>
+  <polygon points="140,150 200,60 190,150" fill="#c9d6df"/>
+  <rect y="220" width="400" height="40" fill="#f5f5f5"/>
+  <text x="200" y="245" font-family="sans-serif" font-size="18" fill="#333333" text-anchor="middle">홋카이도 다이설산</text>
+</svg>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>일정 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <h1 class="section__title">일정</h1>
+
+    <div class="row" style="justify-content:space-between;">
+      <div class="tabs" role="tablist">
+        <button class="tab" data-view="month" aria-selected="true" type="button">월간</button>
+        <button class="tab" data-view="timetable" type="button">시간표</button>
+        <button class="tab" data-view="agenda" type="button">일정 목록</button>
+      </div>
+      <div class="row">
+        <select id="schedule-kind-filter" class="field__select">
+          <option value="">전체 종류</option>
+          <option value="class">수업</option>
+          <option value="travel">여행</option>
+          <option value="personal">개인</option>
+        </select>
+        <input type="search" id="schedule-search" class="field__input" placeholder="일정 검색" style="max-width:200px;" />
+      </div>
+    </div>
+
+    <p id="schedule-conflict-banner" class="badge badge--danger" hidden style="margin-top: var(--space-3);"></p>
+
+    <div id="schedule-month-view" style="margin-top: var(--space-4);">
+      <div class="row" style="justify-content:space-between;">
+        <button class="btn btn--sm" id="schedule-prev-month" type="button">← 이전달</button>
+        <h2 id="schedule-month-label"></h2>
+        <button class="btn btn--sm" id="schedule-next-month" type="button">다음달 →</button>
+      </div>
+      <div class="calendar-grid" id="schedule-calendar" style="margin-top: var(--space-3);"></div>
+    </div>
+
+    <div id="schedule-timetable-view" hidden style="margin-top: var(--space-4);">
+      <div class="timetable-grid" id="schedule-timetable"></div>
+    </div>
+
+    <div id="schedule-agenda-view" hidden class="grid grid--2" style="margin-top: var(--space-4);">
+      <div>
+        <h3>오늘 일정</h3>
+        <ul id="schedule-today-list" class="stack text-sm"></ul>
+        <h3 style="margin-top: var(--space-4);">다음 일정 카운트다운</h3>
+        <p id="schedule-countdown" class="text-sm"></p>
+      </div>
+      <div>
+        <h3>다가오는 일정</h3>
+        <ul id="schedule-upcoming-list" class="stack text-sm"></ul>
+        <h3 style="margin-top: var(--space-4);">지난 일정</h3>
+        <ul id="schedule-past-list" class="stack text-sm"></ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: var(--space-5);">
+      <h3>일정 추가</h3>
+      <form id="schedule-form" class="grid grid--3" style="margin-top: var(--space-3);">
+        <input name="title" placeholder="제목" class="field__input" required />
+        <input name="location" placeholder="장소" class="field__input" />
+        <select name="kind" class="field__select">
+          <option value="personal">개인</option>
+          <option value="class">수업</option>
+          <option value="travel">여행</option>
+        </select>
+        <label class="field"><span class="field__hint">시작</span><input type="datetime-local" name="startAt" class="field__input" required /></label>
+        <label class="field"><span class="field__hint">종료</span><input type="datetime-local" name="endAt" class="field__input" required /></label>
+        <select name="recurrence" class="field__select">
+          <option value="none">반복 없음</option>
+          <option value="daily">매일</option>
+          <option value="weekly">매주</option>
+          <option value="weekdays">평일</option>
+          <option value="monthly">매월</option>
+          <option value="specific-weekday">특정 요일(일)</option>
+        </select>
+        <label class="row"><input type="checkbox" name="notify" /> 알림</label>
+        <button class="btn btn--sm btn--primary" type="submit">추가</button>
+      </form>
+    </div>
+
+    <div class="row" style="margin-top: var(--space-4);">
+      <button class="btn btn--sm" id="schedule-export-csv" type="button">CSV 내보내기</button>
+      <button class="btn btn--sm" id="schedule-export-json" type="button">JSON 내보내기</button>
+      <button class="btn btn--sm" id="schedule-export-ics" type="button">ICS 내보내기</button>
+      <label class="btn btn--sm" for="schedule-import-json" style="cursor:pointer;">JSON 가져오기</label>
+      <input type="file" id="schedule-import-json" accept="application/json" hidden />
+      <button class="btn btn--sm" id="schedule-enable-notifications" type="button">🔔 오늘 일정 알림 켜기</button>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/schedule.js"></script>
+</body>
+</html>

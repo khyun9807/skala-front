@@ -1,0 +1,22 @@
+[
+  {
+    "name": "강병호",
+    "username": "demo",
+    "email": "demo@tessera.dev",
+    "password": "Demo1234!",
+    "birthDate": "1998-07-29",
+    "interests": ["frontend", "travel"],
+    "travelPreferences": ["nature", "food"],
+    "avatarDataUrl": null
+  },
+  {
+    "name": "테스트 사용자",
+    "username": "tester",
+    "email": "tester@tessera.dev",
+    "password": "Tester1234!",
+    "birthDate": "2000-01-01",
+    "interests": ["backend"],
+    "travelPreferences": ["culture"],
+    "avatarDataUrl": null
+  }
+]

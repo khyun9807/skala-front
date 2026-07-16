@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자기소개 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <nav class="row" id="profile-section-nav" aria-label="섹션 이동" style="position:sticky; top: calc(var(--nav-height) + 8px); z-index: 10; background: var(--color-bg); padding-block: 8px;">
+      <a class="tab" href="#section-intro" data-section-link="section-intro">소개</a>
+      <a class="tab" href="#section-skills" data-section-link="section-skills">기술 스택</a>
+      <a class="tab" href="#section-projects" data-section-link="section-projects">프로젝트</a>
+      <a class="tab" href="#section-timeline" data-section-link="section-timeline">타임라인</a>
+    </nav>
+
+    <section id="section-intro" class="card" style="margin-top: var(--space-4);">
+      <div id="profile-header" class="row"></div>
+      <div class="row" style="margin-top: var(--space-4);">
+        <button class="btn btn--sm" type="button" id="profile-copy-email">📋 이메일 복사</button>
+        <button class="btn btn--sm" type="button" id="profile-download-resume">📄 이력서 다운로드</button>
+        <button class="btn btn--sm" type="button" id="profile-export-json">⬇ JSON 내보내기</button>
+        <label class="btn btn--sm" for="profile-import-json" style="cursor:pointer;">⬆ JSON 가져오기</label>
+        <input type="file" id="profile-import-json" accept="application/json,.json" hidden />
+      </div>
+      <div class="grid grid--3" id="profile-counters" style="margin-top: var(--space-4); text-align:center;"></div>
+
+      <details style="margin-top: var(--space-4);">
+        <summary class="text-sm">프로필 수정 (임시 저장)</summary>
+        <form id="profile-edit-form" class="stack" style="margin-top: var(--space-3);">
+          <label class="field">
+            <span class="field__label">한 줄 소개</span>
+            <input type="text" name="tagline" class="field__input" maxlength="80" />
+          </label>
+          <label class="field">
+            <span class="field__label">자기소개</span>
+            <textarea name="bio" class="field__textarea" rows="3"></textarea>
+          </label>
+          <div class="row">
+            <button class="btn btn--sm btn--primary" type="submit">임시 저장</button>
+            <span id="profile-draft-status" class="text-sm text-muted"></span>
+          </div>
+        </form>
+      </details>
+    </section>
+
+    <section id="section-skills" class="section">
+      <h2 class="section__title">기술 스택</h2>
+      <div id="profile-skill-chips" class="row"></div>
+      <canvas id="profile-skill-chart" style="width:100%; height:220px; margin-top: var(--space-4);"></canvas>
+      <div id="profile-skill-legend" class="row" style="margin-top: var(--space-2);"></div>
+    </section>
+
+    <section id="section-projects" class="section">
+      <h2 class="section__title">프로젝트</h2>
+      <div class="row">
+        <input type="search" id="profile-project-search" class="field__input" placeholder="프로젝트 검색" style="max-width:280px;" />
+        <span class="text-sm text-muted">즐겨찾기: <span id="profile-favorite-count">0</span>개 · 최근 본 프로젝트: <span id="profile-recent-count">0</span>개</span>
+      </div>
+      <div id="profile-projects-grid" class="grid grid--2" style="margin-top: var(--space-4);"></div>
+    </section>
+
+    <section id="section-timeline" class="section">
+      <h2 class="section__title">경력 타임라인</h2>
+      <div id="profile-timeline" class="timeline"></div>
+    </section>
+  </main>
+
+  <div id="profile-modal-root"></div>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>여행 상세 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <div id="travel-detail-header" class="card"></div>
+
+    <div class="grid grid--2" style="margin-top: var(--space-4);">
+      <section class="card">
+        <h3>날씨</h3>
+        <div class="row"><input id="weather-city" class="field__input" placeholder="도시(영문)" /><button class="btn btn--sm" id="weather-check-btn" type="button">조회</button></div>
+        <div id="weather-result" class="text-sm" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card">
+        <h3>환율</h3>
+        <div class="row">
+          <input id="exchange-amount" type="number" class="field__input" value="100" />
+          <span id="exchange-currency-label" class="text-sm"></span>
+          <button class="btn btn--sm" id="exchange-check-btn" type="button">환산</button>
+        </div>
+        <div id="exchange-result" class="text-sm" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card">
+        <h3>교통 정보</h3>
+        <div class="row">
+          <input id="transport-origin" class="field__input" placeholder="출발지" />
+          <input id="transport-destination" class="field__input" placeholder="도착지" />
+          <button class="btn btn--sm" id="transport-check-btn" type="button">조회</button>
+        </div>
+        <div id="transport-result" class="text-sm" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card">
+        <h3>항공편</h3>
+        <div class="row">
+          <input id="flight-number" class="field__input" placeholder="항공편명(예: KE123)" />
+          <button class="btn btn--sm" id="flight-check-btn" type="button">조회</button>
+        </div>
+        <div id="flight-result" class="text-sm" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card">
+        <h3>페리</h3>
+        <div class="row">
+          <input id="ferry-origin" class="field__input" placeholder="출발항" />
+          <input id="ferry-destination" class="field__input" placeholder="도착항" />
+          <button class="btn btn--sm" id="ferry-check-btn" type="button">조회</button>
+        </div>
+        <div id="ferry-result" class="text-sm" style="margin-top:8px;"></div>
+      </section>
+
+      <section class="card">
+        <h3>예산</h3>
+        <form id="expense-form" class="row">
+          <select name="category" class="field__select">
+            <option value="transport">교통비</option>
+            <option value="accommodation">숙박비</option>
+            <option value="food">식비</option>
+            <option value="activity">관광비용</option>
+            <option value="misc">기타</option>
+          </select>
+          <input name="amount" type="number" class="field__input" placeholder="금액" required style="max-width:100px;" />
+          <select name="currency" class="field__select">
+            <option>KRW</option>
+            <option>USD</option>
+            <option>JPY</option>
+            <option>EUR</option>
+          </select>
+          <button class="btn btn--sm" type="submit">추가</button>
+        </form>
+        <canvas id="budget-chart" style="width:100%;height:180px;margin-top:8px;"></canvas>
+        <div id="budget-summary" class="text-sm"></div>
+        <button class="btn btn--sm" id="expense-export-csv" type="button">CSV 내보내기</button>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top: var(--space-4);">
+      <h3>체크리스트</h3>
+      <form id="checklist-form" class="row">
+        <input id="checklist-input" class="field__input" placeholder="준비물 추가" />
+        <button class="btn btn--sm" type="submit">추가</button>
+      </form>
+      <ul id="checklist-list" class="stack" style="margin-top:8px;"></ul>
+    </section>
+
+    <section class="card" style="margin-top: var(--space-4);">
+      <h3>여행 요약 &amp; 공유</h3>
+      <p id="travel-summary" class="text-sm"></p>
+      <div class="row">
+        <button class="btn btn--sm" id="share-text-btn" type="button">공유 텍스트 생성</button>
+        <button class="btn btn--sm" id="backup-json-btn" type="button">JSON 백업</button>
+      </div>
+      <textarea id="share-text-output" class="field__textarea" rows="4" style="margin-top:8px;" readonly></textarea>
+    </section>
+
+    <section class="card" id="review-section" hidden style="margin-top: var(--space-4);">
+      <h3>여행 후기</h3>
+      <textarea id="review-input" class="field__textarea" rows="4"></textarea>
+      <button class="btn btn--sm btn--primary" id="review-save-btn" type="button">후기 저장</button>
+    </section>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/travel-detail.js"></script>
+</body>
+</html>

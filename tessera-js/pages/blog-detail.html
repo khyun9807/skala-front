@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>블로그 상세 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+  <div class="reading-progress" id="reading-progress-bar"></div>
+
+  <main class="container section">
+    <div id="blog-detail-view" hidden>
+      <article>
+        <h1 id="detail-title"></h1>
+        <p class="text-sm text-muted" id="detail-meta"></p>
+        <div class="row">
+          <button class="btn btn--sm" type="button" id="detail-summarize-btn">✨ 규칙 기반 요약 보기</button>
+          <button class="btn btn--sm" type="button" id="detail-like-btn"></button>
+          <button class="btn btn--sm" type="button" id="detail-bookmark-btn"></button>
+          <button class="btn btn--sm" type="button" id="detail-share-btn">🔗 URL 복사</button>
+          <button class="btn btn--sm" type="button" id="detail-print-btn">🖨 인쇄</button>
+        </div>
+        <div id="detail-summary" class="card text-sm" hidden style="margin-top: var(--space-3);"></div>
+
+        <div class="grid" style="grid-template-columns: 200px 1fr; gap: var(--space-5); margin-top: var(--space-4);">
+          <nav class="toc" id="detail-toc" aria-label="목차"></nav>
+          <div id="detail-content"></div>
+        </div>
+      </article>
+
+      <section class="section">
+        <h2 class="section__title">관련 글</h2>
+        <div id="detail-related" class="grid grid--2"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section__title">댓글</h2>
+        <form id="comment-form" class="row">
+          <input type="text" id="comment-input" class="field__input" placeholder="댓글을 입력하세요 (로그인 필요)" maxlength="300" style="flex:1;" />
+          <button class="btn btn--sm btn--primary" type="submit">등록</button>
+        </form>
+        <p class="text-sm text-muted"><span id="comment-char-count">0</span>/300</p>
+        <select id="comment-sort" class="field__select">
+          <option value="latest">최신순</option>
+          <option value="popular">인기순</option>
+        </select>
+        <div id="comment-list" class="stack" style="margin-top: var(--space-3);"></div>
+      </section>
+    </div>
+
+    <div id="blog-detail-editor" hidden>
+      <h1 class="section__title">새 글 작성 (자동 저장 · undo/redo 데모)</h1>
+      <div class="row">
+        <input type="text" id="editor-title" class="field__input" placeholder="제목" style="flex:1;" />
+        <button class="btn btn--sm" type="button" id="editor-undo">↶ 실행 취소</button>
+        <button class="btn btn--sm" type="button" id="editor-redo">↷ 다시 실행</button>
+        <span id="editor-save-status" class="text-sm text-muted"></span>
+      </div>
+      <div class="grid grid--2" style="margin-top: var(--space-3);">
+        <textarea id="editor-content" class="field__textarea" rows="16" placeholder="# 제목&#10;마크다운 서브셋(#, **, *, `code`, [링크](url), - 목록)을 지원합니다. Ctrl+S로 즉시 저장됩니다."></textarea>
+        <div id="editor-preview" class="card"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/blog-detail.js"></script>
+</body>
+</html>

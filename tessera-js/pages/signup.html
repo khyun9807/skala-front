@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section" style="max-width: 560px;">
+    <h1 class="section__title">회원가입</h1>
+    <p class="text-sm text-muted">학습용 Mock 회원가입입니다. 실제 서버 인증을 대체하지 않으며, 비밀번호는 Web Crypto(SHA-256)로 해시해 저장합니다.</p>
+
+    <form id="signup-form" class="card stack" novalidate style="margin-top: var(--space-4);">
+      <label class="field">
+        <span class="field__label">이름</span>
+        <input name="name" class="field__input" required />
+        <span class="field__error" data-error-for="name"></span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">아이디</span>
+        <input name="username" class="field__input" required autocomplete="username" />
+        <span class="field__error" data-error-for="username"></span>
+        <span id="signup-username-status" class="field__hint"></span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">이메일</span>
+        <input type="email" name="email" class="field__input" required autocomplete="email" />
+        <span class="field__error" data-error-for="email"></span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">비밀번호</span>
+        <input type="password" name="password" class="field__input" required autocomplete="new-password" />
+        <span class="field__error" data-error-for="password"></span>
+        <div class="progress"><div class="progress__bar" id="signup-password-strength-bar" style="width:0%;"></div></div>
+        <span id="signup-password-strength-label" class="field__hint"></span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">비밀번호 확인</span>
+        <input type="password" name="passwordConfirm" class="field__input" required autocomplete="new-password" />
+        <span class="field__error" data-error-for="passwordConfirm"></span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">생년월일</span>
+        <input type="date" name="birthDate" class="field__input" required />
+        <span class="field__error" data-error-for="birthDate"></span>
+      </label>
+
+      <fieldset>
+        <legend class="field__label">관심 분야</legend>
+        <label><input type="checkbox" name="interests" value="frontend" /> 프론트엔드</label>
+        <label><input type="checkbox" name="interests" value="backend" /> 백엔드</label>
+        <label><input type="checkbox" name="interests" value="design" /> 디자인</label>
+      </fieldset>
+
+      <fieldset>
+        <legend class="field__label">여행 선호</legend>
+        <label><input type="checkbox" name="travelPreferences" value="nature" /> 자연</label>
+        <label><input type="checkbox" name="travelPreferences" value="food" /> 미식</label>
+        <label><input type="checkbox" name="travelPreferences" value="culture" /> 문화</label>
+      </fieldset>
+
+      <label class="field">
+        <span class="field__label">프로필 이미지</span>
+        <input type="file" name="avatar" id="signup-avatar-input" accept="image/png,image/jpeg,image/webp" />
+      </label>
+      <canvas id="signup-avatar-preview" width="96" height="96" style="border-radius:50%; background:var(--color-surface-muted);"></canvas>
+
+      <label class="row"><input type="checkbox" name="agreedToTerms" required /> 약관에 동의합니다</label>
+      <span class="field__error" data-error-for="agreedToTerms"></span>
+
+      <button class="btn btn--primary" type="submit" id="signup-submit">가입하기</button>
+      <p id="signup-result" role="status" class="text-sm"></p>
+    </form>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/signup.js"></script>
+</body>
+</html>

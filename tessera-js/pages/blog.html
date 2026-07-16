@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>블로그 - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <h1 class="section__title">블로그</h1>
+
+    <div class="row">
+      <input type="search" id="blog-search" data-search-input class="field__input" placeholder="제목/본문 검색 ( / )" style="max-width:260px;" />
+      <select id="blog-sort" class="field__select">
+        <option value="latest">최신순</option>
+        <option value="popular">조회순</option>
+        <option value="likes">좋아요순</option>
+      </select>
+      <select id="blog-tag-filter" class="field__select">
+        <option value="">전체 태그</option>
+      </select>
+    </div>
+
+    <div id="blog-list" class="grid grid--2" style="margin-top: var(--space-4);"></div>
+    <nav class="row" id="blog-pagination" aria-label="페이지네이션" style="justify-content:center; margin-top: var(--space-4);"></nav>
+
+    <section class="section">
+      <h2 class="section__title">무한 스크롤 데모</h2>
+      <p class="text-sm text-muted">아래로 스크롤하면 Intersection Observer가 다음 글을 자동으로 불러옵니다.</p>
+      <div id="blog-infinite-list" class="stack" style="margin-top: var(--space-3);"></div>
+      <div id="blog-infinite-sentinel" class="text-sm text-muted" style="padding: var(--space-4); text-align:center;">불러오는 중…</div>
+    </section>
+
+    <div class="grid grid--2">
+      <section class="section">
+        <h2 class="section__title">북마크</h2>
+        <ul id="blog-bookmarks" class="stack text-sm"></ul>
+      </section>
+      <section class="section">
+        <h2 class="section__title">최근 본 글</h2>
+        <ul id="blog-recent" class="stack text-sm"></ul>
+      </section>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/blog.js"></script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-accent="violet">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("aur-theme");
+    var accent = localStorage.getItem("aur-accent");
+    if (!theme) theme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-accent", accent || "violet");
+  } catch (e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome SKALA — v4</title>
+<link rel="stylesheet" href="../aurora-ui/css/main.css">
+<style>
+  /* 미션4 요구사항(Flexbox로 main/aside 가로 배치)을 문자 그대로 만족시키는
+     최소한의 페이지 전용 규칙. 나머지 스타일은 전부 aurora-ui 클래스. */
+  .aur-hub-flex { display: flex; gap: var(--aur-space-6); align-items: flex-start; }
+  .aur-hub-flex > aside { flex: 0 0 320px; }
+  .aur-hub-flex > main { flex: 1 1 0%; min-width: 0; }
+  @media (max-width: 786px) {
+    .aur-hub-flex { flex-direction: column; }
+    .aur-hub-flex > aside { flex-basis: auto; width: 100%; }
+  }
+  /* v4: 빠른 검색 결과 패널 위치 지정용(레이아웃만, 색/그림자는 aur-dropdown__panel 그대로 사용) */
+  .v4-search-wrap { position: relative; max-width: 480px; margin-inline: auto; }
+  .v4-search-wrap .aur-dropdown__panel { position: absolute; top: calc(100% + 6px); left: 0; right: 0; }
+</style>
+</head>
+<body>
+
+<canvas class="aur-spatial-canvas" aria-hidden="true"></canvas>
+<div class="aur-ambient-orbs" aria-hidden="true">
+  <div class="aur-ambient-orb aur-ambient-orb--1"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--2"></div>
+  <div class="aur-ambient-orb aur-ambient-orb--3"></div>
+</div>
+<div class="aur-cursor" aria-hidden="true">
+  <span class="aur-cursor__ring"></span>
+  <span class="aur-cursor__dot"></span>
+</div>
+<div data-scroll-progress></div>
+
+<dialog class="aur-modal" open>
+  <div class="aur-modal__header"><h3>🚀 v4로 레벨업!</h3></div>
+  <p class="aur-text-muted">이제 화면(aurora-ui)뿐 아니라 실제로 동작하는 로직(TesseraJS)도 붙었습니다 — 방문자 통계, 실시간 환율, Web Worker 검색, IndexedDB 일정/여행 데이터까지 전부 진짜로 저장되고 계산됩니다.</p>
+  <form method="dialog">
+    <div class="aur-modal__actions"><button class="aur-btn aur-btn--primary">확인했어요</button></div>
+  </form>
+</dialog>
+
+<header class="aur-navbar">
+  <div class="aur-navbar__logo">
+    <span class="aur-navbar__mark">🚀</span> SKALA 유니버스 <span class="aur-badge aur-badge--info">v4</span>
+  </div>
+  <nav class="aur-navbar__menu aur-sm-d-none">
+    <a class="aur-navbar__link" href="myProfile.v4.html">소개</a>
+    <a class="aur-navbar__link" href="myClass.v4.html">수업 시간표</a>
+    <a class="aur-navbar__link" href="myTrip.v4.html">여행 앨범</a>
+    <div class="aur-dropdown">
+      <button class="aur-navbar__link" data-dropdown-trigger type="button">더보기 ▾</button>
+      <div class="aur-dropdown__panel">
+        <a class="aur-dropdown__item" href="signUp.v4.html">✍️ 회원가입</a>
+        <a class="aur-dropdown__item" href="index.v3.html">📄 v3 (TesseraJS 이전) 보기</a>
+      </div>
+    </div>
+  </nav>
+  <div class="aur-navbar__actions">
+    <button class="aur-btn aur-btn--glass aur-btn--sm" data-theme-toggle type="button">🎨 테마</button>
+  </div>
+</header>
+
+<main class="aur-container aur-py-6">
+
+  <section class="aur-text-center aur-mb-6">
+    <span class="aur-badge aur-badge--outline">✨ aurora-ui + TesseraJS 결합</span>
+    <h1 class="aur-anim-fade-in aur-mt-3">환영 인사</h1>
+    <p class="aur-text-muted">저의 프로필, 학습 내용, 여행 기록을 모아둔 개인 <abbr title="Hub Page">Hub</abbr> 페이지입니다. 스칼라에 오신 것을 환영합니다.</p>
+    <marquee behavior="scroll" scrollamount="5">📢 NEW! v4는 실제로 데이터가 저장됩니다 · Web Worker로 검색 · IndexedDB로 일정/여행 관리 🎉</marquee>
+  </section>
+
+  <search class="aur-mb-8">
+    <form class="v4-search-wrap" id="v4-search-form" role="search">
+      <label class="aur-sr-only" for="v4-search-input">통합 검색</label>
+      <input class="aur-input" type="search" id="v4-search-input" placeholder="프로젝트·수업·여행 통합 검색 (Web Worker) — / 눌러서 포커스" autocomplete="off">
+      <div class="aur-dropdown__panel" id="v4-search-results" hidden></div>
+      <template id="v4-search-item-template">
+        <a class="aur-dropdown__item" href="#"><data value=""></data></a>
+      </template>
+    </form>
+  </search>
+
+  <section class="aur-stats aur-mb-8 aur-reveal">
+    <div><div class="aur-counter" data-target="6">0</div><p class="aur-text-muted">완성한 v4 페이지</p></div>
+    <div><div class="aur-counter" data-target="5">0</div><p class="aur-text-muted">테마 프리셋</p></div>
+    <div><div class="aur-counter" data-target="100" data-suffix="%">0</div><p class="aur-text-muted">외부 라이브러리 없이</p></div>
+    <div><div class="aur-counter" data-target="3">0</div><p class="aur-text-muted">여행지 기록</p></div>
+  </section>
+
+  <div class="aur-hub-flex">
+    <main id="news-area">
+      <section id="news" class="aur-mb-6">
+        <h2 class="aur-mb-4">📌 오늘의 주요 소식</h2>
+        <div class="aur-card">
+          <details name="notice" open>
+            <summary>v4 공개: aurora-ui × TesseraJS</summary>
+            <p><mark>SKALA-FRONT v4</mark>가 공개되었습니다. 화려한 디자인은 그대로, 이제 방문자 통계·환율·검색·일정·여행 데이터가 실제로 동작합니다.</p>
+            <p>작성일: <time datetime="2026-07-16">2026년 7월 16일</time></p>
+          </details>
+          <hr>
+          <details name="notice">
+            <summary>여행 앨범 업데이트</summary>
+            <p>여행 앨범 페이지에 새로운 사진과 영상이 추가되었습니다. <a href="myTrip.v4.html">여행 앨범</a>에서 확인해보세요.</p>
+          </details>
+          <hr>
+          <details name="notice">
+            <summary>강의 시간표 개편 안내</summary>
+            <p>이번 주부터 <a href="myClass.v4.html">강의 시간표</a>가 새롭게 개편되었습니다.</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="best-cut" class="aur-mb-6">
+        <h2 class="aur-mb-4">🏔️ 이달의 베스트 컷</h2>
+        <article class="aur-card aur-card--overlay">
+          <div class="aur-card__bg" style="background-image:url('../media/lijiang.svg'); background-size:cover; background-position:center"></div>
+          <div class="aur-card__scrim"></div>
+          <div class="aur-card__overlay-content">
+            <figcaption>중국 리장 호도협의 웅장한 협곡 모습 (2025년 촬영) &mdash; <small>클릭하면 여행 앨범으로 이동</small></figcaption>
+          </div>
+          <a href="myTrip.v4.html" class="aur-pointer-none" style="position:absolute; inset:0" aria-label="여행 앨범 더보기"></a>
+        </article>
+      </section>
+
+      <blockquote class="aur-quote aur-mb-6" cite="https://www.skala.ai">
+        <p>배움은 멈추지 않는 여행이다.</p>
+      </blockquote>
+
+      <section id="faq">
+        <h2 class="aur-mb-4">자주 묻는 질문</h2>
+        <div class="aur-card" data-accordion-group>
+          <div class="aur-accordion__item is-open">
+            <button class="aur-accordion__trigger" type="button">v4는 v3와 뭐가 다른가요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">화면(aurora-ui)은 그대로 두고, <cite>TesseraJS</cite> 라이브러리를 ES Module로 가져와 방문자 통계·환율·검색·일정·여행 데이터가 IndexedDB/localStorage에 실제로 저장·계산되도록 배선했습니다.</div></div>
+          </div>
+          <div class="aur-accordion__item">
+            <button class="aur-accordion__trigger" type="button">데이터는 어디에 저장되나요?</button>
+            <div class="aur-accordion__panel"><div class="aur-accordion__body">전부 이 브라우저의 localStorage/IndexedDB입니다. 서버는 없으며, <a href="../tessera-js/pages/playground.html">TesseraJS Playground</a>에서 같은 데이터를 직접 들여다볼 수 있습니다.</div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">🌤️ 실시간 날씨</h2>
+        <address>현재 위치: 광주광역시<wbr>광산구</address>
+        <!-- [JS 심화] 도시를 고르면 realtimeInfo.js가 Open-Meteo API로 실시간 날씨를 표시 (v3와 동일, 변경 없음) -->
+        <div class="aur-field aur-mt-3">
+          <label class="aur-label" for="city-select">도시 선택</label>
+          <select class="aur-select" id="city-select">
+            <option value="">-- 도시를 선택하세요 --</option>
+          </select>
+        </div>
+        <div id="weather-box" class="aur-mt-3"></div>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">👣 방문자 &amp; 네트워크 <span class="aur-badge aur-badge--success">TesseraJS</span></h2>
+        <p id="v4-visitor-stats" class="aur-text-muted">불러오는 중...</p>
+        <p>네트워크 상태: <span id="v4-network-status" class="aur-badge"></span></p>
+        <button class="aur-btn aur-btn--outline aur-btn--sm aur-mt-2" id="v4-toast-test" type="button">🔔 알림 테스트</button>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">💱 실시간 환율 <span class="aur-badge aur-badge--success">TesseraJS</span></h2>
+        <p id="v4-exchange-rate" class="aur-text-muted">불러오는 중...</p>
+        <p class="aur-text-sm aur-text-muted" id="v4-exchange-provider"></p>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">🎮 JS 미니 도구</h2>
+        <!-- [JS 기초] 버튼 클릭 → prompt/alert 기반 과제 실행 (v3와 동일, 변경 없음) -->
+        <p class="aur-text-muted aur-mb-3">자바스크립트 기초 과제를 직접 실행해 보세요.</p>
+        <div class="aur-flex aur-flex-col aur-gap-2">
+          <button class="aur-btn aur-btn--primary aur-btn--sm" id="btn-updown" type="button">🔢 Up-Down 숫자 게임</button>
+          <button class="aur-btn aur-btn--outline aur-btn--sm" id="btn-grade" type="button">📝 성적 계산기</button>
+          <button class="aur-btn aur-btn--outline aur-btn--sm" id="btn-bag" type="button">🎒 내 가방 보기</button>
+        </div>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">이번 달 학습 진행률</h2>
+        <p class="aur-mb-1">HTML/CSS/JS 과제 진행률</p>
+        <div class="aur-progress aur-progress--striped aur-mb-3"><div class="aur-progress__fill" style="--val:100%"></div></div>
+        <p>전체 만족도: <meter value="10" min="0" max="10" low="3" high="7" optimum="10">10/10</meter> 10/10</p>
+      </div>
+
+      <div class="aur-card aur-mb-4">
+        <h2 class="aur-mb-3">최근 활동 <span class="aur-badge aur-badge--success">실데이터</span></h2>
+        <div class="aur-timeline" id="v4-activity-timeline">
+          <div class="aur-timeline__item"><span class="aur-timeline__time">불러오는 중</span><p>...</p></div>
+        </div>
+      </div>
+
+      <div class="aur-card">
+        <h2 class="aur-mb-3">바로가기</h2>
+        <table class="aur-table aur-table--hover aur-mb-4">
+          <thead><tr><th>페이지</th><th>상태</th></tr></thead>
+          <tbody>
+            <tr><td>나의 소개</td><td><span class="aur-badge aur-badge--success">완료</span></td></tr>
+            <tr><td>강의 시간표</td><td><span class="aur-badge aur-badge--success">완료</span></td></tr>
+            <tr><td>여행 앨범</td><td><span class="aur-badge aur-badge--success">완료</span></td></tr>
+          </tbody>
+        </table>
+        <div class="aur-flex aur-flex-col aur-gap-2">
+          <a class="aur-btn aur-btn--outline aur-btn--sm" href="myProfile.v4.html">👤 나의 소개 (Profile)</a>
+          <a class="aur-btn aur-btn--outline aur-btn--sm" href="myClass.v4.html">🗓️ 수업 시간표 (Class)</a>
+          <a class="aur-btn aur-btn--outline aur-btn--sm" href="myTrip.v4.html">🌍 여행 앨범 (Album)</a>
+          <a class="aur-btn aur-btn--gradient aur-btn--sm" href="signUp.v4.html">✍️ 회원가입 (Sign Up)</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="aur-footer aur-container">
+  <div class="aur-footer__bottom">
+    <span>이메일 문의: <a href="mailto:medit74@sk.com">medit74@sk.com</a></span>
+    <small>&copy; 2026 SKALA-FRONT · aurora-ui + TesseraJS로 만든 v4 페이지</small>
+  </div>
+</footer>
+
+<nav class="aur-dock" aria-label="빠른 이동">
+  <a class="aur-dock__item" href="index.v4.html" data-label="홈">🏠</a>
+  <a class="aur-dock__item" href="myProfile.v4.html" data-label="소개">👤</a>
+  <a class="aur-dock__item" href="myClass.v4.html" data-label="시간표">🗓️</a>
+  <a class="aur-dock__item" href="myTrip.v4.html" data-label="여행">🌍</a>
+  <a class="aur-dock__item" href="signUp.v4.html" data-label="가입">✍️</a>
+  <button class="aur-dock__item" data-theme-toggle type="button" data-label="테마">🎨</button>
+</nav>
+
+<script src="../aurora-ui/js/theme.js" defer></script>
+<script src="../aurora-ui/js/interactions.js" defer></script>
+<script src="../aurora-ui/js/components.js" defer></script>
+<script src="../aurora-ui/js/spatial.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  AuroraUI.theme.init();
+  AuroraUI.interactions.init();
+  AuroraUI.components.init();
+  AuroraUI.spatial.init();
+});
+</script>
+
+<!-- [JS 기초] Up-Down 게임 / 성적 계산기 / 내 가방 보기 (v3와 동일, 변경 없음) -->
+<script src="../script/upDown.js" defer></script>
+<script src="../script/grade.js" defer></script>
+<script src="../script/bag.js" defer></script>
+<!-- [JS 심화] 실시간 날씨 (모듈 분리: realtimeInfo.js가 weatherAPI.js를 import, v3와 동일) -->
+<script type="module" src="../script/realtimeInfo.js"></script>
+
+<!-- [v4] TesseraJS 배선: 방문자/환율/검색/토스트 -->
+<script type="module" src="../script/v4/index.js"></script>
+</body>
+</html>

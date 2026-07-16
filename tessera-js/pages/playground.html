@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playground - TesseraJS</title>
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("tessera:v1:theme");
+        if (raw) {
+          var theme = JSON.parse(raw).value;
+          if (theme) document.documentElement.dataset.theme = theme;
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="container section">
+    <h1 class="section__title">Playground</h1>
+    <p class="text-sm text-muted">라이브러리의 각 기능을 직접 눌러보고 로그로 결과를 확인할 수 있습니다.</p>
+
+    <div class="playground-grid" style="margin-top: var(--space-4);">
+
+      <div class="card playground-panel">
+        <h3>HTTP 요청 / 타임아웃 / 취소</h3>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-http-get" type="button">GET 요청</button>
+          <button class="btn btn--sm" id="pg-http-timeout" type="button">타임아웃 테스트(80ms)</button>
+          <button class="btn btn--sm" id="pg-http-abort-start" type="button">요청 시작</button>
+          <button class="btn btn--sm btn--danger" id="pg-http-abort-cancel" type="button">취소</button>
+        </div>
+        <pre class="playground-log" id="pg-http-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>캐시 / stale-while-revalidate</h3>
+        <button class="btn btn--sm" id="pg-cache-run" type="button">같은 요청 2번 보내기</button>
+        <pre class="playground-log" id="pg-cache-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>재시도(retry) 테스트</h3>
+        <button class="btn btn--sm" id="pg-retry-run" type="button">불안정한 요청 3회 시도</button>
+        <pre class="playground-log" id="pg-retry-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>localStorage / sessionStorage</h3>
+        <div class="row">
+          <input id="pg-storage-key" class="field__input" placeholder="key" value="demo" style="max-width:100px;" />
+          <input id="pg-storage-value" class="field__input" placeholder="value" value="hello" style="max-width:100px;" />
+        </div>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-local-set" type="button">local.set</button>
+          <button class="btn btn--sm" id="pg-local-get" type="button">local.get</button>
+          <button class="btn btn--sm" id="pg-session-set" type="button">session.set</button>
+          <button class="btn btn--sm" id="pg-session-get" type="button">session.get</button>
+        </div>
+        <pre class="playground-log" id="pg-storage-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>IndexedDB CRUD</h3>
+        <div class="row">
+          <input id="pg-idb-label" class="field__input" placeholder="라벨" value="테스트 백업" />
+          <button class="btn btn--sm" id="pg-idb-add" type="button">추가</button>
+          <button class="btn btn--sm" id="pg-idb-list" type="button">목록</button>
+          <button class="btn btn--sm btn--danger" id="pg-idb-clear" type="button">전체 삭제</button>
+        </div>
+        <pre class="playground-log" id="pg-idb-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>파일 읽기 / CSV 내보내기</h3>
+        <input type="file" id="pg-file-input" accept=".txt,.json,.csv" />
+        <button class="btn btn--sm" id="pg-csv-export" type="button">샘플 CSV 내보내기</button>
+        <pre class="playground-log" id="pg-file-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>타이머(스톱워치/뽀모도로)</h3>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-stopwatch-start" type="button">시작</button>
+          <button class="btn btn--sm" id="pg-stopwatch-pause" type="button">일시정지</button>
+          <button class="btn btn--sm" id="pg-stopwatch-reset" type="button">초기화</button>
+        </div>
+        <p id="pg-stopwatch-display" class="text-sm">00:00</p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>debounce / throttle</h3>
+        <input id="pg-debounce-input" class="field__input" placeholder="빠르게 타이핑해보세요" />
+        <p class="text-sm">debounce 호출: <span id="pg-debounce-count">0</span> · throttle 호출: <span id="pg-throttle-count">0</span></p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>Event Bus</h3>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-eventbus-subscribe" type="button">구독</button>
+          <button class="btn btn--sm" id="pg-eventbus-emit" type="button">발행</button>
+        </div>
+        <pre class="playground-log" id="pg-eventbus-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>State Store (undo/redo)</h3>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-store-inc" type="button">+1</button>
+          <button class="btn btn--sm" id="pg-store-undo" type="button">↶ undo</button>
+          <button class="btn btn--sm" id="pg-store-redo" type="button">↷ redo</button>
+        </div>
+        <p class="text-sm">count: <span id="pg-store-value">0</span></p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>Web Worker 검색</h3>
+        <button class="btn btn--sm" id="pg-worker-run" type="button">1000개 항목 검색 실행</button>
+        <pre class="playground-log" id="pg-worker-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>Observer API</h3>
+        <div id="pg-io-box" style="height:50px; overflow:auto; border:1px solid var(--color-border);">
+          <div style="height:120px;"></div>
+          <div id="pg-io-target" style="padding:8px; background:var(--color-surface-muted);">스크롤해서 이 박스를 보이게 하세요</div>
+        </div>
+        <button class="btn btn--sm" id="pg-mutation-add" type="button">Mutation 유발(자식 추가)</button>
+        <div id="pg-mutation-box" style="border:1px dashed var(--color-border); min-height:24px;"></div>
+        <div id="pg-resize-box" style="resize:horizontal; overflow:auto; border:1px solid var(--color-border); padding:8px; width:200px;">이 박스 오른쪽 아래를 드래그해 크기 조절</div>
+        <pre class="playground-log" id="pg-observer-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>마우스 이벤트</h3>
+        <div id="pg-mouse-area" style="height:80px; border:1px solid var(--color-border); position:relative;" oncontextmenu="return false;">우클릭 / 이동해보세요</div>
+        <p class="text-sm" id="pg-mouse-coords"></p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>키보드 단축키</h3>
+        <p class="text-sm">전역 단축키: <kbd>/</kbd> 검색, <kbd>Ctrl</kbd>+<kbd>K</kbd> 검색, <kbd>Esc</kbd> 닫기, <kbd>?</kbd> 안내</p>
+        <p class="text-sm">마지막으로 매칭된 키: <span id="pg-keyboard-last"></span></p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>드래그 앤 드롭</h3>
+        <div class="row">
+          <div id="pg-drag-source" draggable="true" class="tag" style="padding:12px;">📦 드래그하세요</div>
+          <div id="pg-drop-target" class="dropzone" style="flex:1; padding:12px;">여기에 드롭</div>
+        </div>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>Canvas 차트</h3>
+        <canvas id="pg-chart" style="width:100%; height:160px;"></canvas>
+        <button class="btn btn--sm" id="pg-chart-random" type="button">랜덤 데이터</button>
+        <button class="btn btn--sm" id="pg-chart-export" type="button">PNG로 내보내기</button>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>오류 처리</h3>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-error-validation" type="button">ValidationError 발생</button>
+          <button class="btn btn--sm" id="pg-error-unhandled" type="button">전역 오류 훅 테스트</button>
+        </div>
+        <pre class="playground-log" id="pg-error-log"></pre>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>오프라인 / 네트워크 상태</h3>
+        <p class="text-sm">현재 상태: <span id="pg-network-status" class="badge"></span></p>
+        <p class="text-sm text-muted">브라우저 DevTools의 Network 패널에서 "Offline"으로 전환해보면 상단 오프라인 배너와 이 상태가 바뀝니다.</p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>API 키 설정</h3>
+        <p class="text-sm text-muted">여기 입력한 값은 서버나 코드가 아니라 이 브라우저의 localStorage에만 저장됩니다.</p>
+        <div class="row">
+          <input id="pg-api-key-input" class="field__input" placeholder="예: AI 요약 API Key" />
+          <button class="btn btn--sm" id="pg-api-key-save" type="button">저장</button>
+        </div>
+        <p class="text-sm" id="pg-api-key-status"></p>
+      </div>
+
+      <div class="card playground-panel">
+        <h3>미니 SPA 라우터 데모</h3>
+        <p class="text-sm text-muted">History API로 실제 주소창 URL이 바뀝니다. 데모 중에는 새로고침하지 마세요(해당 경로用 정적 파일이 없어 404가 납니다).</p>
+        <div class="row">
+          <button class="btn btn--sm" id="pg-router-home" type="button">/playground/demo</button>
+          <button class="btn btn--sm" id="pg-router-item" type="button">/playground/demo/item/42</button>
+          <button class="btn btn--sm" id="pg-router-back" type="button">← 뒤로가기</button>
+        </div>
+        <div id="pg-router-outlet" class="card" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="card playground-panel" style="grid-column: 1 / -1;">
+        <h3>테스트 러너</h3>
+        <button class="btn btn--sm btn--primary" id="pg-test-run" type="button">전체 테스트 실행</button>
+        <p class="text-sm" id="pg-test-summary"></p>
+        <div id="pg-test-results" class="stack text-sm" style="max-height:300px; overflow:auto;"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script type="module" src="../js/pages/playground.js"></script>
+</body>
+</html>
