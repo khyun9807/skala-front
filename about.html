@@ -32,6 +32,7 @@
   <div class="aur-navbar__logo"><a href="index.html" style="text-decoration:none;color:inherit"><span class="aur-navbar__mark">🚀</span> SKALA-FRONT</a></div>
   <nav class="aur-navbar__menu aur-sm-d-none">
     <a class="aur-navbar__link" href="#status">요구사항 상황판</a>
+    <a class="aur-navbar__link" href="#tech-stats">기술 통계</a>
     <a class="aur-navbar__link" href="#process">v1 → v5 과정</a>
     <a class="aur-navbar__link" href="#git">Git 형상관리</a>
   </nav>
@@ -58,6 +59,9 @@
       <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">5</span><span class="ab-kpi__l">버전 (v1 → v5)</span></div>
       <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">0</span><span class="ab-kpi__l">외부 라이브러리</span></div>
       <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">2</span><span class="ab-kpi__l">직접 만든 라이브러리</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">35</span><span class="ab-kpi__l">인터랙티브 기능</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">88</span><span class="ab-kpi__l">고유 HTML 태그</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">130+</span><span class="ab-kpi__l">CSS 컴포넌트 클래스</span></div>
       <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">24</span><span class="ab-kpi__l">커밋 · PR 6건</span></div>
     </div>
 
@@ -146,6 +150,224 @@
           <tr><td>CDN으로 불러오는 모든 CSS/JS</td><td class="ab-status">❌ 미사용 — <strong>폰트도 자체 호스팅</strong></td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ══ 기술 통계 ══ -->
+  <section id="tech-stats" class="aur-mb-8">
+    <h2 class="aur-mb-1">🔬 기술 통계 — 구현 규모 한눈에 보기</h2>
+    <p class="aur-text-muted aur-mb-4">이 프로젝트에서 실제로 활용한 HTML 태그, CSS 요소, JavaScript 기능의 정량적 통계입니다.</p>
+
+    <div class="aur-auto-grid aur-mb-5">
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">88</span><span class="ab-kpi__l">고유 HTML 태그</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">130+</span><span class="ab-kpi__l">CSS 컴포넌트 클래스</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">150+</span><span class="ab-kpi__l">CSS 커스텀 속성</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">30</span><span class="ab-kpi__l">CSS 애니메이션</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">98</span><span class="ab-kpi__l">고유 CSS 속성</span></div>
+      <div class="aur-card aur-card--glass ab-kpi"><span class="ab-kpi__v">450+</span><span class="ab-kpi__l">CSS 셀렉터</span></div>
+    </div>
+
+    <!-- HTML 태그 상세 -->
+    <div class="aur-card aur-mb-4">
+      <h3 class="aur-mb-3">📄 HTML 태그 활용 현황 (v4 페이지 7개 기준, 88개 고유 태그)</h3>
+      <div class="aur-table-responsive">
+        <table class="aur-table aur-table--hover" width="100%">
+          <thead><tr><th>분류</th><th>개수</th><th>태그 목록</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>문서 구조</strong></td>
+              <td class="ab-status">8</td>
+              <td><code>html</code> <code>head</code> <code>body</code> <code>meta</code> <code>script</code> <code>title</code> <code>link</code> <code>style</code></td>
+            </tr>
+            <tr>
+              <td><strong>섹션 구분</strong></td>
+              <td class="ab-status">7</td>
+              <td><code>header</code> <code>nav</code> <code>main</code> <code>section</code> <code>article</code> <code>aside</code> <code>footer</code></td>
+            </tr>
+            <tr>
+              <td><strong>제목</strong></td>
+              <td class="ab-status">4</td>
+              <td><code>h1</code> <code>h2</code> <code>h3</code> <code>h4</code></td>
+            </tr>
+            <tr>
+              <td><strong>텍스트 블록</strong></td>
+              <td class="ab-status">6</td>
+              <td><code>p</code> <code>div</code> <code>span</code> <code>br</code> <code>wbr</code> <code>hr</code></td>
+            </tr>
+            <tr>
+              <td><strong>인라인 시맨틱</strong></td>
+              <td class="ab-status">16</td>
+              <td><code>a</code> <code>abbr</code> <code>cite</code> <code>data</code> <code>dfn</code> <code>em</code> <code>kbd</code> <code>mark</code> <code>q</code> <code>s</code> <code>small</code> <code>strong</code> <code>sub</code> <code>time</code> <code>ruby</code> <code>rt</code></td>
+            </tr>
+            <tr>
+              <td><strong>리스트</strong></td>
+              <td class="ab-status">6</td>
+              <td><code>ul</code> <code>ol</code> <code>li</code> <code>dl</code> <code>dt</code> <code>dd</code></td>
+            </tr>
+            <tr>
+              <td><strong>테이블</strong></td>
+              <td class="ab-status">10</td>
+              <td><code>table</code> <code>caption</code> <code>colgroup</code> <code>col</code> <code>thead</code> <code>tbody</code> <code>tfoot</code> <code>tr</code> <code>th</code> <code>td</code></td>
+            </tr>
+            <tr>
+              <td><strong>폼 요소</strong></td>
+              <td class="ab-status">14</td>
+              <td><code>form</code> <code>fieldset</code> <code>legend</code> <code>label</code> <code>input</code> <code>button</code> <code>select</code> <code>option</code> <code>optgroup</code> <code>datalist</code> <code>textarea</code> <code>output</code> <code>meter</code> <code>search</code></td>
+            </tr>
+            <tr>
+              <td><strong>멀티미디어</strong></td>
+              <td class="ab-status">8</td>
+              <td><code>audio</code> <code>video</code> <code>source</code> <code>picture</code> <code>img</code> <code>canvas</code> <code>map</code> <code>area</code></td>
+            </tr>
+            <tr>
+              <td><strong>인터랙티브</strong></td>
+              <td class="ab-status">3</td>
+              <td><code>details</code> <code>summary</code> <code>dialog</code></td>
+            </tr>
+            <tr>
+              <td><strong>기타 시맨틱</strong></td>
+              <td class="ab-status">6</td>
+              <td><code>template</code> <code>blockquote</code> <code>figure</code> <code>figcaption</code> <code>marquee</code> <code>address</code></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="3" class="aur-text-center"><strong>총 88개 고유 HTML5 태그 활용</strong></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- CSS 기술 상세 -->
+    <div class="aur-card aur-mb-4">
+      <h3 class="aur-mb-3">🎨 CSS 기술 활용 현황 (aurora-ui 디자인 시스템 기준)</h3>
+      <div class="aur-table-responsive aur-mb-4">
+        <table class="aur-table aur-table--hover" width="100%">
+          <thead><tr><th>항목</th><th class="ab-status">수량</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>고유 CSS 속성</td><td class="ab-status"><strong>98</strong></td><td>display, flex, grid, backdrop-filter, @property 등</td></tr>
+            <tr><td>CSS 셀렉터</td><td class="ab-status"><strong>450+</strong></td><td>컴포넌트 ~280, 유틸리티 ~110, 레이아웃 ~40, 공간 ~35</td></tr>
+            <tr><td>컴포넌트 클래스</td><td class="ab-status"><strong>130+</strong></td><td>네비게이션 12, 버튼 15, 카드 15, 폼 20, 정보 표시 15 외</td></tr>
+            <tr><td>CSS 커스텀 속성</td><td class="ab-status"><strong>150+</strong></td><td>색상 토큰, 간격 스케일, 타이포, 반지름, 모션, z-index 등</td></tr>
+            <tr><td>@keyframes 애니메이션</td><td class="ab-status"><strong>30</strong></td><td>fade, slide, scale, float, pulse, shimmer, orbit 등</td></tr>
+            <tr><td>@layer 규칙</td><td class="ab-status"><strong>8</strong></td><td>reset, tokens, themes, layout, utilities, components, animations, spatial</td></tr>
+            <tr><td>테마 프리셋</td><td class="ab-status"><strong>5</strong></td><td>dark, light, aurora, mono, cyber (각각 4가지 accent)</td></tr>
+            <tr><td>@media 쿼리</td><td class="ab-status"><strong>9+</strong></td><td>반응형 + print + pointer:coarse + prefers-reduced-motion</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="aur-mb-2">최신 CSS 기법 활용 목록</h4>
+      <div class="aur-auto-grid">
+        <div class="aur-card aur-card--glass">
+          <p><strong>@layer</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">8개 레이어로 CSS 우선순위 제어</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>@property</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">CSS Houdini — 애니메이션 가능한 커스텀 속성</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>:has()</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">부모 선택자 — 폼 유효성 상태 기반 스타일링</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>Container Queries</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">컴포넌트 단위 반응형 디자인</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>backdrop-filter</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">글라스모피즘 효과 (blur + saturate)</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>color-mix()</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">CSS 네이티브 색상 혼합 함수</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>3D Transforms</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">preserve-3d, perspective, rotateY 오빗 캐러셀</p>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <p><strong>@supports</strong></p>
+          <p class="aur-text-muted" style="font-size:var(--aur-text-sm)">backdrop-filter, conic-gradient 폴백 처리</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 기능 목록 -->
+    <div class="aur-card aur-mb-4">
+      <h3 class="aur-mb-3">🛠️ 구현 기능 목록 (v4 기준)</h3>
+      <div class="aur-table-responsive">
+        <table class="aur-table aur-table--hover" width="100%">
+          <thead><tr><th class="ab-num">#</th><th>기능</th><th>페이지</th><th>사용 기술</th></tr></thead>
+          <tbody>
+            <tr><td class="ab-num">1</td><td>테마 전환 (5종 + 4 accent)</td><td>전체</td><td>CSS 커스텀 속성, localStorage</td></tr>
+            <tr><td class="ab-num">2</td><td>통합 검색 (Web Worker)</td><td>index</td><td>Web Worker, ES Module</td></tr>
+            <tr><td class="ab-num">3</td><td>방문자 통계 추적</td><td>index</td><td>TesseraJS, IndexedDB</td></tr>
+            <tr><td class="ab-num">4</td><td>실시간 환율 표시</td><td>index</td><td>TesseraJS HTTP 클라이언트, Mock API</td></tr>
+            <tr><td class="ab-num">5</td><td>실시간 날씨 조회</td><td>index</td><td>Open-Meteo API, fetch, ES Module</td></tr>
+            <tr><td class="ab-num">6</td><td>Up-Down 숫자 게임</td><td>index</td><td>prompt/alert, 난수 생성</td></tr>
+            <tr><td class="ab-num">7</td><td>성적 계산기</td><td>index</td><td>prompt/alert, 조건문</td></tr>
+            <tr><td class="ab-num">8</td><td>내 가방 보기</td><td>index</td><td>배열, alert</td></tr>
+            <tr><td class="ab-num">9</td><td>토스트 알림 시스템</td><td>전체</td><td>TesseraJS, DOM 생성</td></tr>
+            <tr><td class="ab-num">10</td><td>프로젝트 그리드 + 필터링</td><td>myProfile</td><td>TesseraJS, Canvas 차트</td></tr>
+            <tr><td class="ab-num">11</td><td>기술 스택 빈도 차트</td><td>myProfile</td><td>Canvas 2D API</td></tr>
+            <tr><td class="ab-num">12</td><td>프로필 JSON 내보내기/가져오기</td><td>myProfile</td><td>Blob, FileReader, download</td></tr>
+            <tr><td class="ab-num">13</td><td>자기소개 자동 저장</td><td>myProfile</td><td>localStorage, debounce</td></tr>
+            <tr><td class="ab-num">14</td><td>주간 시간표 (rowspan/colspan)</td><td>myClass</td><td>HTML table, color-mix()</td></tr>
+            <tr><td class="ab-num">15</td><td>개인 일정 관리 (CRUD)</td><td>myClass</td><td>IndexedDB, TesseraJS</td></tr>
+            <tr><td class="ab-num">16</td><td>일정 내보내기 (CSV/JSON/ICS)</td><td>myClass</td><td>Blob, 파일 포맷 변환</td></tr>
+            <tr><td class="ab-num">17</td><td>카운트다운 타이머</td><td>myClass</td><td>setInterval, Date 계산</td></tr>
+            <tr><td class="ab-num">18</td><td>3D 오빗 캐러셀</td><td>myTrip</td><td>CSS 3D transform, JS 드래그</td></tr>
+            <tr><td class="ab-num">19</td><td>틸트 카드 (hover 효과)</td><td>myTrip</td><td>mousemove, transform</td></tr>
+            <tr><td class="ab-num">20</td><td>오디오/비디오 플레이어</td><td>myTrip</td><td>HTML5 audio/video</td></tr>
+            <tr><td class="ab-num">21</td><td>이미지맵 클릭 영역</td><td>myTrip</td><td>HTML map/area</td></tr>
+            <tr><td class="ab-num">22</td><td>여행 예산 차트</td><td>myTrip</td><td>Canvas, IndexedDB</td></tr>
+            <tr><td class="ab-num">23</td><td>여행 체크리스트</td><td>myTrip</td><td>IndexedDB, TesseraJS</td></tr>
+            <tr><td class="ab-num">24</td><td>목적지 날씨/환율 조회</td><td>myTrip</td><td>API 연동, Provider Chain</td></tr>
+            <tr><td class="ab-num">25</td><td>휴일 체크리스트 (영속)</td><td>myHoliday</td><td>localStorage, TesseraJS</td></tr>
+            <tr><td class="ab-num">26</td><td>실시간 폼 유효성 검증</td><td>signUp</td><td>TesseraJS validation, HTML5 검증</td></tr>
+            <tr><td class="ab-num">27</td><td>비밀번호 강도 표시기</td><td>signUp</td><td>정규식, progress bar</td></tr>
+            <tr><td class="ab-num">28</td><td>아이디 중복 검사</td><td>signUp</td><td>TesseraJS Mock Server</td></tr>
+            <tr><td class="ab-num">29</td><td>이메일 도메인 자동완성</td><td>signUp</td><td>HTML5 datalist</td></tr>
+            <tr><td class="ab-num">30</td><td>회원가입 결과 표시</td><td>signUpResult</td><td>URL 파라미터 파싱</td></tr>
+            <tr><td class="ab-num">31</td><td>스타필드 배경 (Canvas)</td><td>전체</td><td>Canvas 2D, requestAnimationFrame</td></tr>
+            <tr><td class="ab-num">32</td><td>커스텀 커서</td><td>전체</td><td>CSS transform, mousemove</td></tr>
+            <tr><td class="ab-num">33</td><td>스크롤 진행률 표시</td><td>index</td><td>scroll 이벤트, CSS 변수</td></tr>
+            <tr><td class="ab-num">34</td><td>Popover API 활용</td><td>전체</td><td>HTML popover 속성</td></tr>
+            <tr><td class="ab-num">35</td><td>아코디언 FAQ</td><td>index</td><td>aurora-ui 컴포넌트</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="4" class="aur-text-center"><strong>총 35개 인터랙티브 기능 구현</strong></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- JS 라이브러리 규모 -->
+    <div class="aur-card aur-mb-4">
+      <h3 class="aur-mb-3">📦 직접 만든 라이브러리 규모</h3>
+      <div class="aur-auto-grid">
+        <div class="aur-card aur-card--glass">
+          <h4 class="aur-mb-2">aurora-ui (CSS)</h4>
+          <dl>
+            <dt>CSS 파일</dt><dd>9개</dd>
+            <dt>컴포넌트</dt><dd>130+ 클래스</dd>
+            <dt>테마</dt><dd>5종 x 4 accent = 20 조합</dd>
+            <dt>애니메이션</dt><dd>30개 @keyframes</dd>
+            <dt>JS 모듈</dt><dd>4개 (theme, interactions, components, spatial)</dd>
+          </dl>
+        </div>
+        <div class="aur-card aur-card--glass">
+          <h4 class="aur-mb-2">TesseraJS (JavaScript)</h4>
+          <dl>
+            <dt>총 파일 수</dt><dd>116개</dd>
+            <dt>총 코드량</dt><dd>11,453줄</dd>
+            <dt>모듈 카테고리</dt><dd>10개 (core, network, storage, dom, events, utils, files, workers, features, services)</dd>
+            <dt>페이지 컨트롤러</dt><dd>11개</dd>
+            <dt>Web Worker</dt><dd>2개 (search, analytics)</dd>
+          </dl>
+        </div>
+      </div>
     </div>
   </section>
 

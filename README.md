@@ -8,6 +8,19 @@
 2. **직접 만든 라이브러리 2개** — [`aurora-ui`](aurora-ui/) (CSS 디자인 시스템) · [`tessera-js`](tessera-js/) (JS 라이브러리). 외부 CSS/JS/CDN/폰트 **0개**(금지 조건 준수), 폰트까지 자체 호스팅.
 3. **v5 folio는 실제 내 경력이 콘텐츠** — Bridge Bank·Payper·Payper Community·Remind Lamia 등 실제 프로젝트와 성능 개선 수치(2,000ms→60ms 등)가 들어있습니다.
 
+### 구현 규모 한눈에 보기
+
+| 항목 | 수치 |
+|---|---|
+| 인터랙티브 기능 | **35개** (검색, 통계, 환율, 날씨, 게임, 차트, CRUD, 내보내기 등) |
+| 고유 HTML 태그 | **88개** (시맨틱, 폼, 테이블, 미디어, 인터랙티브 요소 망라) |
+| CSS 컴포넌트 클래스 | **130+개** (네비게이션, 버튼, 카드, 폼, 오버레이, 차트 등) |
+| CSS 커스텀 속성 | **150+개** (디자인 토큰 — 색상, 간격, 타이포, 모션 등) |
+| CSS 애니메이션 | **30개** @keyframes (fade, slide, orbit, pulse, shimmer 등) |
+| 고유 CSS 속성 | **98개** (backdrop-filter, @property, container queries 등 최신 기법 포함) |
+| CSS 셀렉터 | **450+개** |
+| 최신 CSS 기법 | @layer, @property, :has(), Container Queries, color-mix(), backdrop-filter, 3D Transforms, @supports |
+
 ## 🌐 라이브 데모 — 설치 없이 바로 보기
 
 > ### **▶ [https://khyun9807.github.io/skala-front/](https://khyun9807.github.io/skala-front/)**
@@ -195,6 +208,14 @@ open http://localhost:4173          # → 프로젝트 인덱스
 - [`aurora-ui/README.md`](aurora-ui/README.md) — 디자인 컨셉 · 컴포넌트 전체 목록 · 사용된 CSS 기술
 - [`tessera-js/README.md`](tessera-js/README.md) — 폴더 구조 · 28개 항목 사용법 · 설계 패턴
 - [`CLAUDE.md`](CLAUDE.md) — 저장소 작업 규약과 실제로 겪은 함정 모음
+
+---
+
+## 📋 변경 이력
+
+| 날짜 | 변경 내용 |
+|---|---|
+| 2026-07-17 | v4 페이지 콘텐츠 개인화 — 프로필(이름·음식·목표·좌우명·자기소개 키워드), Hub 페이지 환영 메시지·명언·푸터 정보를 실제 정보(권경현)로 교체. `about.html`에 기술 통계 섹션(HTML 88태그·CSS 130+컴포넌트·35기능 상세표) 추가. `README.md`에 구현 규모 요약표 추가. |
 
 ---
 
