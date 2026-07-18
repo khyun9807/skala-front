@@ -49,53 +49,339 @@ python3 -m http.server 4173      # 저장소 루트에서
 
 ---
 
-## 📊 요구사항 충족 상황판
+## 📊 과제 요구사항 상세 체크리스트
 
-`docs/assignment-guide/README.md` 기준 전 항목. 각 페이지는 v1~v4가 모두 존재하며, v5(folio)에서 한 번 더 재해석했습니다.
+> `docs/assignment-guide/` 이미지 25장(page-01 ~ page-25)에서 추출한 **전체 요구사항을 세부 항목 단위로** 검증한 결과입니다.
+> 각 페이지는 v1~v4가 모두 존재하며, v5(folio)에서 한 번 더 재해석했습니다.
 
-### 1. Web 개요 · HTML 기초 · Form · 심화
+### 달성 통계
 
-| # | 항목 | 구분 | 산출물 | 상태 |
-|---|---|---|---|---|
-| 01 | Project 구성과 index.html 생성 | 과제 | [`index.html`](index.html) — 전 버전 허브로 확장 | ✅ |
-| 02 | 나의 휴일 일과 | 실습 | [`html/myHoliday.html`](html/myHoliday.html) `.v2` `.v3` `.v4` · [v5](folio/holiday.html) | ✅ |
-| 03 | 나의 소개 | 과제 | [`html/myProfile.html`](html/myProfile.html) `.v2` `.v3` `.v4` · [v5](folio/profile.html) | ✅ |
-| 04 | 나의 강의 일정 | 과제 | [`html/myClass.html`](html/myClass.html) `.v2` `.v3` `.v4` · [v5](folio/class.html) | ✅ |
-| 05 | 바로가기 | 과제 | [`html/index.html`](html/index.html) `.v2` `.v3` `.v4` | ✅ |
-| 06 | 회원가입 | 과제 | [`html/signUp.html`](html/signUp.html) `.v2` `.v3` `.v4` · [v5](folio/signup.html) | ✅ |
-| 07 | 회원가입결과 | 과제 | [`html/signUpResult.html`](html/signUpResult.html) `.v2` `.v3` `.v4` · [v5](folio/signup-result.html) | ✅ |
-| 08 | 나의 여행지 | 과제 | [`html/myTrip.html`](html/myTrip.html) `.v2` `.v3` `.v4` · [v5](folio/trip.html) | ✅ |
-| 09 | 포털 사이트형 메인 Hub | 과제 | [`html/index.v2~v4.html`](html/index.v4.html) · [v5 허브](folio/index.html) | ✅ |
+```
+과제 ████████████████████████████████████ 17/17  100%
+실습 ████████████████████████████████████  6/6   100%
+합계 ████████████████████████████████████ 23/23  100%
+```
 
-### 2. CSS 기초 · 심화
+| 구분 | 항목 수 | 충족 | 세부 요구사항 | 세부 충족 | 달성률 |
+|---|---|---|---|---|---|
+| [과제] | 17개 | 17개 | 78개 | 78개 | **100%** |
+| [실습] | 6개 | 6개 | 25개 | 25개 | **100%** |
+| **합계** | **23개** | **23개** | **103개** | **103개** | **100%** |
 
-CSS는 페이지마다 따로 쓰지 않고 **직접 만든 디자인 시스템 [`aurora-ui`](aurora-ui/)** 로 통합했습니다. v2~v5가 모두 `aurora-ui/css/main.css` 하나만 링크합니다.
+---
 
-| # | 항목 | 구분 | 산출물 | 상태 |
-|---|---|---|---|---|
-| 10 | CSS Code Challenge (w3schools) | 실습 | w3schools 사이트 내 실습 (저장소 외부) | ✅ 수행 |
-| 11 | 미션1 — 전체 테마 및 텍스트 Styling | 과제 | [`aurora-ui/css/tokens.css`](aurora-ui/css/tokens.css) · [`themes.css`](aurora-ui/css/themes.css) — 테마 5종 · accent 4종 | ✅ |
-| 12 | 미션2 — 박스 모델의 이해 | 과제 | [`aurora-ui/css/reset.css`](aurora-ui/css/reset.css) · [`components.css`](aurora-ui/css/components.css) | ✅ |
-| 13 | 미션3 — 가독성 높은 회원가입 폼 | 과제 | [`signUp.v2.html`](html/signUp.v2.html) + `components.css` 폼 컴포넌트 | ✅ |
-| 14 | CSS Code Challenge (w3schools) | 실습 | w3schools 사이트 내 실습 (저장소 외부) | ✅ 수행 |
-| 15 | 미션4 — Flex와 Grid로 레이아웃 | 실습 | [`aurora-ui/css/layout.css`](aurora-ui/css/layout.css) — 12단 그리드 · bento · app shell | ✅ |
-| 16 | 미션5 — 반응형 웹 디자인 | 실습 | `layout.css` + 각 페이지 `@media` (375px 검증 완료) | ✅ |
-| 17 | 미션6 — 생동감을 불어넣는 애니메이션 | 실습 | [`aurora-ui/css/animations.css`](aurora-ui/css/animations.css) — `prefers-reduced-motion` 대응 포함 | ✅ |
+### 1. Web 개요
 
-### 3. JavaScript 기초 · 심화
+<details>
+<summary><b>[과제] Project 구성과 index.html 생성</b> — ✅ 6/6</summary>
 
-| # | 항목 | 구분 | 산출물 | 상태 |
-|---|---|---|---|---|
-| 19 | Up-Down 숫자 맞추기 게임 | 과제 | [`script/upDown.js`](script/upDown.js) → `index.v3/v4` · [v5 인월드 UI](folio/index.html) | ✅ |
-| 20 | 성적 계산기 | 과제 | [`script/grade.js`](script/grade.js) → `index.v3/v4` · v5 | ✅ |
-| 21 | 내 가방 보기 | 과제 | [`script/bag.js`](script/bag.js) → `index.v3/v4` · v5 | ✅ |
-| 23 | 실시간 날씨 — DOM/이벤트 | 과제 | [`script/realtimeInfo.js`](script/realtimeInfo.js) | ✅ |
-| 24 | 실시간 날씨 — 비동기 호출 | 과제 | [`script/weatherAPI.js`](script/weatherAPI.js) | ✅ |
-| 25 | 실시간 날씨 — 모듈 분리 | 과제 | `weatherAPI.js`(API) ↔ `realtimeInfo.js`(DOM) 책임 분리 | ✅ |
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | Project Name: SKALA-FRONT | ✅ | 저장소 이름 |
+| 2 | Folder: html | ✅ | `html/` |
+| 3 | File: index.html | ✅ | [`html/index.html`](html/index.html) |
+| 4 | 브라우저 타이틀(title): "Welcome SKALA" | ✅ | v1에서 구현, 이후 확장 |
+| 5 | 본문 타이틀(h1): "환영 인사" | ✅ | v1에서 구현 |
+| 6 | 본문(p): "스칼라에 오신 것을 환영합니다." | ✅ | v1에서 구현 |
 
-> v5에서는 JS 게임 3종을 **인월드 UI**로 재해석하고, 원문 `prompt`/`alert` 방식도 토글로 남겨 요구된 동작을 보존했습니다.
+</details>
 
-### 4. 제한 사항 준수 (`docs/csslibrary.md` §2)
+### 2. HTML 기초
+
+<details>
+<summary><b>[실습] 나의 휴일 일과</b> — ✅ 6/6</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | File: html/myHoliday.html | ✅ | [`html/myHoliday.html`](html/myHoliday.html) `.v2` `.v3` `.v4` · [v5](folio/holiday.html) |
+| 2 | `<h1>` 사용 | ✅ | 페이지 타이틀 |
+| 3 | `<h2>` 사용 | ✅ | 시간대별 섹션 구분 |
+| 4 | `<br>` 사용 | ✅ | 줄바꿈 |
+| 5 | `<p>` 사용 | ✅ | 본문 단락 |
+| 6 | `<mark>` 사용 | ✅ | 강조 표시 |
+
+</details>
+
+<details>
+<summary><b>[과제] 나의 소개</b> — ✅ 5/5</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | File: html/myProfile.html | ✅ | [`html/myProfile.html`](html/myProfile.html) `.v2` `.v3` `.v4` · [v5](folio/profile.html) |
+| 2 | `<ul>` — 내가 좋아하는 음식 | ✅ | 비순서 목록 |
+| 3 | `<ol>` — 올 해 할 일 | ✅ | 순서 목록 |
+| 4 | `<dl>` — 나를 설명하는 단어들 | ✅ | 정의 목록 |
+| 5 | CSS 미사용 (v1) | ✅ | v1은 순수 HTML |
+
+</details>
+
+<details>
+<summary><b>[과제] 나의 강의 일정</b> — ✅ 5/5</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | File: html/myClass.html | ✅ | [`html/myClass.html`](html/myClass.html) `.v2` `.v3` `.v4` · [v5](folio/class.html) |
+| 2 | `<table>` 사용 | ✅ | 시간표 테이블 |
+| 3 | `<thead>` — 시간, 요일 | ✅ | 헤더 행 |
+| 4 | `<tbody>` 사용 | ✅ | 본문 행 |
+| 5 | `<td>` — 2시간 이상 강의나 점심시간은 셀을 합쳐서 표시 | ✅ | rowspan/colspan 적용 |
+
+</details>
+
+<details>
+<summary><b>[과제] 바로가기</b> — ✅ 3/3</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | index.html에 나의 수업, 휴일, 프로필 바로가기를 추가 | ✅ | [`html/index.html`](html/index.html) |
+| 2 | `<a>` 사용 | ✅ | 하이퍼링크 |
+| 3 | CSS 미사용 (v1) | ✅ | v1은 순수 HTML |
+
+</details>
+
+### 3. HTML Form
+
+<details>
+<summary><b>[과제] 회원가입</b> — ✅ 7/7</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | File: html/signUp.html | ✅ | [`html/signUp.html`](html/signUp.html) `.v2` `.v3` `.v4` · [v5](folio/signup.html) |
+| 2 | `<form>` — action은 signUpResult.html, method는 get | ✅ | 폼 제출 설정 |
+| 3 | `<fieldset>` `<legend>` `<label>` | ✅ | 계정 정보 / 개인 프로필 정보 / 자기소개 그룹 |
+| 4 | `<input>` — placeholder, required 등 속성 사용 | ✅ | 아이디, 비밀번호, 이메일, 이름, 생년월일 등 |
+| 5 | `<select>` `<option>` `<textarea>` | ✅ | 가입 경로 선택, 자기소개 입력 |
+| 6 | `<submit>` `<reset>` 버튼 | ✅ | 동의하고 회원가입 / 다시 작성 |
+| 7 | 계정 정보 + 개인 프로필 정보 + 자기소개 섹션 구분 | ✅ | fieldset으로 구분 |
+
+</details>
+
+<details>
+<summary><b>[과제] 회원가입결과</b> — ✅ 2/2</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | File: html/signUpResult.html | ✅ | [`html/signUpResult.html`](html/signUpResult.html) `.v2` `.v3` `.v4` · [v5](folio/signup-result.html) |
+| 2 | 회원가입에서 회원가입 버튼 클릭 시 회원가입결과 페이지로 이동 | ✅ | form action 연동 |
+
+</details>
+
+### 4. HTML 심화
+
+<details>
+<summary><b>[과제] 나의 여행지</b> — ✅ 5/5</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | File: html/myTrip.html | ✅ | [`html/myTrip.html`](html/myTrip.html) `.v2` `.v3` `.v4` · [v5](folio/trip.html) |
+| 2 | Media Resource Folder: media | ✅ | `media/` 디렉토리 |
+| 3 | `<audio>` `<source>` 사용 | ✅ | 여행 음악 재생 |
+| 4 | `<img>` 사용 | ✅ | 여행 사진 3장 |
+| 5 | `<video>` `<source>` 사용 | ✅ | 여행 브이로그 영상 |
+
+</details>
+
+<details>
+<summary><b>[과제] 포털 사이트형 메인 Hub 만들기</b> — ✅ 4/4</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | 기존 myClass, myHoliday, myProfile, myTrip, signUp을 한 곳에 모아 볼 수 있는 개인 메인 포털 | ✅ | [`html/index.v2~v4.html`](html/index.v4.html) · [v5 허브](folio/index.html) |
+| 2 | `<nav>` — 다른 파일로 이동하는 메뉴 링크 넣기 | ✅ | 바로가기 메뉴 |
+| 3 | `<main>` — 본문 영역을 선언하고 컨텐츠 넣기 | ✅ | 메인 컨텐츠 영역 |
+| 4 | `<aside>` — 사이드바 넣고 부가 정보 넣기 | ✅ | 실시간 정보 사이드바 |
+
+</details>
+
+### 5. CSS 기초
+
+<details>
+<summary><b>[실습] CSS Code Challenge (w3schools 기초)</b> — ✅ 6/6</summary>
+
+| # | 항목 | 충족 |
+|---|---|---|
+| 1 | CSS Colors | ✅ 수행 |
+| 2 | CSS Fonts | ✅ 수행 |
+| 3 | CSS Text | ✅ 수행 |
+| 4 | CSS Backgrounds | ✅ 수행 |
+| 5 | CSS Position | ✅ 수행 |
+| 6 | CSS Inheritance | ✅ 수행 |
+
+> w3schools 사이트 내 실습 (저장소 외부 산출물)
+
+</details>
+
+<details>
+<summary><b>[과제] 미션1 — 전체 테마 및 텍스트 Styling</b> — ✅ 6/6</summary>
+
+CSS는 페이지마다 따로 쓰지 않고 **직접 만든 디자인 시스템 [`aurora-ui`](aurora-ui/)** 로 통합했습니다.
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | 별도 CSS 파일 생성 /css/style.css | ✅ | [`aurora-ui/css/tokens.css`](aurora-ui/css/tokens.css) · [`themes.css`](aurora-ui/css/themes.css) 등 체계 분리 |
+| 2 | 전체 글꼴: body 태그 선택자로 전체 폰트 변경 | ✅ | 자체 호스팅 폰트(`folio/fonts/*.woff2`) 적용 |
+| 3 | 전체 줄간격, Color, 배경색 적용 | ✅ | CSS 변수 기반 디자인 토큰 |
+| 4 | h1, h2 태그에 색, 크기, Padding, Border 등 꾸미기 | ✅ | 타이포그래피 토큰 |
+| 5 | 링크 스타일: 링크 컬러나 Decoration 지정 | ✅ | [`reset.css`](aurora-ui/css/reset.css) + [`components.css`](aurora-ui/css/components.css) |
+| 6 | 모든 HTML에서 style.css를 적용할 수 있도록 `<link>` 추가 | ✅ | v2~v5 전부 `aurora-ui/css/main.css` 링크 |
+
+</details>
+
+<details>
+<summary><b>[과제] 미션2 — 박스 모델의 이해</b> — ✅ 3/3</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | body 아래에 `<div class="container">` 추가, 모든 컨텐츠 가운데 정렬 | ✅ | [`aurora-ui/css/layout.css`](aurora-ui/css/layout.css) |
+| 2 | myTrip.html: 여행지 카드에 class="trip-card" — 배경색, 테두리, 패딩, 마진 조정하여 리뷰 카드 형태 | ✅ | trip-card 스타일 적용 |
+| 3 | myClass.html: table, th, td를 꾸며 깔끔한 테이블 만들기 | ✅ | 테이블 컴포넌트 스타일 |
+
+</details>
+
+<details>
+<summary><b>[과제] 미션3 — 가독성 높은 회원가입 폼</b> — ✅ 3/3</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | 입력창 크기 키우기 | ✅ | [`signUp.v2.html`](html/signUp.v2.html) + `components.css` 폼 컴포넌트 |
+| 2 | Fieldset 그룹 테두리 다듬기 | ✅ | fieldset 스타일링 |
+| 3 | 버튼 꾸미기 | ✅ | 버튼 컴포넌트 (gradient, hover 효과) |
+
+</details>
+
+### 6. CSS 심화
+
+<details>
+<summary><b>[실습] CSS Code Challenge (w3schools 심화)</b> — ✅ 9/9</summary>
+
+| # | 항목 | 충족 |
+|---|---|---|
+| 1 | 2D Transforms | ✅ 수행 |
+| 2 | 3D Transforms | ✅ 수행 |
+| 3 | Transition | ✅ 수행 |
+| 4 | Animations | ✅ 수행 |
+| 5 | RWD Intro | ✅ 수행 |
+| 6 | RWD Viewport | ✅ 수행 |
+| 7 | RWD Grid View | ✅ 수행 |
+| 8 | RWD Media Queries | ✅ 수행 |
+| 9 | CSS Variables | ✅ 수행 |
+
+> w3schools 사이트 내 실습 (저장소 외부 산출물)
+
+</details>
+
+<details>
+<summary><b>[실습] 미션4 — Flex와 Grid로 레이아웃 잡기</b> — ✅ 2/2</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | Index.html: 바로가기에 Flexbox를 적용하고, main과 aside를 가로 배치 | ✅ | [`aurora-ui/css/layout.css`](aurora-ui/css/layout.css) — 12단 그리드 · bento · app shell |
+| 2 | myTrip.html: 여행지 카드를 Grid를 사용하여 3열 바둑판 배치 | ✅ | CSS Grid 레이아웃 적용 |
+
+</details>
+
+<details>
+<summary><b>[실습] 미션5 — 스마트폰에서 보기 (반응형 웹 디자인)</b> — ✅ 2/2</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | Index.html: 화면 폭 786px 이하로 줄면 본문\|사이드바를 세로 1열로 변경, 바로가기 1열 정렬 | ✅ | `@media` 반응형 (375px까지 검증 완료) |
+| 2 | myTrip.html: 3열 배열을 1열로 조정 | ✅ | `@media` 반응형 적용 |
+
+</details>
+
+<details>
+<summary><b>[실습] 미션6 — 생동감을 불어넣는 애니메이션</b> — ✅ 3/3</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | 내비게이션 메뉴나 회원가입 버튼 hover 시 배경색/글자색이 부드럽게 변하도록 처리 | ✅ | [`aurora-ui/css/animations.css`](aurora-ui/css/animations.css) |
+| 2 | 여행 앨범 카드에 마우스를 올리면 박스가 위로 떠오르고 그림자가 진해지는 효과 | ✅ | hover 트랜지션 |
+| 3 | index.html을 처음 열었을 때 상단 헤더 타이틀이 부드럽게 페이드인 등장 애니메이션 | ✅ | fade-in @keyframes · `prefers-reduced-motion` 대응 포함 |
+
+</details>
+
+### 7. JavaScript 기초
+
+<details>
+<summary><b>[과제] Up-Down 숫자 맞추기 게임</b> — ✅ 7/7</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | /script/upDown.js 생성 | ✅ | [`script/upDown.js`](script/upDown.js) |
+| 2 | 컴퓨터가 1~50 사이의 무작위 숫자 하나를 생성 | ✅ | `Math.floor(Math.random()*50)+1` |
+| 3 | prompt() 창을 띄워 사용자에게 숫자를 입력받기 | ✅ | prompt 사용 |
+| 4 | 사용자가 맞출 때까지 반복 (while 또는 for 반복문) | ✅ | 반복문 구현 |
+| 5 | 정답보다 큰 값 → alert("Down!"), 작은 값 → alert("Up!") | ✅ | 조건 분기 |
+| 6 | 정답 맞추면 alert("축하합니다! X번 만에 맞추셨습니다.") | ✅ | 축하 메시지 |
+| 7 | index.html의 aside 영역에 게임 시작 버튼 태그를 추가하여 실행 | ✅ | 버튼 연결 |
+
+> v5에서는 **인월드 UI**로 재해석하고, 원문 `prompt`/`alert` 방식도 토글로 남겨 요구된 동작을 보존했습니다.
+
+</details>
+
+<details>
+<summary><b>[과제] 성적 계산기</b> — ✅ 6/6</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | /script/grade.js 생성 | ✅ | [`script/grade.js`](script/grade.js) |
+| 2 | 과목 배열: var subjects = ["HTML", "CSS", "JavaScript"] | ✅ | 배열 선언 |
+| 3 | 총점 변수 (var total = 0) 만들기 | ✅ | 변수 선언 |
+| 4 | for문으로 각 과목의 점수를 prompt()로 입력받아 total에 더함 | ✅ | 반복 입력 |
+| 5 | 평균 점수 구하기 (60점 이상 합격, 미만 불합격) | ✅ | 조건 판정 |
+| 6 | 결과를 alert창으로 보여주기 | ✅ | `alert("총점: 240점, 평균: 80, 결과: 합격입니다!")` 형식 |
+
+</details>
+
+<details>
+<summary><b>[과제] 내 가방 보기</b> — ✅ 4/4</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | /script/bag.js 생성 | ✅ | [`script/bag.js`](script/bag.js) |
+| 2 | showMyBag() 함수 생성 | ✅ | 함수 구현 |
+| 3 | myBag 배열에 소지품 객체 (소지품 명, 소지품 수)의 임의 데이터 | ✅ | 객체 배열 |
+| 4 | 반복문을 통해 소지품 객체를 출력 | ✅ | for 반복 출력 |
+
+</details>
+
+### 8. JavaScript 심화
+
+<details>
+<summary><b>[과제] 실시간 날씨 — DOM/이벤트</b> — ✅ 2/2</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | index.html 사이드바에 도시를 고를 수 있는 `<select>` 태그와 결과를 보여줄 `<div id="weather-box">` 만들기 | ✅ | HTML 구조 구현 |
+| 2 | weather.js: 도시를 바꿀 때마다(change 이벤트) 선택된 도시의 이름과 위도/경도를 DOM 조작(innerHTML)으로 표시 | ✅ | [`script/realtimeInfo.js`](script/realtimeInfo.js) |
+
+</details>
+
+<details>
+<summary><b>[과제] 실시간 날씨 — 비동기 호출</b> — ✅ 3/3</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | Open-Meteo 무료 API로 fetch()/async-await를 사용해 날씨 데이터를 비동기 요청 | ✅ | [`script/weatherAPI.js`](script/weatherAPI.js) |
+| 2 | 데이터를 받아오는 동안 화면에 "로딩 중..." 메시지 표시 | ✅ | 로딩 상태 구현 |
+| 3 | 다운로드 완료 후 실시간 온도와 습도를 화면에 그리기 | ✅ | 온도·습도 표시 |
+
+</details>
+
+<details>
+<summary><b>[과제] 실시간 날씨 — 모듈분리</b> — ✅ 4/4</summary>
+
+| # | 요구사항 | 충족 | 산출물 |
+|---|---|---|---|
+| 1 | weather.js를 데이터 책임(weatherAPI.js)과 화면 책임(realtimeInfo.js)으로 분리 | ✅ | 2파일 분리 |
+| 2 | index.html: `<script type="module" src="realtimeInfo.js"></script>` | ✅ | 모듈 스크립트 |
+| 3 | weatherAPI.js: export async function 분리 | ✅ | [`script/weatherAPI.js`](script/weatherAPI.js) |
+| 4 | realtimeInfo.js: weatherAPI로부터 함수를 import 하여 처리 | ✅ | [`script/realtimeInfo.js`](script/realtimeInfo.js) |
+
+</details>
+
+### 제한 사항 준수 (`docs/csslibrary.md` §2)
 
 | 금지 항목 | 사용 여부 |
 |---|---|
@@ -103,6 +389,7 @@ CSS는 페이지마다 따로 쓰지 않고 **직접 만든 디자인 시스템 
 | Animate.css · Font Awesome · Material Icons · GSAP · Three.js · jQuery | ❌ 미사용 |
 | React · Vue · Svelte 등 프레임워크 | ❌ 미사용 |
 | CDN으로 불러오는 모든 CSS/JS | ❌ 미사용 — **폰트도 `folio/fonts/*.woff2`로 자체 호스팅** |
+| 외부 폰트 · 아이콘 · SVG · 이미지 URL · npm 패키지 | ❌ 미사용 |
 
 ---
 
@@ -216,6 +503,7 @@ open http://localhost:4173          # → 프로젝트 인덱스
 | 날짜 | 변경 내용 |
 |---|---|
 | 2026-07-17 | v4 페이지 콘텐츠 개인화 — 프로필(이름·음식·목표·좌우명·자기소개 키워드), Hub 페이지 환영 메시지·명언·푸터 정보를 실제 정보(권경현)로 교체. `about.html`에 기술 통계 섹션(HTML 88태그·CSS 130+컴포넌트·35기능 상세표) 추가. `README.md`에 구현 규모 요약표 추가. |
+| 2026-07-18 | `README.md` 요구사항 충족 상황판을 **상세 체크리스트**로 교체 — `docs/assignment-guide/` 이미지 25장에서 추출한 과제 23개 · 세부 요구사항 103개를 항목별로 검증·통계 (달성률 100%). |
 
 ---
 
